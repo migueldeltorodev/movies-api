@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.src", "1.src", "{437837AA-AECD-4F38-BBB5-AE8873E1DCCC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Project", "1.Project", "{437837AA-AECD-4F38-BBB5-AE8873E1DCCC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{E206559B-5371-451B-AD2E-D5E304174D51}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Helpers", "2.Helpers", "{E206559B-5371-451B-AD2E-D5E304174D51}"
 	ProjectSection(SolutionItems) = preProject
 		Helpers\Course.postman_collection.json = Helpers\Course.postman_collection.json
 		Helpers\movies.json = Helpers\movies.json
@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Application", "1.Get
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Contracts", "1.GettingStarted\Movies.Contracts\Movies.Contracts.csproj", "{EAABC916-D2E8-4997-9FC0-2E10AA14EFCE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{647B93DC-D16D-4ACD-B968-28778956E8DF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Solution Items", "3.Solution Items", "{647B93DC-D16D-4ACD-B968-28778956E8DF}"
 	ProjectSection(SolutionItems) = preProject
 		compose.yaml = compose.yaml
 	EndProjectSection
