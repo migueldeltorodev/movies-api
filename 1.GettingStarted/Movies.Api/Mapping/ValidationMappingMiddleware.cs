@@ -12,7 +12,7 @@ public class ValidationMappingMiddleware
         _next = next;
     }
 
-    public async Task HandleAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
         try
         {
