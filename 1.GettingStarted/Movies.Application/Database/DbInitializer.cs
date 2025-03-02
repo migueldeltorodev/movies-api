@@ -30,7 +30,7 @@ public class DbInitializer
         
         await connection.ExecuteAsync("""
                                       create table if not exists genres (
-                                          movieId UUID references movies (Id),
+                                          movieId UUID references movies (id),
                                           name TEXT not null);
                                       """);
         await connection.ExecuteAsync("""
