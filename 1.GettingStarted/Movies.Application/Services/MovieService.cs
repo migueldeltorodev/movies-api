@@ -21,22 +21,22 @@ public class MovieService : IMovieService
         return await _movieRepository.CreateAsync(movie, cancellationToken);
     }
 
-    public async Task<Movie?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Movie?> GetByIdAsync(Guid id, Guid? userId = default, CancellationToken cancellationToken = default)
     {
-        return await _movieRepository.GetByIdAsync(id, cancellationToken);
+        return await _movieRepository.GetByIdAsync(id, userId, cancellationToken);
     }
 
-    public async Task<Movie?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default)
+    public async Task<Movie?> GetBySlugAsync(string slug, Guid? userId = default, CancellationToken cancellationToken = default)
     {
-        return await _movieRepository.GetBySlugAsync(slug, cancellationToken);
+        return await _movieRepository.GetBySlugAsync(slug, userId, cancellationToken);
     }
 
-    public async Task<IEnumerable<Movie>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Movie>> GetAllAsync(Guid? userId = default, CancellationToken cancellationToken = default)
     {
-        return await _movieRepository.GetAllAsync(cancellationToken);
+        return await _movieRepository.GetAllAsync(userId, cancellationToken);
     }
 
-    public async Task<Movie?> UpdateAsync(Movie movie, CancellationToken cancellationToken = default)
+    public async Task<Movie?> UpdateAsync(Movie movie, Guid? userId = default, CancellationToken cancellationToken = default)
     {
         await _movieValidator.ValidateAndThrowAsync(movie, cancellationToken: cancellationToken);
         var movieExists = await _movieRepository.ExistsByIdAsync(movie.Id, cancellationToken);
@@ -46,7 +46,7 @@ public class MovieService : IMovieService
             return null;
         }
         
-        await _movieRepository.UpdateAsync(movie, cancellationToken);
+        await _movieRepository.UpdateAsync(movie, userId, cancellationToken);
         return movie;
     }
 
