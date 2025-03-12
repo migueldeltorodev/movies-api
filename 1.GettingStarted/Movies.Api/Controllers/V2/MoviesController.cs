@@ -7,6 +7,7 @@ using Movies.Application.Services;
 namespace Movies.Api.Controllers.V2;
 
 [ApiController]
+[ApiVersion("2.0")]
 public class MoviesController : ControllerBase
 {
     private readonly IMovieService _movieService;
@@ -16,7 +17,6 @@ public class MoviesController : ControllerBase
         _movieService = movieService;
     }
 
-    [ApiVersion(2.0)]
     [HttpGet(ApiEndpoints.Movies.Get)]
     public async Task<IActionResult> GetV2([FromRoute]string idOrSlug,
         [FromServices] LinkGenerator linkGenerator,
