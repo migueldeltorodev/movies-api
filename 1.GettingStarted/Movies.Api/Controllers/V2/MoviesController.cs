@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Movies.Api.Auth;
 using Movies.Api.Mapping;
 using Movies.Application.Services;
+using Movies.Contracts.Responses;
 
 namespace Movies.Api.Controllers.V2;
 
@@ -18,9 +19,9 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet(ApiEndpoints.Movies.Get)]
-    public async Task<IActionResult> GetV2([FromRoute]string idOrSlug,
-        [FromServices] LinkGenerator linkGenerator,
-        CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(MovieResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetV2([FromRoute]string idOrSlug, CancellationToken cancellationToken)
     {
         var userId = HttpContext.GetUserId();
         var movie = Guid.TryParse(idOrSlug, out var id) 
@@ -33,8 +34,6 @@ public class MoviesController : ControllerBase
         }
         
         var movieResponse = movie.MapToMovieResponse();
-
-        var movieObj = new { id = movie.Id };
         return Ok(movieResponse);
     }
 }
