@@ -93,7 +93,10 @@ public class MoviesController : ControllerBase
             .WithUserId(userId);
         var movies = await _movieService.GetAllAsync(options, cancellationToken);
         var movieCount = await _movieService.GetCountAsync(options.Title, options.Year, cancellationToken);
-        var movieResponse = movies.MapToMoviesResponse(request.Page, request.PageSize, movieCount);
+        var movieResponse = movies.MapToMoviesResponse(
+            request.Page.GetValueOrDefault(PagedRequest.DefaultPage), 
+            request.PageSize.GetValueOrDefault(PagedRequest.DefaultPageSize), 
+            movieCount);
         return Ok(movieResponse);
     }
 
