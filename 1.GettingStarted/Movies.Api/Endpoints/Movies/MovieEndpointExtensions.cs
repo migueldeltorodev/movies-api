@@ -7,8 +7,8 @@ public static class MovieEndpointExtensions
         app.MapCreateMovie();
         app.MapGetMovie();
         app.MapGetAllMovies();
-        // app.MapUpdateMovie();
-        // app.MapDeleteMovie();
+        app.MapUpdateMovie();
+        app.MapDeleteMovie();
         return app;
     }
 }

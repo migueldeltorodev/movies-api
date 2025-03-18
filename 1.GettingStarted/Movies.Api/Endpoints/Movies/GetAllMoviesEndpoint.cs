@@ -7,7 +7,7 @@ namespace Movies.Api.Endpoints.Movies;
 
 public static class GetAllMoviesEndpoint
 {
-    public const string Name = "GetMovies";
+    private const string Name = "GetMovies";
 
     public static IEndpointRouteBuilder MapGetAllMovies(this IEndpointRouteBuilder app)
     {

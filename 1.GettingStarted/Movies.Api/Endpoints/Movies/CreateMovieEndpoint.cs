@@ -7,7 +7,7 @@ namespace Movies.Api.Endpoints.Movies;
 
 public static class CreateMovieEndpoint
 {
-    public const string Name = "CreateMovie";
+    private const string Name = "CreateMovie";
     public static IEndpointRouteBuilder MapCreateMovie(this IEndpointRouteBuilder app)
     {
         app.MapPost(ApiEndpoints.Movies.Create, async (
