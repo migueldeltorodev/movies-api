@@ -56,7 +56,9 @@ builder.Services.AddApiVersioning(x =>
     x.AssumeDefaultVersionWhenUnspecified = true;
     x.ReportApiVersions = true;
     x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
-}).AddMvc().AddApiExplorer();
+}).AddApiExplorer();
+
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOutputCache(x =>
 {
@@ -69,8 +71,6 @@ builder.Services.AddOutputCache(x =>
             .Tag("movies");
     });
 });
-
-// builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
@@ -107,7 +107,6 @@ app.UseOutputCache();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 app.MapApiEndpoints();
-// app.MapControllers();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync();
