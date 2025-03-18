@@ -4,9 +4,9 @@ public static class RatingEndpointExtensions
 {
     public static IEndpointRouteBuilder MapRatingEndpoints(this IEndpointRouteBuilder app)
     {
-        // app.MapRateMovie();
-        // app.MapGetUserRatings();
-        // app.MapDeleteRating();
+        app.MapRateMovie();
+        app.MapGetUserRatings();
+        app.MapDeleteRating();
         return app;
     }
 }
