@@ -26,7 +26,8 @@ public static class GetMovieEndpoint
         
             var movieResponse = movie.MapToMovieResponse();
             return TypedResults.Ok(movieResponse);
-        });
+        })
+        .WithName(Name);
 
         return app;
     }
