@@ -22,7 +22,7 @@ public static class ApplicationServiceCollectionExtensions
     {
         services.AddSingleton<IDbConnectionFactory>(_ =>
             new NpgsqlConnectionFactory(connectionString));
-        services.AddSingleton<DbInitializer>();
+        services.AddSingleton(_ => new DbInitializer(connectionString));
         return services;
     }
 }

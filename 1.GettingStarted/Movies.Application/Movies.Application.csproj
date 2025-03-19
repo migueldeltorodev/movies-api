@@ -8,10 +8,22 @@
 
     <ItemGroup>
       <PackageReference Include="Dapper" Version="2.1.66" />
+      <PackageReference Include="dbup-postgresql" Version="5.0.40" />
       <PackageReference Include="FluentValidation" Version="11.11.0" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
       <PackageReference Include="Npgsql" Version="7.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Database\Scripts\Script0001 - Create table movie.sql" />
+      <EmbeddedResource Include="Database\Scripts\Script0001 - Create table movie.sql" />
+      <None Remove="Database\Scripts\Script0002 - Create unique index.sql" />
+      <EmbeddedResource Include="Database\Scripts\Script0002 - Create unique index.sql" />
+      <None Remove="Database\Scripts\Script0003 - Create table genres.sql" />
+      <EmbeddedResource Include="Database\Scripts\Script0003 - Create table genres.sql" />
+      <None Remove="Database\Scripts\Script0004 - Create table ratings.sql" />
+      <EmbeddedResource Include="Database\Scripts\Script0004 - Create table ratings.sql" />
     </ItemGroup>
 
 </Project>

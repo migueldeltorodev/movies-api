@@ -1,44 +1,31 @@
+using System.Reflection;
 using Dapper;
+using DbUp;
 
 namespace Movies.Application.Database;
 
 public class DbInitializer
 {
-    private readonly IDbConnectionFactory _connectionFactory;
+    private readonly string _connectionString;
 
-    public DbInitializer(IDbConnectionFactory connectionFactory)
+    public DbInitializer(string connectionString)
     {
-        _connectionFactory = connectionFactory;
+        _connectionString = connectionString;
     }
 
-    public async Task InitializeAsync()
+    public Task InitializeAsync()
     {
-        using var connection = await _connectionFactory.CreateConnectionAsync();
-        await connection.ExecuteAsync("""
-                                      create table if not exists movies (
-                                          id UUID primary key,
-                                          slug TEXT not null,
-                                          title TEXT not null,
-                                          yearofrelease integer not null);
-                                      """);
-        
-        await connection.ExecuteAsync("""
-                                      create unique index concurrently if not exists movies_slug_idx
-                                      on movies
-                                      using btree(slug);
-                                      """);
-        
-        await connection.ExecuteAsync("""
-                                      create table if not exists genres (
-                                          movieId UUID references movies (id),
-                                          name TEXT not null);
-                                      """);
-        await connection.ExecuteAsync("""
-                                      create table if not exists ratings (
-                                          userid uuid,
-                                          movieid uuid references movies (id),
-                                          rating integer not null,
-                                          primary key (userid, movieid));
-                                      """);
+        EnsureDatabase.For.PostgresqlDatabase(_connectionString);
+        var upgrader = DeployChanges.To.PostgresqlDatabase(_connectionString)
+            .WithScriptsEmbeddedInAssembly(typeof(DbInitializer).Assembly)
+            .LogToConsole()
+            .Build();
+
+        if (upgrader.IsUpgradeRequired())
+        {
+            var result = upgrader.PerformUpgrade();
+        }
+
+        return Task.CompletedTask;
     }
 }
