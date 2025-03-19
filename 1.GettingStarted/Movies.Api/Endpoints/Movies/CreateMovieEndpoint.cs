@@ -27,6 +27,8 @@ public static class CreateMovieEndpoint
         .WithName(Name)
         .Produces<MovieResponse>(StatusCodes.Status201Created)
         .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
+        .WithApiVersionSet(ApiVersioning.VersionSet)
+        .HasApiVersion(1.0)
         .RequireAuthorization(AuthConstants.TrustedMemberPolicyName);
         
         return app;
