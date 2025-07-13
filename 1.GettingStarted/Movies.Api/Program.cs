@@ -1,6 +1,8 @@
 using System.Text;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Movies.Api.Auth;
@@ -10,10 +12,15 @@ using Movies.Api.Mapping;
 using Movies.Api.Swagger;
 using Movies.Application;
 using Movies.Application.Database;
+using Movies.Application.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
+
+builder.Services.AddIdentity<User, IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(x =>
 {
@@ -36,9 +43,6 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddAuthorization(x =>
 {
-    // x.AddPolicy(AuthConstants.AdminUserPolicyName, 
-    //     policy => policy.RequireClaim(AuthConstants.AdminUserClaimName, "true"));
-    
     x.AddPolicy(AuthConstants.AdminUserPolicyName,
         policy => policy.AddRequirements(new AdminAuthRequirement(config["ApiKey"]!)));
     
@@ -67,7 +71,7 @@ builder.Services.AddOutputCache(x =>
     {
         c.Cache()
             .Expire(TimeSpan.FromMinutes(1))
-            .SetVaryByQuery(new[]{"title", "year", "sortBy", "page", "pageSize"})
+            .SetVaryByQuery(new[] { "title", "year", "sortBy", "page", "pageSize" })
             .Tag("movies");
     });
 });
@@ -79,6 +83,12 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwa
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 
 builder.Services.AddApplication();
+
+// Configure EF Core to use PostgreSQL
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(config["Database:ConnectionString"]));
+
+// This remains for the Dapper-based repositories
 builder.Services.AddDatabase(config["Database:ConnectionString"]!);
 
 var app = builder.Build();
@@ -104,13 +114,20 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// app.UseCors();
 app.UseOutputCache();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 app.MapApiEndpoints();
 
-var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
-await dbInitializer.InitializeAsync();
+// Apply EF Core migrations and initialize Dapper DB
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Database.MigrateAsync();
+
+    var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+    await dbInitializer.InitializeAsync();
+}
+
 
 app.Run();
