@@ -45,14 +45,14 @@ builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy(AuthConstants.AdminUserPolicyName,
         policy => policy.AddRequirements(new AdminAuthRequirement(config["ApiKey"]!)));
-    
-    x.AddPolicy(AuthConstants.TrustedMemberPolicyName, 
-        policy => policy.RequireAssertion(c => 
-            c.User.HasClaim(m => m is { Type: AuthConstants.AdminUserClaimName, Value: "true" }) ||
-            c.User.HasClaim(m => m is { Type: AuthConstants.TrustedMemberClaimName, Value: "true" })));
+
+    x.AddPolicy(AuthConstants.TrustedMemberPolicyName,
+        policy => policy.RequireRole("Admin", "User"));
 });
 
 builder.Services.AddScoped<ApiKeyAuthFilter>();
+builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<RoleSeeder>();
 
 builder.Services.AddApiVersioning(x =>
 {
@@ -125,6 +125,9 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await dbContext.Database.MigrateAsync();
 
+    var roleSeeder = scope.ServiceProvider.GetRequiredService<RoleSeeder>();
+    await roleSeeder.SeedAsync();
+    
     var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
     await dbInitializer.InitializeAsync();
 }
