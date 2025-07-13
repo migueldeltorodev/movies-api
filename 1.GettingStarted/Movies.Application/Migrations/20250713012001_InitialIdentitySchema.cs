@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -9,7 +9,10 @@ namespace Movies.Application.Migrations
     /// <inheritdoc />
     public partial class InitialIdentitySchema : Migration
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Applies the initial migration to create all tables, relationships, and indexes required for ASP.NET Core Identity using PostgreSQL.
+        /// </summary>
+        /// <param name="migrationBuilder">The builder used to construct the database schema.</param>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -195,7 +198,9 @@ namespace Movies.Application.Migrations
                 unique: true);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Reverts the initial ASP.NET Core Identity schema by dropping all related tables in reverse order.
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

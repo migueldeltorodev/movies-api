@@ -10,6 +10,10 @@ namespace Movies.Api.Endpoints.Auth;
 public static class RegisterUserEndpoint
 {
     private const string Name = "RegisterUser";
+    /// <summary>
+    /// Maps the user registration HTTP POST endpoint, handling new user creation, role assignment, and access token generation.
+    /// </summary>
+    /// <returns>The modified <see cref="IEndpointRouteBuilder"/> with the registration endpoint mapped.</returns>
     public static IEndpointRouteBuilder MapRegisterUser(this IEndpointRouteBuilder app)
     {
         app.MapPost(ApiEndpoints.Auth.Register, async (
