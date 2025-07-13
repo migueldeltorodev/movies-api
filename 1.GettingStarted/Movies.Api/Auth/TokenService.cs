@@ -12,12 +12,20 @@ public class TokenService
     private readonly IConfiguration _config;
     private readonly UserManager<User> _userManager;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TokenService"/> class with the specified configuration and user manager.
+    /// </summary>
     public TokenService(IConfiguration config, UserManager<User> userManager)
     {
         _config = config;
         _userManager = userManager;
     }
 
+    /// <summary>
+    /// Asynchronously generates a JSON Web Token (JWT) for the specified user, including user claims and roles.
+    /// </summary>
+    /// <param name="user">The user for whom the JWT is generated.</param>
+    /// <returns>A serialized JWT string containing the user's claims and roles.</returns>
     public async Task<string> GenerateTokenAsync(User user)
     {
         var claims = new List<Claim>

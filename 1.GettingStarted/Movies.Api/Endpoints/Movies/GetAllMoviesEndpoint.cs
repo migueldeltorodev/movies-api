@@ -10,6 +10,10 @@ public static class GetAllMoviesEndpoint
 {
     private const string Name = "GetMovies";
 
+    /// <summary>
+    /// Registers an HTTP GET endpoint for retrieving a paginated list of movies with optional filtering and user context.
+    /// </summary>
+    /// <returns>The modified <see cref="IEndpointRouteBuilder"/> with the movies endpoint mapped.</returns>
     public static IEndpointRouteBuilder MapGetAllMovies(this IEndpointRouteBuilder app)
     {
         app.MapGet(ApiEndpoints.Movies.GetAll, async (

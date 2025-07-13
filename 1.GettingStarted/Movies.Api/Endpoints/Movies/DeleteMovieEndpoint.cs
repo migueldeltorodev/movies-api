@@ -9,6 +9,10 @@ public static class DeleteMovieEndpoint
 {
     private const string Name = "DeleteMovie";
 
+    /// <summary>
+    /// Maps the HTTP DELETE endpoint for deleting a movie by its ID, requiring admin authorization.
+    /// </summary>
+    /// <returns>The endpoint route builder with the DELETE movie endpoint configured.</returns>
     public static IEndpointRouteBuilder MapDeleteMovie(this IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiEndpoints.Movies.Delete, async (
