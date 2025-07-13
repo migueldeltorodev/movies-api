@@ -6,11 +6,11 @@ public static class IdentityExtensions
 {
     public static Guid? GetUserId(this HttpContext context)
     {
-        var userId = context.User.Claims.SingleOrDefault(claim => claim.Type == "userid");
+        var userId = context.User.Claims.SingleOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
         
-        if (Guid.TryParse(userId?.Value, out var parseId))
+        if (Guid.TryParse(userId?.Value, out var parsedId))
         {
-            return parseId;
+            return parsedId;
         }
         
         return null;
