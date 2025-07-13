@@ -1,3 +1,4 @@
+using Movies.Api.Endpoints.Auth;
 using Movies.Api.Endpoints.Movies;
 using Movies.Api.Endpoints.Ratings;
 
@@ -9,6 +10,7 @@ public static class EndpointsExtensions
     {
         app.MapMovieEndpoints();
         app.MapRatingEndpoints();
+        app.MapAuthEndpoints();
         return app;;
     }
 }
