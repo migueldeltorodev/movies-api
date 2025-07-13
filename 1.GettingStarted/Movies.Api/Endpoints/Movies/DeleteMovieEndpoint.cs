@@ -7,7 +7,7 @@ namespace Movies.Api.Endpoints.Movies;
 
 public static class DeleteMovieEndpoint
 {
-    public const string Name = "DeleteMovie";
+    private const string Name = "DeleteMovie";
 
     public static IEndpointRouteBuilder MapDeleteMovie(this IEndpointRouteBuilder app)
     {

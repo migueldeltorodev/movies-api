@@ -12,7 +12,8 @@ public static class GetAllMoviesEndpoint
 
     public static IEndpointRouteBuilder MapGetAllMovies(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiEndpoints.Movies.GetAll, async ([AsParameters] GetAllMoviesRequest request,
+        app.MapGet(ApiEndpoints.Movies.GetAll, async (
+                [AsParameters] GetAllMoviesRequest request,
                 IMovieService movieService,
                 HttpContext context,
                 CancellationToken token) =>
@@ -29,10 +30,9 @@ public static class GetAllMoviesEndpoint
                 return TypedResults.Ok(movieResponse);
             })
             .WithName(Name)
-            .Produces<MovieResponse>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound)
-            .CacheOutput("MovieCache");
-
+            .Produces<MoviesResponse>(StatusCodes.Status200OK)
+            .CacheOutput("MoviesCache");
+        
         return app;
     }
 }
