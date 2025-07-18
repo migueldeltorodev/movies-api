@@ -84,6 +84,17 @@ builder.Services.AddHealthChecks()
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddApplication();
 
 // Configure EF Core to use PostgreSQL
@@ -112,6 +123,9 @@ if (app.Environment.IsDevelopment())
 app.MapHealthChecks("_health");
 
 app.UseHttpsRedirection();
+
+// Enable CORS
+app.UseCors("AngularApp");
 
 app.UseAuthentication();
 app.UseAuthorization();

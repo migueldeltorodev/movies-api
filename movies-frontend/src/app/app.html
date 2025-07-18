@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <span>Movies App</span>
+  <span class="spacer"></span>
+  
+  @if (authService.isAuthenticated()) {
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  }
+</mat-toolbar>
+
+<main class="content">
+  <router-outlet />
+</main>
