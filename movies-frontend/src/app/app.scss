@@ -1,7 +1,70 @@
-.content {
-  padding: 20px;
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.spacer {
-  flex: 1 1 auto;
+.main-content {
+  flex: 1;
+  min-height: calc(100vh - 64px - 80px);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+::ng-deep {
+  .success-snackbar {
+    background: #4caf50 !important;
+    color: white !important;
+    
+    .mat-mdc-snack-bar-action {
+      color: white !important;
+    }
+  }
+  
+  .error-snackbar {
+    background: #f44336 !important;
+    color: white !important;
+    
+    .mat-mdc-snack-bar-action {
+      color: white !important;
+    }
+  }
+  
+  .warning-snackbar {
+    background: #ff9800 !important;
+    color: white !important;
+    
+    .mat-mdc-snack-bar-action {
+      color: white !important;
+    }
+  }
+
+  .info-snackbar {
+    background: #2196f3 !important;
+    color: white !important;
+    
+    .mat-mdc-snack-bar-action {
+      color: white !important;
+    }
+  }
+}
+
+* {
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }

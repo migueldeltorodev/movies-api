@@ -1,27 +1,35 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from './services/auth.service';
-import { CommonModule } from '@angular/common';
 
+// Imports optimizados
+import { CORE_IMPORTS } from './shared/material.imports';
+
+// Componentes de layout
+import { NavbarComponent } from './shared/components/layout/navbar/navbar.component';
+import { FooterComponent } from './shared/components/layout/footer/footer.component';
+
+/**
+ * Componente raíz de la aplicación
+ * 
+ * Patrón: Pure Layout Component
+ * Responsabilidad única: Definir la estructura de layout de la aplicación
+ * 
+ * Ventajas de este enfoque:
+ * - Componente completamente limpio y enfocado
+ * - Sin lógica de negocio - solo estructura
+ * - Fácil de mantener y testear
+ * - Cada componente maneja su propia responsabilidad
+ */
 @Component({
   selector: 'app-root',
   imports: [
-    CommonModule,
     RouterOutlet,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule
+    ...CORE_IMPORTS,
+    NavbarComponent,
+    FooterComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  authService = inject(AuthService);
-  
-  logout() {
-    this.authService.logout();
-  }
 }
