@@ -29,7 +29,7 @@ export class MoviesApiService {
       if (request.pageSize) params = params.set('pageSize', request.pageSize.toString());
     }
 
-    return this.http.get<MoviesResponse>(`${this.baseUrl}/api/movies`, { params });
+    return this.http.get<MoviesResponse>(`${this.baseUrl}/api/movies/all`, { params });
   }
 
   getMovie(idOrSlug: string): Observable<Movie> {
