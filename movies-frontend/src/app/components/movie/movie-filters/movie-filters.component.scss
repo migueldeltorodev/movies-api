@@ -1,0 +1,192 @@
+// Estilos para el componente de filtros de películas
+
+.filters-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.filters-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+
+  .mat-mdc-form-field {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    
+    ::ng-deep {
+      .mat-mdc-text-field-wrapper {
+        background: transparent;
+      }
+      
+      .mat-mdc-form-field-outline {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      
+      .mat-mdc-form-field-label {
+        color: rgba(255, 255, 255, 0.8);
+      }
+      
+      .mat-mdc-input-element {
+        color: white;
+        
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.6);
+        }
+      }
+      
+      .mat-mdc-form-field-icon-suffix {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .mat-mdc-select-value {
+        color: white;
+      }
+
+      .mat-mdc-select-arrow {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+
+  .search-field {
+    flex: 2;
+    min-width: 200px;
+  }
+
+  .year-field {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .sort-field {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 0.5rem;
+    
+    .apply-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+    }
+    
+    .clear-btn {
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+.active-filters {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+
+  .active-filters-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    margin-right: 0.5rem;
+  }
+
+  .filter-chip {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.8rem;
+    
+    ::ng-deep {
+      .mat-mdc-chip-remove {
+        color: rgba(255, 255, 255, 0.8);
+        
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .filters-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .filters-section {
+    flex-direction: column;
+    align-items: stretch;
+    
+    .mat-mdc-form-field {
+      width: 100%;
+    }
+    
+    .filter-actions {
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  }
+
+  .active-filters {
+    justify-content: center;
+    
+    .active-filters-label {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .filters-container {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+// Animaciones
+.filter-chip {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

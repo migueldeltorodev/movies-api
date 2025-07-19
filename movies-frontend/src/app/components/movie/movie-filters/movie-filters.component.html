@@ -1,0 +1,79 @@
+<div class="filters-container">
+    <div class="filters-section">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar por título</mat-label>
+        <input matInput 
+               [ngModel]="filters().title || ''"
+               (ngModelChange)="updateFilter('title', $event)"
+               (keyup.enter)="onApplyFilters.emit(filters())"
+               placeholder="Ej: Matrix, Avengers...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="year-field">
+        <mat-label>Año</mat-label>
+        <input matInput 
+               type="number" 
+               [ngModel]="filters().year || ''"
+               (ngModelChange)="updateFilter('year', $event ? +$event : null)"
+               (keyup.enter)="onApplyFilters.emit(filters())"
+               placeholder="2023">
+        <mat-icon matSuffix>calendar_today</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="sort-field">
+        <mat-label>Ordenar por</mat-label>
+        <mat-select [ngModel]="filters().sortBy || 'title'" 
+                    (ngModelChange)="updateFilter('sortBy', $event); onApplyFilters.emit(filters())">
+          @for (option of sortOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div class="filter-actions">
+        <button mat-raised-button 
+                color="primary" 
+                (click)="onApplyFilters.emit(filters())"
+                class="apply-btn">
+          <mat-icon>search</mat-icon>
+          Buscar
+        </button>
+        
+        <button mat-stroked-button 
+                (click)="clearFilters()"
+                class="clear-btn">
+          <mat-icon>clear</mat-icon>
+          Limpiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtros activos -->
+    @if (hasActiveFilters()) {
+      <div class="active-filters">
+        <span class="active-filters-label">Filtros activos:</span>
+        
+        @if (filters().title) {
+          <mat-chip class="filter-chip" (removed)="removeFilter('title')">
+            Título: "{{ filters().title }}"
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        }
+        
+        @if (filters().year) {
+          <mat-chip class="filter-chip" (removed)="removeFilter('year')">
+            Año: {{ filters().year }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        }
+        
+        @if (filters().sortBy && filters().sortBy !== 'title') {
+          <mat-chip class="filter-chip" (removed)="removeFilter('sortBy')">
+            Orden: {{ getSortLabel(filters().sortBy!) }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        }
+      </div>
+    }
+</div>
