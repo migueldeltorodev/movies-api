@@ -5,7 +5,7 @@
     <div class="auth-header">
       <div class="brand-section">
         <mat-icon class="brand-icon">movie</mat-icon>
-        <h1 class="brand-title">{{ messages.brandTitle || 'Movies Hub' }}</h1>
+        <h1 class="brand-title">Movies Hub</h1>
       </div>
       <h2 class="page-title">{{ pageTitle() }}</h2>
       <p class="page-subtitle">{{ pageSubtitle() }}</p>
@@ -13,150 +13,118 @@
 
     <!-- Mostrar error de autenticación si existe -->
     @if (authError()) {
-      <mat-card class="error-card">
-        <mat-icon class="error-icon">error</mat-icon>
-        <span class="error-message">{{ authError() }}</span>
-      </mat-card>
+    <mat-card class="error-card">
+      <mat-icon class="error-icon">error</mat-icon>
+      <span class="error-message">{{ authError() }}</span>
+    </mat-card>
     }
 
     <!-- Formulario de Login -->
     @if (isLoginMode()) {
-      <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="auth-form">
-        <!-- Campo Email -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>{{ messages.emailLabel }}</mat-label>
-          <input matInput 
-                 type="email" 
-                 formControlName="email"
-                 [placeholder]="messages.emailPlaceholder"
-                 autocomplete="email">
-          <mat-icon matSuffix>email</mat-icon>
-          @if (hasFieldError(loginForm, 'email')) {
-            <mat-error>{{ getFieldError(loginForm, 'email') }}</mat-error>
-          }
-        </mat-form-field>
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="auth-form">
+      <!-- Campo Email -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ messages().emailLabel }}</mat-label>
+        <input matInput type="email" formControlName="email" [placeholder]="messages().emailPlaceholder"
+          autocomplete="email">
+        <mat-icon matSuffix>email</mat-icon>
+        @if (hasFieldError(loginForm, 'email')) {
+        <mat-error>{{ getFieldError(loginForm, 'email') }}</mat-error>
+        }
+      </mat-form-field>
 
-        <!-- Campo Contraseña -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>{{ messages.passwordLabel }}</mat-label>
-          <input matInput 
-                 [type]="hidePassword() ? 'password' : 'text'"
-                 formControlName="password"
-                 [placeholder]="messages.passwordPlaceholder"
-                 autocomplete="current-password">
-          <button mat-icon-button 
-                  matSuffix 
-                  type="button"
-                  (click)="hidePassword.set(!hidePassword())"
-                  [attr.aria-label]="hidePassword() ? messages.showPasswordAriaLabel : messages.hidePasswordAriaLabel"
-                  [attr.aria-pressed]="!hidePassword()">
-            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          @if (hasFieldError(loginForm, 'password')) {
-            <mat-error>{{ getFieldError(loginForm, 'password') }}</mat-error>
-          }
-        </mat-form-field>
-
-        <!-- Botón de envío -->
-        <button mat-raised-button 
-                color="primary" 
-                type="submit"
-                class="submit-button"
-                [disabled]="isLoading()">
-          @if (isLoading()) {
-            <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
-            {{ loadingButtonText() }}
-          } @else {
-            <mat-icon>login</mat-icon>
-            {{ submitButtonText() }}
-          }
+      <!-- Campo Contraseña -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ messages().passwordLabel }}</mat-label>
+        <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password"
+          [placeholder]="messages().passwordPlaceholder" autocomplete="current-password">
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword.set(!hidePassword())"
+          [attr.aria-label]="hidePassword() ? messages().showPasswordAriaLabel : messages().hidePasswordAriaLabel"
+          [attr.aria-pressed]="!hidePassword()">
+          <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-      </form>
+        @if (hasFieldError(loginForm, 'password')) {
+        <mat-error>{{ getFieldError(loginForm, 'password') }}</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Botón de envío -->
+      <button mat-raised-button color="primary" type="submit" class="submit-button" [disabled]="isLoading()">
+        @if (isLoading()) {
+        <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+        {{ loadingButtonText() }}
+        } @else {
+        <ng-container>
+          <mat-icon>login</mat-icon>
+          {{ submitButtonText() }}
+        </ng-container>
+        }
+      </button>
+    </form>
     }
 
     <!-- Formulario de Registro -->
     @if (!isLoginMode()) {
-      <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" class="auth-form">
-        <!-- Campo Email -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>{{ messages.emailLabel }}</mat-label>
-          <input matInput 
-                 type="email" 
-                 formControlName="email"
-                 [placeholder]="messages.emailPlaceholder"
-                 autocomplete="email">
-          <mat-icon matSuffix>email</mat-icon>
-          @if (hasFieldError(registerForm, 'email')) {
-            <mat-error>{{ getFieldError(registerForm, 'email') }}</mat-error>
-          }
-        </mat-form-field>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" class="auth-form">
+      <!-- Campo Email -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ messages().emailLabel }}</mat-label>
+        <input matInput type="email" formControlName="email" [placeholder]="messages().emailPlaceholder"
+          autocomplete="email">
+        <mat-icon matSuffix>email</mat-icon>
+        @if (hasFieldError(registerForm, 'email')) {
+        <mat-error>{{ getFieldError(registerForm, 'email') }}</mat-error>
+        }
+      </mat-form-field>
 
-        <!-- Campo Contraseña -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>{{ messages.passwordLabel }}</mat-label>
-          <input matInput 
-                 [type]="hidePassword() ? 'password' : 'text'"
-                 formControlName="password"
-                 [placeholder]="messages.passwordMinPlaceholder"
-                 autocomplete="new-password">
-          <button mat-icon-button 
-                  matSuffix 
-                  type="button"
-                  (click)="hidePassword.set(!hidePassword())"
-                  [attr.aria-label]="hidePassword() ? messages.showPasswordAriaLabel : messages.hidePasswordAriaLabel"
-                  [attr.aria-pressed]="!hidePassword()">
-            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          @if (hasFieldError(registerForm, 'password')) {
-            <mat-error>{{ getFieldError(registerForm, 'password') }}</mat-error>
-          }
-        </mat-form-field>
-
-        <!-- Campo Confirmar Contraseña -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>{{ messages.confirmPasswordLabel }}</mat-label>
-          <input matInput 
-                 [type]="hideConfirmPassword() ? 'password' : 'text'"
-                 formControlName="confirmPassword"
-                 [placeholder]="messages.confirmPasswordPlaceholder"
-                 autocomplete="new-password">
-          <button mat-icon-button 
-                  matSuffix 
-                  type="button"
-                  (click)="hideConfirmPassword.set(!hideConfirmPassword())"
-                  [attr.aria-label]="hideConfirmPassword() ? messages.showPasswordAriaLabel : messages.hidePasswordAriaLabel"
-                  [attr.aria-pressed]="!hideConfirmPassword()">
-            <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          @if (hasFieldError(registerForm, 'confirmPassword')) {
-            <mat-error>{{ getFieldError(registerForm, 'confirmPassword') }}</mat-error>
-          }
-        </mat-form-field>
-
-        <!-- Botón de envío -->
-        <button mat-raised-button 
-                color="primary" 
-                type="submit"
-                class="submit-button"
-                [disabled]="isLoading()">
-          @if (isLoading()) {
-            <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
-            {{ loadingButtonText() }}
-          } @else {
-            <mat-icon>person_add</mat-icon>
-            {{ submitButtonText() }}
-          }
+      <!-- Campo Contraseña -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ messages().passwordLabel }}</mat-label>
+        <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password"
+          [placeholder]="messages().passwordMinPlaceholder" autocomplete="new-password">
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword.set(!hidePassword())"
+          [attr.aria-label]="hidePassword() ? messages().showPasswordAriaLabel : messages().hidePasswordAriaLabel"
+          [attr.aria-pressed]="!hidePassword()">
+          <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-      </form>
+        @if (hasFieldError(registerForm, 'password')) {
+        <mat-error>{{ getFieldError(registerForm, 'password') }}</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Campo Confirmar Contraseña -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ messages().confirmPasswordLabel }}</mat-label>
+        <input matInput [type]="hideConfirmPassword() ? 'password' : 'text'" formControlName="confirmPassword"
+          [placeholder]="messages().confirmPasswordPlaceholder" autocomplete="new-password">
+        <button mat-icon-button matSuffix type="button" (click)="hideConfirmPassword.set(!hideConfirmPassword())"
+          [attr.aria-label]="hideConfirmPassword() ? messages().showPasswordAriaLabel : messages().hidePasswordAriaLabel"
+          [attr.aria-pressed]="!hideConfirmPassword()">
+          <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        @if (hasFieldError(registerForm, 'confirmPassword')) {
+        <mat-error>{{ getFieldError(registerForm, 'confirmPassword') }}</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Botón de envío -->
+      <button mat-raised-button color="primary" type="submit" class="submit-button" [disabled]="isLoading()">
+        @if (isLoading()) {
+        <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+        {{ loadingButtonText() }}
+        } @else {
+        <ng-container>
+          <mat-icon>person_add</mat-icon>
+          {{ submitButtonText() }}
+        </ng-container>
+        }
+      </button>
+    </form>
     }
 
     <!-- Cambiar entre login y registro -->
     <div class="mode-switch">
-      <button mat-button 
-              color="accent" 
-              (click)="toggleMode()"
-              class="switch-button"
-              [disabled]="isLoading()">
+      <button mat-button color="accent" (click)="toggleMode()" class="switch-button" [disabled]="isLoading()">
         {{ switchModeText() }}
       </button>
     </div>
@@ -165,8 +133,8 @@
     <div class="auth-footer">
       <p class="footer-text">
         {{ termsText() }}
-        <a href="#" class="footer-link">{{ messages.termsLink }}</a> y 
-        <a href="#" class="footer-link">{{ messages.privacyLink }}</a>
+        <a href="#" class="footer-link">{{ messages().termsLink }}</a> y
+        <a href="#" class="footer-link">{{ messages().privacyLink }}</a>
       </p>
     </div>
   </div>
@@ -175,21 +143,21 @@
   <div class="auth-info">
     <div class="info-content">
       <mat-icon class="info-icon">movie_filter</mat-icon>
-      <h3 class="info-title">{{ messages.infoTitle }}</h3>
-      <p class="info-description">{{ messages.infoDescription }}</p>
-      
+      <h3 class="info-title">{{ messages().infoTitle }}</h3>
+      <p class="info-description">{{ messages().infoDescription }}</p>
+
       <div class="features-list">
         <div class="feature-item">
           <mat-icon class="feature-icon">star</mat-icon>
-          <span class="feature-text">{{ messages.featureRate }}</span>
+          <span class="feature-text">{{ messages().featureRate }}</span>
         </div>
         <div class="feature-item">
           <mat-icon class="feature-icon">search</mat-icon>
-          <span class="feature-text">{{ messages.featureDiscover }}</span>
+          <span class="feature-text">{{ messages().featureDiscover }}</span>
         </div>
         <div class="feature-item">
           <mat-icon class="feature-icon">favorite</mat-icon>
-          <span class="feature-text">{{ messages.featureFavorites }}</span>
+          <span class="feature-text">{{ messages().featureFavorites }}</span>
         </div>
       </div>
     </div>

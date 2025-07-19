@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../../material.imports';
 import { AuthService } from '../../../../services/auth.service';
 import { NotificationService } from '../../../services/notification.service';
+import { MessagesService } from '../../../';
 import { APP_CONFIG, ROUTES } from '../../../constants';
+import { LanguageSelectorComponent } from '../../../components/language-selector/language-selector.component';
 
 /**
  * Componente de navegación principal
@@ -21,7 +23,8 @@ import { APP_CONFIG, ROUTES } from '../../../constants';
   standalone: true,
   imports: [
     ...CORE_IMPORTS,
-    ...MATERIAL_IMPORTS
+    ...MATERIAL_IMPORTS,
+    LanguageSelectorComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
@@ -30,7 +33,11 @@ export class NavbarComponent {
   readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly notification = inject(NotificationService);
+  private readonly messagesService = inject(MessagesService);
   readonly appConfig = APP_CONFIG;
+
+  // Mensajes reactivos disponibles en el template
+  readonly messages = this.messagesService.nav;
 
   /**
    * Navega a la página de autenticación
@@ -46,6 +53,6 @@ export class NavbarComponent {
    */
   handleLogout() {
     this.authService.logout();
-    this.notification.messages.logoutSuccess();
+    this.notification.success(this.messagesService.auth().logoutSuccess);
   }
 }

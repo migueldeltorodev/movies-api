@@ -11,21 +11,21 @@
     <nav class="nav-section">
       <a mat-button routerLink="/movies" routerLinkActive="active-link">
         <mat-icon>movie_filter</mat-icon>
-        Películas
+        {{ messages().movies }}
       </a>
-      
+
       @if (authService.isTrustedMember()) {
-        <a mat-button routerLink="/my-ratings" routerLinkActive="active-link">
-          <mat-icon>star</mat-icon>
-          Mis Calificaciones
-        </a>
+      <a mat-button routerLink="/my-ratings" routerLinkActive="active-link">
+        <mat-icon>star</mat-icon>
+        {{ messages().myRatings }}
+      </a>
       }
-      
+
       @if (authService.isAdmin()) {
-        <a mat-button routerLink="/admin" routerLinkActive="active-link">
-          <mat-icon>admin_panel_settings</mat-icon>
-          Admin
-        </a>
+      <a mat-button routerLink="/admin" routerLinkActive="active-link">
+        <mat-icon>admin_panel_settings</mat-icon>
+        {{ messages().admin }}
+      </a>
       }
     </nav>
 
@@ -34,48 +34,48 @@
 
     <!-- Sección de usuario -->
     <div class="user-section">
+      <!-- Selector de idioma -->
+      <app-language-selector></app-language-selector>
+
       @if (!authService.isAuthenticated()) {
-        <button mat-raised-button 
-                color="accent" 
-                (click)="handleLogin()" 
-                class="login-btn">
-          <mat-icon>login</mat-icon>
-          Iniciar Sesión
-        </button>
+      <button mat-raised-button color="accent" (click)="handleLogin()" class="login-btn">
+        <mat-icon>login</mat-icon>
+        {{ messages().login }}
+      </button>
       } @else {
-        <!-- Usuario autenticado -->
-        <div class="user-info">
-          <mat-icon class="user-avatar">account_circle</mat-icon>
-          <span class="user-email">{{ authService.currentUser()?.email }}</span>
-          
-          @if (authService.isTrustedMember()) {
-            <mat-chip class="user-badge trusted">Miembro</mat-chip>
-          }
-          
-          @if (authService.isAdmin()) {
-            <mat-chip class="user-badge admin">Admin</mat-chip>
-          }
-        </div>
+      <!-- Usuario autenticado -->
+      <div class="user-info">
+        <mat-icon class="user-avatar">account_circle</mat-icon>
+        <span class="user-email">{{ authService.currentUser()?.email }}</span>
 
-        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu-btn">
-          <mat-icon>more_vert</mat-icon>
+        @if (authService.isTrustedMember()) {
+        <mat-chip class="user-badge trusted">{{ messages().trustedMember || 'Miembro' }}</mat-chip>
+        }
+
+        @if (authService.isAdmin()) {
+        <mat-chip class="user-badge admin">{{ messages().admin }}</mat-chip>
+        }
+      </div>
+
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu-btn">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>{{ messages().profile }}</span>
         </button>
-
-        <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>person</mat-icon>
-            <span>Perfil</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon>settings</mat-icon>
-            <span>Configuración</span>
-          </button>
-          <mat-divider></mat-divider>
-          <button mat-menu-item (click)="handleLogout()">
-            <mat-icon>logout</mat-icon>
-            <span>Cerrar Sesión</span>
-          </button>
-        </mat-menu>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>{{ messages().settings }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="handleLogout()">
+          <mat-icon>logout</mat-icon>
+          <span>{{ messages().logout }}</span>
+        </button>
+      </mat-menu>
       }
     </div>
   </div>

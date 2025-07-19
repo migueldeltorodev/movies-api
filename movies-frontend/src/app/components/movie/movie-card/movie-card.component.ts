@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../../shared/material.imports';
+import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService, LanguageService } from '../../../shared';
 import { Movie } from '../../../models/movie.model';
 import { AuthService } from '../../../services/auth.service';
 import { getGenreColor, getStarsArray, formatYear } from '../../../shared/utils/movie.utils';
@@ -20,6 +20,8 @@ import { getGenreColor, getStarsArray, formatYear } from '../../../shared/utils/
 })
 export class MovieCardComponent {
   readonly authService = inject(AuthService);
+  private readonly messagesService = inject(MessagesService);
+  readonly languageService = inject(LanguageService);
 
   @Input({ required: true }) movie!: Movie;
   @Input() elevated = true;
@@ -30,6 +32,10 @@ export class MovieCardComponent {
   @Output() onViewDetails = new EventEmitter<Movie>();
   @Output() onShare = new EventEmitter<Movie>();
   @Output() onFavorite = new EventEmitter<Movie>();
+
+  // Mensajes reactivos disponibles en el template
+  readonly messages = this.messagesService.movies;
+  readonly generalMessages = this.messagesService.general;
 
   // Utilidades disponibles en el template
   readonly getGenreColor = getGenreColor;
