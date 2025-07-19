@@ -1,0 +1,356 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 4rem;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  width: 100%;
+  max-width: 400px;
+  animation: slideInUp 0.6s ease-out;
+
+  .auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      .brand-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+        color: #667eea;
+      }
+
+      .brand-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #2c3e50;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .page-subtitle {
+      color: #666;
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
+
+  .error-card {
+    background: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .error-icon {
+      color: #f44336;
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    .error-message {
+      color: #c62828;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .full-width {
+      width: 100%;
+    }
+
+    .mat-mdc-form-field {
+      ::ng-deep {
+        .mat-mdc-text-field-wrapper {
+          border-radius: 8px;
+        }
+
+        .mat-mdc-form-field-outline {
+          border-radius: 8px;
+        }
+      }
+    }
+
+    .submit-button {
+      height: 48px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      position: relative;
+
+      .button-spinner {
+        margin-right: 0.5rem;
+      }
+
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .mode-switch {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+
+    .switch-button {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
+
+  .auth-footer {
+    margin-top: 2rem;
+    text-align: center;
+
+    .footer-text {
+      font-size: 0.8rem;
+      color: #666;
+      line-height: 1.4;
+      margin: 0;
+
+      .footer-link {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.auth-info {
+  flex: 1;
+  max-width: 500px;
+  color: white;
+  animation: slideInRight 0.6s ease-out 0.2s both;
+
+  .info-content {
+    .info-icon {
+      font-size: 4rem;
+      width: 4rem;
+      height: 4rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .info-title {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin: 0 0 1rem 0;
+      letter-spacing: -0.02em;
+    }
+
+    .info-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+      opacity: 0.9;
+    }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .feature-icon {
+          font-size: 1.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
+          opacity: 0.8;
+        }
+
+        .feature-text {
+          font-size: 1rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .auth-container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .auth-info {
+    max-width: 400px;
+    text-align: center;
+
+    .info-content {
+      .info-title {
+        font-size: 2rem;
+      }
+
+      .info-description {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .features-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+
+        .feature-item {
+          flex-direction: column;
+          text-align: center;
+          gap: 0.5rem;
+          min-width: 120px;
+
+          .feature-text {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .auth-card {
+    padding: 2rem;
+    max-width: 100%;
+
+    .auth-header {
+      .brand-section {
+        .brand-title {
+          font-size: 1.5rem;
+        }
+      }
+
+      .page-title {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  .auth-info {
+    .info-content {
+      .info-title {
+        font-size: 1.8rem;
+      }
+
+      .features-list {
+        .feature-item {
+          min-width: 100px;
+
+          .feature-text {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 0.5rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .auth-info {
+    display: none;
+  }
+}
+
+.button-spinner {
+  ::ng-deep {
+    circle {
+      stroke: white;
+    }
+  }
+}

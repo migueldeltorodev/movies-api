@@ -1,0 +1,200 @@
+// Estilos del componente Navbar
+// Extraídos del componente App para mejor modularidad
+
+.main-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  .toolbar-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .brand-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 2rem;
+
+    .brand-icon {
+      font-size: 1.8rem;
+      width: 1.8rem;
+      height: 1.8rem;
+      color: white;
+    }
+
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  .nav-section {
+    display: flex;
+    gap: 0.5rem;
+
+    a {
+      color: rgba(255, 255, 255, 0.9);
+      transition: all 0.2s ease;
+      border-radius: 6px;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      &.active-link {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        font-weight: 500;
+      }
+
+      mat-icon {
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+        width: 1.1rem;
+        height: 1.1rem;
+      }
+    }
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .user-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .login-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-weight: 500;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-1px);
+      }
+
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+
+      .user-avatar {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        color: white;
+      }
+
+      .user-email {
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .user-badge {
+        font-size: 0.7rem;
+        height: 20px;
+        border-radius: 10px;
+        
+        &.trusted {
+          background: rgba(76, 175, 80, 0.8);
+          color: white;
+        }
+        
+        &.admin {
+          background: rgba(255, 152, 0, 0.8);
+          color: white;
+        }
+      }
+    }
+
+    .user-menu-btn {
+      color: rgba(255, 255, 255, 0.9);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .main-toolbar {
+    .toolbar-content {
+      padding: 0 0.5rem;
+    }
+
+    .brand-section {
+      margin-right: 1rem;
+
+      .brand-title {
+        display: none;
+      }
+    }
+
+    .nav-section {
+      a {
+        span {
+          display: none;
+        }
+        
+        mat-icon {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .user-section {
+      .user-info {
+        .user-email {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .main-toolbar {
+    .nav-section {
+      display: none;
+    }
+
+    .user-section {
+      gap: 0.5rem;
+
+      .user-info {
+        padding: 0.25rem 0.5rem;
+        
+        .user-badge {
+          display: none;
+        }
+      }
+    }
+  }
+}

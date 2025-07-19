@@ -1,0 +1,88 @@
+<!-- Header con título -->
+<div class="movies-header">
+  <div class="header-content">
+    <div class="title-section">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">movie</mat-icon>
+        Catálogo de Películas
+      </h1>
+      <p class="page-subtitle">Descubre y califica tus películas favoritas</p>
+    </div>
+  </div>
+</div>
+
+<!-- Componente de filtros optimizado -->
+<app-movie-filters
+  [initialFilters]="currentFilters()"
+  (onApplyFilters)="onFiltersApplied($event)"
+  (onClearFilters)="onFiltersCleared()">
+</app-movie-filters>
+
+<!-- Loading spinner -->
+@if (isLoading()) {
+  <div class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p class="loading-text">Cargando películas...</p>
+  </div>
+}
+
+<!-- Lista de películas usando componente optimizado -->
+@if (!isLoading() && hasMovies()) {
+  <div class="movies-container">
+    <div class="movies-grid">
+      @for (movie of movies(); track movie.id) {
+        <app-movie-card
+          [movie]="movie"
+          [elevated]="true"
+          (onRate)="onMovieRated($event)"
+          (onViewDetails)="onMovieDetailsRequested($event)"
+          (onShare)="onMovieShared($event)"
+          (onFavorite)="onMovieFavorited($event)">
+        </app-movie-card>
+      }
+    </div>
+
+    <!-- Paginación -->
+    @if (showPagination()) {
+      <div class="pagination-container">
+        <mat-paginator 
+          [length]="totalMovies()"
+          [pageSize]="pageSize()"
+          [pageIndex]="currentPage()"
+          [pageSizeOptions]="[6, 12, 24, 48]"
+          (page)="onPageChange($event)"
+          showFirstLastButtons
+          class="movies-paginator">
+        </mat-paginator>
+      </div>
+    }
+  </div>
+}
+
+<!-- Estado vacío -->
+@if (!isLoading() && !hasMovies()) {
+  <div class="empty-state">
+    <div class="empty-content">
+      <mat-icon class="empty-icon">movie_filter</mat-icon>
+      <h2 class="empty-title">No se encontraron películas</h2>
+      <p class="empty-description">
+        Intenta ajustar tus filtros de búsqueda o explora nuestro catálogo completo.
+      </p>
+      <button mat-raised-button color="primary" (click)="onFiltersCleared()" class="empty-action">
+        <mat-icon>refresh</mat-icon>
+        Ver todas las películas
+      </button>
+    </div>
+  </div>
+}
+
+<!-- FAB para agregar película (solo para admins) -->
+@if (authService.isAdmin()) {
+  <button mat-fab 
+          color="primary" 
+          class="add-movie-fab"
+          matTooltip="Agregar nueva película"
+          matTooltipPosition="left">
+    <mat-icon>add</mat-icon>
+  </button>
+}

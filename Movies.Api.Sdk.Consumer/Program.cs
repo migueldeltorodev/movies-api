@@ -12,7 +12,7 @@ services
     .AddSingleton<AuthTokenProvider>()
     .AddRefitClient<IMoviesApi>(s => new RefitSettings
     {
-        AuthorizationHeaderValueGetter = async () => await s.GetRequiredService<AuthTokenProvider>().GetTokenAsync()
+        AuthorizationHeaderValueGetter = async (_, _) => await s.GetRequiredService<AuthTokenProvider>().GetTokenAsync()
     })
     .ConfigureHttpClient(x =>
         x.BaseAddress = new Uri("https://localhost:5001"));
