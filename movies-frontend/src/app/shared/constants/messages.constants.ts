@@ -58,6 +58,61 @@ export const VALIDATION_MESSAGES = {
 } as const;
 
 /**
+ * Mensajes específicos de la página de autenticación
+ */
+export const AUTH_PAGE_MESSAGES = {
+  // Títulos y subtítulos
+  loginTitle: 'Iniciar Sesión',
+  registerTitle: 'Crear Cuenta',
+  loginSubtitle: 'Accede a tu cuenta para calificar y descubrir películas',
+  registerSubtitle: 'Únete a nuestra comunidad de amantes del cine',
+  
+  // Botones
+  loginButton: 'Iniciar Sesión',
+  registerButton: 'Registrarse',
+  loginLoading: 'Iniciando sesión...',
+  registerLoading: 'Creando cuenta...',
+  
+  // Cambio de modo
+  switchToRegister: '¿No tienes cuenta? Regístrate',
+  switchToLogin: '¿Ya tienes cuenta? Inicia sesión',
+  
+  // Labels de formulario
+  emailLabel: 'Correo electrónico',
+  passwordLabel: 'Contraseña',
+  confirmPasswordLabel: 'Confirmar contraseña',
+  
+  // Placeholders
+  emailPlaceholder: 'tu@email.com',
+  passwordPlaceholder: 'Tu contraseña',
+  passwordMinPlaceholder: 'Mínimo 6 caracteres',
+  confirmPasswordPlaceholder: 'Repite tu contraseña',
+  
+  // Mensajes de éxito
+  registerSuccess: '¡Cuenta creada exitosamente! Bienvenido a Movies Hub',
+  
+  // Información lateral
+  infoTitle: 'Descubre el Cine',
+  infoDescription: 'Únete a nuestra comunidad y descubre nuevas películas, califica tus favoritas y comparte tu pasión por el cine.',
+  
+  // Características
+  featureRate: 'Califica películas',
+  featureDiscover: 'Descubre nuevos títulos',
+  featureFavorites: 'Crea tu lista de favoritos',
+  
+  // Footer
+  termsText: 'Al {action} aceptas nuestros',
+  termsLink: 'Términos de Servicio',
+  privacyLink: 'Política de Privacidad',
+  loginAction: 'iniciar sesión',
+  registerAction: 'registrarte',
+  
+  // Accesibilidad
+  showPasswordAriaLabel: 'Mostrar contraseña',
+  hidePasswordAriaLabel: 'Ocultar contraseña'
+} as const;
+
+/**
  * Mensajes de confirmación para acciones críticas
  */
 export const CONFIRMATION_MESSAGES = {

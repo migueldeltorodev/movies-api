@@ -7,12 +7,12 @@
  */
 export const ROUTES = {
   home: '/',
+  auth: '/auth',
   movies: '/movies',
   movieDetail: '/movies/:id',
   myRatings: '/my-ratings',
   favorites: '/favorites',
   admin: '/admin',
-  login: '/login',
   profile: '/profile',
   settings: '/settings',
   about: '/about',

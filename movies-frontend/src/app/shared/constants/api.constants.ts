@@ -7,10 +7,19 @@
  */
 export const API_CONFIG = {
   endpoints: {
+    // Movies endpoints
     movies: '/api/movies',
     moviesAll: '/api/movies/all',
+    
+    // Ratings endpoints
     ratings: '/api/ratings',
     userRatings: '/api/ratings/me',
+    
+    // Auth endpoints (production-ready)
+    authLogin: '/api/auth/login',
+    authRegister: '/api/auth/register',
+    
+    // Legacy endpoint (para desarrollo)
     token: '/token'
   },
   defaultPageSize: 12,

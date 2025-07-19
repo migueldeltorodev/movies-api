@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../../material.imports';
 import { AuthService } from '../../../../services/auth.service';
 import { NotificationService } from '../../../services/notification.service';
-import { APP_CONFIG } from '../../../constants';
+import { APP_CONFIG, ROUTES } from '../../../constants';
 
 /**
  * Componente de navegación principal
@@ -27,23 +28,16 @@ import { APP_CONFIG } from '../../../constants';
 })
 export class NavbarComponent {
   readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
   private readonly notification = inject(NotificationService);
   readonly appConfig = APP_CONFIG;
 
   /**
-   * Maneja el login directamente
-   * Patrón: Responsabilidad única - el componente maneja su propia lógica
+   * Navega a la página de autenticación
+   * Production-ready: Redirige a página de login/registro real
    */
   handleLogin() {
-    this.authService.quickLogin().subscribe({
-      next: () => {
-        this.notification.messages.loginSuccess();
-      },
-      error: (error) => {
-        console.error('Error during quick login:', error);
-        this.notification.messages.loginError();
-      }
-    });
+    this.router.navigate([ROUTES.auth]);
   }
 
   /**
