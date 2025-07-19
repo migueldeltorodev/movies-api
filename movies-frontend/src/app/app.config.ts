@@ -5,7 +5,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { authInterceptor } from './interceptors/auth.interceptor';
+import { authInterceptor } from './shared';
 
 export const appConfig: ApplicationConfig = {
   providers: [
