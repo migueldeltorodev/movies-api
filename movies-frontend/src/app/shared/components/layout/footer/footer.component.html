@@ -1,0 +1,29 @@
+<!-- Footer -->
+<footer class="app-footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <p class="footer-text">
+        © {{ currentYear }} {{ appConfig.name }} - {{ appConfig.description }}
+      </p>
+      <p class="footer-author">
+        Creado por {{ appConfig.author }}
+      </p>
+    </div>
+    
+    <div class="footer-links">
+      @for (link of footerLinks; track link.label) {
+        @if (link.external) {
+          <button class="footer-link" 
+                  (click)="handleExternalLink(link.url)"
+                  type="button">
+            {{ link.label }}
+          </button>
+        } @else {
+          <a [routerLink]="link.url" class="footer-link">
+            {{ link.label }}
+          </a>
+        }
+      }
+    </div>
+  </div>
+</footer>
