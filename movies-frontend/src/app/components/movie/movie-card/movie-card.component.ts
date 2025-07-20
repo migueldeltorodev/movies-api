@@ -33,11 +33,9 @@ export class MovieCardComponent {
   @Output() onShare = new EventEmitter<Movie>();
   @Output() onFavorite = new EventEmitter<Movie>();
 
-  // Mensajes reactivos disponibles en el template
   readonly messages = this.messagesService.movies;
   readonly generalMessages = this.messagesService.general;
 
-  // Utilidades disponibles en el template
   readonly getGenreColor = getGenreColor;
   readonly getStarsArray = getStarsArray;
   readonly formatYear = formatYear;

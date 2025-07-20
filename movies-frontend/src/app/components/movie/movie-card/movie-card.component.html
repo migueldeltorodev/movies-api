@@ -37,7 +37,7 @@
     <div class="genres-section">
       @for (genre of movie.genres; track genre) {
       <mat-chip class="genre-chip" [color]="getGenreColor(genre)">
-        {{ genre }}
+        {{ genre.toLowerCase() }}
       </mat-chip>
       }
     </div>
