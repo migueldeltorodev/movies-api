@@ -2,24 +2,27 @@
   <div class="filters-section">
     <mat-form-field appearance="outline" class="search-field">
       <mat-label>{{ languageService.isSpanish() ? 'Buscar por título' : 'Search by title' }}</mat-label>
-      <input matInput [ngModel]="filters().title || ''" (ngModelChange)="updateFilter('title', $event)"
-        (keyup.enter)="onApplyFilters.emit(filters())"
-        [placeholder]="languageService.isSpanish() ? 'Ej: Matrix, Avengers...' : 'Ex: Matrix, Avengers...'">
+      <input matInput [ngModel]="filters().title || ''" (ngModelChange)="onTitleSearch($event)"
+        [placeholder]="languageService.isSpanish() ? 'Ej: Matrix, Avengers...' : 'Ex: Matrix, Avengers...'"
+        autocomplete="off">
+      @if (isSearching()) {
+      <mat-spinner matSuffix diameter="20"></mat-spinner>
+      } @else {
       <mat-icon matSuffix>search</mat-icon>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="year-field">
       <mat-label>{{ languageService.isSpanish() ? 'Año' : 'Year' }}</mat-label>
       <input matInput type="number" [ngModel]="filters().year || ''"
-        (ngModelChange)="updateFilter('year', $event ? +$event : null)" (keyup.enter)="onApplyFilters.emit(filters())"
-        placeholder="2023">
+        (ngModelChange)="onImmediateFilterChange('year', $event ? +$event : null)" placeholder="2023" min="1900"
+        max="2030">
       <mat-icon matSuffix>calendar_today</mat-icon>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="sort-field">
       <mat-label>{{ languageService.isSpanish() ? 'Ordenar por' : 'Sort by' }}</mat-label>
-      <mat-select [ngModel]="filters().sortBy || 'title'"
-        (ngModelChange)="updateFilter('sortBy', $event); onApplyFilters.emit(filters())">
+      <mat-select [ngModel]="filters().sortBy || 'title'" (ngModelChange)="onImmediateFilterChange('sortBy', $event)">
         @for (option of sortOptions; track option.value) {
         <mat-option [value]="option.value">{{ getSortLabel(option.value) }}</mat-option>
         }
@@ -27,12 +30,7 @@
     </mat-form-field>
 
     <div class="filter-actions">
-      <button mat-raised-button color="primary" (click)="onApplyFilters.emit(filters())" class="apply-btn">
-        <mat-icon>search</mat-icon>
-        {{ generalMessages().search }}
-      </button>
-
-      <button mat-stroked-button (click)="clearFilters()" class="clear-btn">
+      <button mat-stroked-button (click)="clearFilters()" class="clear-btn" [disabled]="!hasActiveFilters()">
         <mat-icon>clear</mat-icon>
         {{ generalMessages().clear }}
       </button>
