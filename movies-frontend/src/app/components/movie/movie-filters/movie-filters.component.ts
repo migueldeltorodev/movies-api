@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, signal, inject } from '@angular/core';
-import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService, LanguageService } from '../../../shared';
+import { CORE_IMPORTS, MATERIAL_IMPORTS, LanguageService } from '../../../shared';
 import { SORT_OPTIONS } from '../../../shared/utils/movie.utils';
 
 /**
@@ -25,7 +25,6 @@ export interface MovieFilters {
   styleUrl: './movie-filters.component.scss'
 })
 export class MovieFiltersComponent {
-  private readonly messagesService = inject(MessagesService);
   readonly languageService = inject(LanguageService);
 
   @Input() initialFilters: MovieFilters = {};
@@ -34,9 +33,6 @@ export class MovieFiltersComponent {
 
   readonly filters = signal<MovieFilters>({});
   readonly sortOptions = SORT_OPTIONS;
-
-  // Mensajes reactivos disponibles en el template
-  readonly generalMessages = this.messagesService.general;
 
   ngOnInit() {
     this.filters.set({ ...this.initialFilters });
@@ -103,7 +99,6 @@ export class MovieFiltersComponent {
       return isSpanish ? labelMap.es : labelMap.en;
     }
 
-    // Fallback a la etiqueta original si no se encuentra
     const option = this.sortOptions.find(opt => opt.value === sortBy);
     return option?.label || sortBy;
   }
