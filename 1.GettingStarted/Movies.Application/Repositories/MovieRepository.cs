@@ -203,7 +203,7 @@ public class MovieRepository : IMovieRepository
         return await connection.QuerySingleAsync<int>(new CommandDefinition("""
                                                                             select count(id) from movies
                                                                             where (@title is null or title like ('%' || @title || '%'))
-                                                                            and (@yearOfRelease is null or yearofrelease >= @year)
+                                                                            and (@year is null or yearofrelease >= @year)
                                                                             """, new {title, year}, cancellationToken : cancellationToken));
     }
 }

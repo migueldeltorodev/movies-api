@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
-import { MoviesListComponent } from './pages/movies/movies-list/movies-list.component';
-import { AuthPage } from './pages/auth/auth.page';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'movies', pathMatch: 'full' },
-  { path: 'auth', component: AuthPage },
-  { path: 'movies', component: MoviesListComponent },
+  { path: 'auth', 
+    loadComponent: () => import('./pages/auth/auth.page').then(m => m.AuthPage)
+  },
+  { path: 'movies', 
+    loadComponent: () => import('./pages/movies/movies-list/movies-list.component').then(m => m.MoviesListComponent) 
+  },
   { path: '**', redirectTo: 'movies' }
 ];

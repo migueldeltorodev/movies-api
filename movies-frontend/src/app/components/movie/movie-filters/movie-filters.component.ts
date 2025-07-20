@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, signal, inject } from '@angular/core';
-import { CORE_IMPORTS, MATERIAL_IMPORTS, LanguageService } from '../../../shared';
+import { CORE_IMPORTS, MATERIAL_IMPORTS, LanguageService, MessagesService } from '../../../shared';
 import { SORT_OPTIONS } from '../../../shared/utils/movie.utils';
 
 /**
@@ -26,6 +26,7 @@ export interface MovieFilters {
 })
 export class MovieFiltersComponent {
   readonly languageService = inject(LanguageService);
+  readonly messagesService = inject(MessagesService);
 
   @Input() initialFilters: MovieFilters = {};
   @Output() onApplyFilters = new EventEmitter<MovieFilters>();
@@ -33,6 +34,8 @@ export class MovieFiltersComponent {
 
   readonly filters = signal<MovieFilters>({});
   readonly sortOptions = SORT_OPTIONS;
+
+  readonly generalMessages = this.messagesService.general;
 
   ngOnInit() {
     this.filters.set({ ...this.initialFilters });

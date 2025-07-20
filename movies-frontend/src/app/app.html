@@ -7,4 +7,8 @@
 </main>
 
 <!-- Pie de página -->
-<app-footer></app-footer>
+@defer (on viewport) {
+  <app-footer></app-footer>
+} @placeholder {
+  <div style="height: 64px; width: 100%;"></div>
+}
