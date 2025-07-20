@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 
 import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../shared/material.imports';
 import { NotificationService } from '../../shared/services/notification.service';
+import { MessagesService } from '../../shared';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest, RegisterRequest } from '../../models/auth.model';
-import { VALIDATION_MESSAGES, AUTH_PAGE_MESSAGES, ROUTES, formatMessage } from '../../shared/constants';
+import { ROUTES } from '../../shared/constants';
 
 /**
  * Página de autenticación production-ready
@@ -27,35 +28,34 @@ export class AuthPage {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly notification = inject(NotificationService);
+  private readonly messagesService = inject(MessagesService);
 
   readonly isLoginMode = signal(true);
   readonly hidePassword = signal(true);
   readonly hideConfirmPassword = signal(true);
 
-  // Computed signals usando constantes
   readonly pageTitle = computed(() =>
-    this.isLoginMode() ? AUTH_PAGE_MESSAGES.loginTitle : AUTH_PAGE_MESSAGES.registerTitle
+    this.isLoginMode() ? this.messagesService.auth().loginTitle : this.messagesService.auth().registerTitle
   );
   readonly pageSubtitle = computed(() =>
-    this.isLoginMode() ? AUTH_PAGE_MESSAGES.loginSubtitle : AUTH_PAGE_MESSAGES.registerSubtitle
+    this.isLoginMode() ? this.messagesService.auth().loginSubtitle : this.messagesService.auth().registerSubtitle
   );
   readonly submitButtonText = computed(() =>
-    this.isLoginMode() ? AUTH_PAGE_MESSAGES.loginButton : AUTH_PAGE_MESSAGES.registerButton
+    this.isLoginMode() ? this.messagesService.auth().loginButton : this.messagesService.auth().registerButton
   );
   readonly loadingButtonText = computed(() =>
-    this.isLoginMode() ? AUTH_PAGE_MESSAGES.loginLoading : AUTH_PAGE_MESSAGES.registerLoading
+    this.isLoginMode() ? this.messagesService.auth().loginLoading : this.messagesService.auth().registerLoading
   );
   readonly switchModeText = computed(() =>
-    this.isLoginMode() ? AUTH_PAGE_MESSAGES.switchToRegister : AUTH_PAGE_MESSAGES.switchToLogin
+    this.isLoginMode() ? this.messagesService.auth().switchToRegister : this.messagesService.auth().switchToLogin
   );
   readonly termsText = computed(() => {
-    const action = this.isLoginMode() ? AUTH_PAGE_MESSAGES.loginAction : AUTH_PAGE_MESSAGES.registerAction;
-    return formatMessage(AUTH_PAGE_MESSAGES.termsText, { action });
+    const action = this.isLoginMode() ? this.messagesService.auth().loginAction : this.messagesService.auth().registerAction;
+    return this.messagesService.formatMessage(this.messagesService.auth().termsText, { action });
   });
 
-  // Constantes disponibles en el template
-  readonly messages = AUTH_PAGE_MESSAGES;
-  readonly validationMessages = VALIDATION_MESSAGES;
+  readonly messages = this.messagesService.auth;
+  readonly validationMessages = this.messagesService.validation;
 
   readonly loginForm: FormGroup;
   readonly registerForm: FormGroup;
@@ -124,7 +124,7 @@ export class AuthPage {
 
       this.authService.register(request).subscribe({
         next: () => {
-          this.notification.success(AUTH_PAGE_MESSAGES.registerSuccess);
+          this.notification.success(this.messagesService.auth().registerSuccess);
           this.router.navigate([ROUTES.movies]);
         },
         error: () => {
@@ -137,23 +137,24 @@ export class AuthPage {
 
   /**
    * Obtiene el mensaje de error para un campo específico
+   * Ahora usa el sistema de mensajes multiidioma
    */
   getFieldError(form: FormGroup, fieldName: string): string {
     const field = form.get(fieldName);
     if (field?.errors && field.touched) {
       if (field.errors['required']) {
-        return VALIDATION_MESSAGES.required;
+        return this.messagesService.validation().required;
       }
       if (field.errors['email']) {
-        return VALIDATION_MESSAGES.email;
+        return this.messagesService.validation().email;
       }
       if (field.errors['minlength']) {
-        return formatMessage(VALIDATION_MESSAGES.minLength, {
+        return this.messagesService.formatMessage(this.messagesService.validation().minLength, {
           min: field.errors['minlength'].requiredLength
         });
       }
       if (field.errors['passwordMismatch']) {
-        return VALIDATION_MESSAGES.passwordMismatch;
+        return this.messagesService.validation().passwordMismatch;
       }
     }
     return '';

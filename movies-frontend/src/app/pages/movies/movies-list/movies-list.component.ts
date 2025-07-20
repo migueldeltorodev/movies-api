@@ -7,8 +7,11 @@ import {
     CORE_IMPORTS,
     MATERIAL_IMPORTS,
     NotificationService,
+    MessagesService,
     DEFAULT_PAGE_CONFIG,
 } from '../../../shared';
+
+import { LanguageService } from '../../../shared/services/language.service';
 
 import { MoviesApiService } from '../../../services/movies-api.service';
 import { AuthService } from '../../../services/auth.service';
@@ -29,7 +32,14 @@ import { Movie, GetAllMoviesRequest } from '../../../models/movie.model';
 export class MoviesListComponent implements OnInit {
     private readonly moviesApi = inject(MoviesApiService);
     private readonly notification = inject(NotificationService);
+    private readonly messagesService = inject(MessagesService);
+    readonly languageService = inject(LanguageService);
     readonly authService = inject(AuthService);
+
+    // Mensajes reactivos disponibles en el template
+    readonly messages = this.messagesService.movies;
+    readonly generalMessages = this.messagesService.general;
+    readonly emptyMessages = this.messagesService.empty;
 
     readonly movies = signal<Movie[]>([]);
     readonly isLoading = signal(false);
@@ -40,7 +50,7 @@ export class MoviesListComponent implements OnInit {
     readonly currentFilters = signal<MovieFilters>({ sortBy: 'title' });
 
     readonly hasMovies = computed(() => this.movies().length > 0);
-    readonly showPagination = computed(() => this.totalMovies() > this.pageSize());
+    // readonly showPagination = computed(() => this.totalMovies() > this.pageSize());
     readonly pageSizeOptions = DEFAULT_PAGE_CONFIG.pageSizeOptions;
 
     ngOnInit() {
@@ -69,7 +79,7 @@ export class MoviesListComponent implements OnInit {
                 this.isLoading.set(false);
             },
             error: (error) => {
-                this.notification.messages.moviesLoadError();
+                this.notification.error(this.messages().loadError);
                 this.isLoading.set(false);
             }
         });
@@ -107,18 +117,18 @@ export class MoviesListComponent implements OnInit {
      */
     onMovieRated(event: { movieId: string; rating: number }) {
         if (!this.authService.isTrustedMember()) {
-            this.notification.messages.trustedMemberRequired();
+            this.notification.warning('Necesitas ser miembro de confianza para calificar películas');
             return;
         }
 
         this.moviesApi.rateMovie(event.movieId, { rating: event.rating }).subscribe({
             next: () => {
-                this.notification.messages.movieRateSuccess();
+                this.notification.success(this.messages().rateSuccess);
                 this.loadMovies();
             },
             error: (error) => {
                 console.error('Error rating movie:', error);
-                this.notification.messages.movieRateError();
+                this.notification.error(this.messages().rateError);
             }
         });
     }
@@ -136,7 +146,7 @@ export class MoviesListComponent implements OnInit {
      */
     onMovieShared(movie: Movie) {
         // TODO: Implementar funcionalidad de compartir
-        this.notification.info(`Compartir película: ${movie.title}`);
+        this.notification.success(this.messages().shareSuccess);
     }
 
     /**
@@ -144,6 +154,6 @@ export class MoviesListComponent implements OnInit {
      */
     onMovieFavorited(movie: Movie) {
         // TODO: Implementar funcionalidad de favoritos
-        this.notification.info(`Agregado a favoritos: ${movie.title}`);
+        this.notification.success(this.messages().addedToFavorites);
     }
 }

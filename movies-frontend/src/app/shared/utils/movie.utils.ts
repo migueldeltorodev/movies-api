@@ -34,15 +34,13 @@ export const GENRE_COLORS: Record<string, string> = {
  */
 export const SORT_OPTIONS = [
   { value: 'title', label: 'Título' },
-  { value: 'yearOfRelease', label: 'Año' },
-  { value: 'rating', label: 'Calificación' },
-  { value: 'userRating', label: 'Mi Calificación' }
+  { value: 'yearofrelease', label: 'Año' }
 ] as const;
 
 /**
  * Tamaños de página disponibles
  */
-export const PAGE_SIZE_OPTIONS = [6, 12, 24, 48] as const;
+export const PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 
 /**
  * Configuración por defecto para paginación

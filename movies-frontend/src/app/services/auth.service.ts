@@ -13,8 +13,7 @@ import { environment } from '../../environments/environment';
 import { AUTH_CONFIG } from '../shared/constants';
 
 /**
- * Servicio de autenticación production-ready
- * Integrado con los endpoints reales del backend .NET
+ * Servicio de autenticación
  */
 @Injectable({
   providedIn: 'root'
@@ -157,17 +156,16 @@ export class AuthService {
   private handleAuthError(error: HttpErrorResponse): void {
     this.isLoadingSignal.set(false);
     
-    let errorMessage = 'Error de autenticación';
-    
-    if (error.status === 401) {
-      errorMessage = 'Credenciales inválidas';
-    } else if (error.status === 409) {
-      errorMessage = 'El usuario ya existe';
-    } else if (error.status === 400) {
-      errorMessage = 'Datos inválidos';
-    } else if (error.status === 0) {
-      errorMessage = 'Error de conexión. Verifica que el servidor esté ejecutándose.';
-    } else if (error.error?.message) {
+    const errorMessages = new Map<number, string>([
+      [401, 'Credenciales inválidas'],
+      [409, 'El usuario ya existe'],
+      [400, 'Datos inválidos'],
+      [0, 'Error de conexión. Verifica que el servidor esté ejecutándose.'],
+    ]);
+
+    let errorMessage = errorMessages.get(error.status) || 'Error de autenticación';
+
+    if (error.error?.message) {
       errorMessage = error.error.message;
     }
     
