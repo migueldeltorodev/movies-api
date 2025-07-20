@@ -38,12 +38,14 @@
   </div>
 
   <!-- Paginación -->
-  @if (showPagination()) {
+  @defer (on viewport) {
   <div class="pagination-container">
     <mat-paginator [length]="totalMovies()" [pageSize]="pageSize()" [pageIndex]="currentPage()"
-      [pageSizeOptions]="[6, 12, 24, 48]" (page)="onPageChange($event)" showFirstLastButtons class="movies-paginator">
+      [pageSizeOptions]="[6, 12, 24]" (page)="onPageChange($event)" showFirstLastButtons class="movies-paginator">
     </mat-paginator>
   </div>
+  } @placeholder {
+    <div class="paginator-placeholder"></div>
   }
 </div>
 }

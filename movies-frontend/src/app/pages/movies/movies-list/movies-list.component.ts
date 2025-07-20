@@ -50,7 +50,7 @@ export class MoviesListComponent implements OnInit {
     readonly currentFilters = signal<MovieFilters>({ sortBy: 'title' });
 
     readonly hasMovies = computed(() => this.movies().length > 0);
-    readonly showPagination = computed(() => this.totalMovies() > this.pageSize());
+    // readonly showPagination = computed(() => this.totalMovies() > this.pageSize());
     readonly pageSizeOptions = DEFAULT_PAGE_CONFIG.pageSizeOptions;
 
     ngOnInit() {
