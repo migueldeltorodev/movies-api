@@ -34,7 +34,6 @@ export class AuthPage {
   readonly hidePassword = signal(true);
   readonly hideConfirmPassword = signal(true);
 
-  // Computed signals reactivos que cambian automáticamente con el idioma
   readonly pageTitle = computed(() =>
     this.isLoginMode() ? this.messagesService.auth().loginTitle : this.messagesService.auth().registerTitle
   );
@@ -55,7 +54,6 @@ export class AuthPage {
     return this.messagesService.formatMessage(this.messagesService.auth().termsText, { action });
   });
 
-  // Mensajes reactivos disponibles en el template
   readonly messages = this.messagesService.auth;
   readonly validationMessages = this.messagesService.validation;
 

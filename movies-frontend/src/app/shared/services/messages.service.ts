@@ -49,7 +49,7 @@ export class MessagesService {
      * 
      * Ejemplo:
      * formatMessage(validation().minLength, { min: 5 })
-     * // Resultado: "Debe tener al menos 5 caracteres" (ES) o "Must be at least 5 characters" (EN)
+     * Resultado: "Debe tener al menos 5 caracteres" (ES) o "Must be at least 5 characters" (EN)
      */
     formatMessage(template: string, params: Record<string, string | number>): string {
         return template.replace(/\{(\w+)\}/g, (match, key) => {
@@ -70,7 +70,7 @@ export class MessagesService {
             current = current?.[key];
             if (current === undefined) {
                 console.warn(`Message not found for path: ${path}`);
-                return path; // Fallback al path si no se encuentra
+                return path;
             }
         }
 

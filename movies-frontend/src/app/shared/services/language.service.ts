@@ -40,15 +40,12 @@ export class LanguageService {
         }
     ];
 
-    // Signal para el idioma actual
     private readonly currentLanguageSignal = signal<SupportedLanguage>(
         this.getInitialLanguage()
     );
 
-    // Estado público readonly
     readonly currentLanguage = this.currentLanguageSignal.asReadonly();
 
-    // Computed signals
     readonly isSpanish = computed(() => this.currentLanguage().code === 'es');
     readonly isEnglish = computed(() => this.currentLanguage().code === 'en');
     readonly availableLanguages = computed(() =>
@@ -68,15 +65,11 @@ export class LanguageService {
             return;
         }
 
-        // Actualizar el signal
         this.currentLanguageSignal.set(language);
 
-        // Guardar preferencia en localStorage (solo en el navegador)
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
             localStorage.setItem('preferred-language', languageCode);
         }
-
-        console.log(`Idioma cambiado a: ${language.nativeName}`);
     }
 
     /**
@@ -86,14 +79,12 @@ export class LanguageService {
     private getInitialLanguage(): SupportedLanguage {
         // Verificar si estamos en el navegador (no en SSR)
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            // 1. Verificar localStorage
             const savedLanguage = localStorage.getItem('preferred-language');
             if (savedLanguage && this.isLanguageSupported(savedLanguage)) {
                 return this.supportedLanguages.find(lang => lang.code === savedLanguage)!;
             }
         }
 
-        // 2. Verificar idioma del navegador o usar el locale actual
         const browserLanguage = this.getBrowserLanguage();
         return this.supportedLanguages.find(lang => lang.code === browserLanguage) || this.supportedLanguages[0];
     }
@@ -103,15 +94,13 @@ export class LanguageService {
      * Compatible con SSR
      */
     getBrowserLanguage(): string {
-        // Verificar si estamos en el navegador (no en SSR)
         if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
             const browserLang = navigator.language.split('-')[0];
             return this.supportedLanguages.some(lang => lang.code === browserLang)
                 ? browserLang
-                : 'es'; // Fallback a español
+                : 'es';
         }
 
-        // En SSR, usar el locale actual o fallback a español
         return this.currentLocale === 'en' ? 'en' : 'es';
     }
 
