@@ -14,11 +14,33 @@ public partial class Movie
 
     private string GenerateSlug()
     {
-        var slugTitle = SlugRegex().Replace(Title, string.Empty)
-            .ToLower().Replace(" ", "-");
-        return $"{slugTitle}-{YearOfRelease}";
+        if (string.IsNullOrWhiteSpace(Title))
+            return $"untitled-{YearOfRelease}";
+
+        try
+        {
+            var normalizedTitle = Title.Trim();
+            var cleanTitle = SlugRegex().Replace(normalizedTitle, string.Empty);
+            
+            var slugTitle = cleanTitle.ToLowerInvariant()
+                .Replace(" ", "-")
+                .Replace("--", "-")
+                .Trim('-');
+            
+            if (string.IsNullOrWhiteSpace(slugTitle))
+                slugTitle = "movie";
+                
+            return $"{slugTitle}-{YearOfRelease}";
+        }
+        catch (RegexMatchTimeoutException)
+        {
+            var safeTitle = Title.ToLowerInvariant()
+                .Replace(" ", "-")
+                .Substring(0, Math.Min(Title.Length, 50));
+            return $"{safeTitle}-{YearOfRelease}";
+        }
     }
     
-    [GeneratedRegex("[^a-zA-Z0-9 _-]", RegexOptions.NonBacktracking, 5)]
+    [GeneratedRegex(@"[^\w\s-]", RegexOptions.Compiled | RegexOptions.IgnoreCase, 1000)]
     private static partial Regex SlugRegex();
 }
