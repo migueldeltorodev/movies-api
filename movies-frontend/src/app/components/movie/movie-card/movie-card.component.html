@@ -1,85 +1,86 @@
 <mat-card class="movie-card" [class.elevated]="elevated">
-    <!-- Header de la tarjeta -->
-    <mat-card-header class="movie-header">
-      <div class="movie-title-section">
-        <mat-card-title class="movie-title">{{ movie.title }}</mat-card-title>
-        <mat-card-subtitle class="movie-year">{{ formatYear(movie.yearOfRelease) }}</mat-card-subtitle>
-      </div>
-      
-      <!-- Menú de acciones -->
-      @if (authService.isAuthenticated() && showMenu) {
-        <button mat-icon-button [matMenuTriggerFor]="movieMenu" class="movie-menu-btn">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        
-        <mat-menu #movieMenu="matMenu">
-          @if (authService.isTrustedMember()) {
-            <button mat-menu-item (click)="onRate.emit({ movieId: movie.id, rating: 5 })">
-              <mat-icon>star</mat-icon>
-              <span>Calificar</span>
-            </button>
-          }
-          <button mat-menu-item (click)="onShare.emit(movie)">
-            <mat-icon>share</mat-icon>
-            <span>Compartir</span>
-          </button>
-          <button mat-menu-item (click)="onFavorite.emit(movie)">
-            <mat-icon>favorite_border</mat-icon>
-            <span>Agregar a favoritos</span>
-          </button>
-        </mat-menu>
-      }
-    </mat-card-header>
+  <!-- Header de la tarjeta -->
+  <mat-card-header class="movie-header">
+    <div class="movie-title-section">
+      <mat-card-title class="movie-title">{{ movie.title }}</mat-card-title>
+      <mat-card-subtitle class="movie-year">{{ formatYear(movie.yearOfRelease) }}</mat-card-subtitle>
+    </div>
 
-    <!-- Contenido de la tarjeta -->
-    <mat-card-content class="movie-content">
-      <!-- Géneros -->
-      <div class="genres-section">
-        @for (genre of movie.genres; track genre) {
-          <mat-chip class="genre-chip" [color]="getGenreColor(genre)">
-            {{ genre }}
-          </mat-chip>
-        }
-      </div>
+    <!-- Menú de acciones -->
+    @if (authService.isAuthenticated() && showMenu) {
+    <button mat-icon-button [matMenuTriggerFor]="movieMenu" class="movie-menu-btn">
+      <mat-icon>more_vert</mat-icon>
+    </button>
 
-      <!-- Calificación -->
-      <div class="rating-section">
-        <div class="stars-container">
-          @for (star of getStarsArray(movie.rating); track $index) {
-            <mat-icon class="star" [class.filled]="star">
-              {{ star ? 'star' : 'star_border' }}
-            </mat-icon>
-          }
-        </div>
-        
-        @if (movie.rating) {
-          <span class="rating-text">{{ movie.rating | number:'1.1-1' }}/5</span>
-        } @else {
-          <span class="rating-text no-rating">Sin calificar</span>
-        }
-      </div>
-
-      <!-- Calificación del usuario -->
-      @if (movie.userRating) {
-        <div class="user-rating-section">
-          <mat-icon class="user-rating-icon">person</mat-icon>
-          <span class="user-rating-text">Tu calificación: {{ movie.userRating }}/5</span>
-        </div>
-      }
-    </mat-card-content>
-
-    <!-- Acciones de la tarjeta -->
-    <mat-card-actions class="movie-actions">
-      <button mat-button color="primary" class="details-btn" (click)="onViewDetails.emit(movie)">
-        <mat-icon>info</mat-icon>
-        Ver detalles
+    <mat-menu #movieMenu="matMenu">
+      @if (authService.isTrustedMember()) {
+      <button mat-menu-item (click)="onRate.emit({ movieId: movie.id, rating: 5 })">
+        <mat-icon>star</mat-icon>
+        <span>{{ languageService.isSpanish() ? 'Calificar' : 'Rate' }}</span>
       </button>
-      
-      @if (authService.isTrustedMember() && showRateButton) {
-        <button mat-button color="accent" (click)="onRate.emit({ movieId: movie.id, rating: 4 })" class="rate-btn">
-          <mat-icon>star_rate</mat-icon>
-          Calificar
-        </button>
       }
-    </mat-card-actions>
+      <button mat-menu-item (click)="onShare.emit(movie)">
+        <mat-icon>share</mat-icon>
+        <span>{{ languageService.isSpanish() ? 'Compartir' : 'Share' }}</span>
+      </button>
+      <button mat-menu-item (click)="onFavorite.emit(movie)">
+        <mat-icon>favorite_border</mat-icon>
+        <span>{{ languageService.isSpanish() ? 'Agregar a favoritos' : 'Add to favorites' }}</span>
+      </button>
+    </mat-menu>
+    }
+  </mat-card-header>
+
+  <!-- Contenido de la tarjeta -->
+  <mat-card-content class="movie-content">
+    <!-- Géneros -->
+    <div class="genres-section">
+      @for (genre of movie.genres; track genre) {
+      <mat-chip class="genre-chip" [color]="getGenreColor(genre)">
+        {{ genre.toLowerCase() }}
+      </mat-chip>
+      }
+    </div>
+
+    <!-- Calificación -->
+    <div class="rating-section">
+      <div class="stars-container">
+        @for (star of getStarsArray(movie.rating); track $index) {
+        <mat-icon class="star" [class.filled]="star">
+          {{ star ? 'star' : 'star_border' }}
+        </mat-icon>
+        }
+      </div>
+
+      @if (movie.rating) {
+      <span class="rating-text">{{ movie.rating | number:'1.1-1' }}/5</span>
+      } @else {
+      <span class="rating-text no-rating">{{ languageService.isSpanish() ? 'Sin calificar' : 'Not rated' }}</span>
+      }
+    </div>
+
+    <!-- Calificación del usuario -->
+    @if (movie.userRating) {
+    <div class="user-rating-section">
+      <mat-icon class="user-rating-icon">person</mat-icon>
+      <span class="user-rating-text">{{ languageService.isSpanish() ? 'Tu calificación:' : 'Your rating:' }} {{
+        movie.userRating }}/5</span>
+    </div>
+    }
+  </mat-card-content>
+
+  <!-- Acciones de la tarjeta -->
+  <mat-card-actions class="movie-actions">
+    <button mat-button color="primary" class="details-btn" (click)="onViewDetails.emit(movie)">
+      <mat-icon>info</mat-icon>
+      {{ languageService.isSpanish() ? 'Ver detalles' : 'View details' }}
+    </button>
+
+    @if (authService.isTrustedMember() && showRateButton) {
+    <button mat-button color="accent" (click)="onRate.emit({ movieId: movie.id, rating: 4 })" class="rate-btn">
+      <mat-icon>star_rate</mat-icon>
+      {{ languageService.isSpanish() ? 'Calificar' : 'Rate' }}
+    </button>
+    }
+  </mat-card-actions>
 </mat-card>

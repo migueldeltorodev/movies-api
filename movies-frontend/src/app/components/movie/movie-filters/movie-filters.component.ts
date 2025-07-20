@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
-import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../../shared/material.imports';
+import { Component, Input, Output, EventEmitter, signal, inject } from '@angular/core';
+import { CORE_IMPORTS, MATERIAL_IMPORTS, LanguageService } from '../../../shared';
 import { SORT_OPTIONS } from '../../../shared/utils/movie.utils';
 
 /**
@@ -25,6 +25,8 @@ export interface MovieFilters {
   styleUrl: './movie-filters.component.scss'
 })
 export class MovieFiltersComponent {
+  readonly languageService = inject(LanguageService);
+
   @Input() initialFilters: MovieFilters = {};
   @Output() onApplyFilters = new EventEmitter<MovieFilters>();
   @Output() onClearFilters = new EventEmitter<void>();
@@ -79,9 +81,24 @@ export class MovieFiltersComponent {
   }
 
   /**
-   * Obtiene la etiqueta de ordenamiento
+   * Obtiene la etiqueta de ordenamiento en el idioma actual
    */
   getSortLabel(sortBy: string): string {
+    const isSpanish = this.languageService.isSpanish();
+
+    // Mapeo de etiquetas multiidioma
+    const labels: Record<string, { es: string; en: string }> = {
+      'title': { es: 'Título', en: 'Title' },
+      'yearOfRelease': { es: 'Año', en: 'Year' },
+      'rating': { es: 'Calificación', en: 'Rating' },
+      'userRating': { es: 'Mi Calificación', en: 'My Rating' }
+    };
+
+    const labelMap = labels[sortBy];
+    if (labelMap) {
+      return isSpanish ? labelMap.es : labelMap.en;
+    }
+
     const option = this.sortOptions.find(opt => opt.value === sortBy);
     return option?.label || sortBy;
   }
