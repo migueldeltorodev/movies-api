@@ -16,6 +16,11 @@ public static class ApiEndpoints
         
         public const string Rate = $"{Base}/{{id:guid}}/ratings";
         public const string DeleteRating = $"{Base}/{{id:guid}}/ratings";
+        
+        public const string UploadPoster = $"{Base}/{{id:guid}}/poster";
+        public const string DeletePoster = $"{Base}/{{id:guid}}/poster";
+        
+        public const string ChangeStatus = $"{Base}/{{id:guid}}/status";
     }
 
     public static class Ratings
