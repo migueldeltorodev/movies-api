@@ -7,8 +7,9 @@ import {
   CreateMovieRequest,
   UpdateMovieRequest,
   GetAllMoviesRequest,
-  RateMovieRequest
-} from '../models/Movie/movie.model';
+  RateMovieRequest,
+  ChangeMovieStatusRequest
+} from '../models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -46,6 +47,21 @@ export class MoviesApiService {
 
   deleteMovie(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/api/movies/${id}`);
+  }
+
+  changeMovieStatus(id: string, request: ChangeMovieStatusRequest): Observable<Movie> {
+    return this.http.patch<Movie>(`${this.baseUrl}/api/movies/${id}/status`, request);
+  }
+
+  uploadPoster(id: string, file: File): Observable<Movie> {
+    const formData = new FormData();
+    formData.append('poster', file);
+
+    return this.http.post<Movie>(`${this.baseUrl}/api/movies/${id}/poster`, formData);
+  }
+
+  deletePoster(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/api/movies/${id}/poster`);
   }
 
   rateMovie(id: string, rating: RateMovieRequest): Observable<void> {
