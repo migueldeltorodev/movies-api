@@ -16,9 +16,17 @@ public static class CreateMovieEndpoint
             CreateMovieRequest request, 
             IMovieService movieService, 
             IOutputCacheStore outputCacheStore,
+            HttpContext context,
             CancellationToken token) =>
         {
-            var movie = request.MapToMovie();
+            var userId = context.GetUserId();
+
+            if (userId is null)
+            {
+                return Results.Unauthorized();
+            }
+            
+            var movie = request.MapToMovie(userId.Value);
             await movieService.CreateAsync(movie, token);
             await outputCacheStore.EvictByTagAsync("movies", token);
             var response = movie.MapToMovieResponse();
