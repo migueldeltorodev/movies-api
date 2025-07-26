@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import {retry, delay, catchError, of} from 'rxjs';
+import { retry, delay, catchError, of } from 'rxjs';
 import { MovieCardComponent, MovieFilters } from '../../../components';
 import { MovieFiltersComponent } from '../../../components';
 
@@ -16,7 +16,7 @@ import { LanguageService } from '../../../shared/services/language.service';
 
 import { MoviesApiService } from '../../../services/movies-api.service';
 import { AuthService } from '../../../services/auth.service';
-import { Movie, GetAllMoviesRequest } from '../../../models/movie.model';
+import { Movie, GetAllMoviesRequest } from '../../../models/Movie/movie.model';
 
 @Component({
     selector: 'app-movies-list',

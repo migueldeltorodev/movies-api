@@ -6,7 +6,7 @@ import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../shared/material.imports';
 import { NotificationService } from '../../shared/services/notification.service';
 import { MessagesService } from '../../shared';
 import { AuthService } from '../../services/auth.service';
-import { LoginRequest, RegisterRequest } from '../../models/auth.model';
+import { LoginRequest, RegisterRequest } from '../../models/Auth/auth.model';
 import { ROUTES } from '../../shared/constants';
 
 /**

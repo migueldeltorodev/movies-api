@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService, LanguageService } from '../../../shared';
-import { Movie } from '../../../models/movie.model';
+import { Movie } from '../../../models/Movie/movie.model';
 import { AuthService } from '../../../services/auth.service';
 import { getGenreColor, getStarsArray, formatYear } from '../../../shared/utils/movie.utils';
 

@@ -2,13 +2,13 @@ import { Injectable, inject, signal, computed, PLATFORM_ID } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-import { 
-  LoginRequest, 
-  RegisterRequest, 
-  AuthResponse, 
-  User, 
+import {
+  LoginRequest,
+  RegisterRequest,
+  AuthResponse,
+  User,
   JwtPayload,
-} from '../models/auth.model';
+} from '../models/Auth/auth.model';
 import { environment } from '../../environments/environment';
 import { AUTH_CONFIG } from '../shared/constants';
 
@@ -28,12 +28,12 @@ export class AuthService {
   private readonly currentUserSignal = signal<User | null>(null);
   private readonly isLoadingSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
-  
+
   // Estado público readonly
   readonly currentUser = this.currentUserSignal.asReadonly();
   readonly isLoading = this.isLoadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
-  
+
   // Computed signals
   readonly isAuthenticated = computed(() => this.currentUserSignal() !== null);
   readonly isTrustedMember = computed(() => this.currentUserSignal()?.isTrustedMember ?? false);
@@ -65,7 +65,7 @@ export class AuthService {
   login(request: LoginRequest): Observable<AuthResponse> {
     this.isLoadingSignal.set(true);
     this.errorSignal.set(null);
-    
+
     return this.http.post<AuthResponse>(`${this.apiUrl}/api/auth/login`, request)
       .pipe(
         tap(response => {
@@ -84,7 +84,7 @@ export class AuthService {
   register(request: RegisterRequest): Observable<AuthResponse> {
     this.isLoadingSignal.set(true);
     this.errorSignal.set(null);
-    
+
     return this.http.post<AuthResponse>(`${this.apiUrl}/api/auth/register`, request)
       .pipe(
         tap(response => {
@@ -155,7 +155,7 @@ export class AuthService {
    */
   private handleAuthError(error: HttpErrorResponse): void {
     this.isLoadingSignal.set(false);
-    
+
     const errorMessages = new Map<number, string>([
       [401, 'Credenciales inválidas'],
       [409, 'El usuario ya existe'],
@@ -168,7 +168,7 @@ export class AuthService {
     if (error.error?.message) {
       errorMessage = error.error.message;
     }
-    
+
     this.errorSignal.set(errorMessage);
   }
 
@@ -219,7 +219,7 @@ export class AuthService {
    */
   private getUserFromToken(token: string): User {
     const payload = this.decodeToken(token);
-    
+
     return {
       id: payload.sub,
       email: payload.email,
@@ -242,7 +242,7 @@ export class AuthService {
           .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       );
-      
+
       return JSON.parse(jsonPayload);
     } catch (error) {
       throw new Error('Token JWT inválido');
@@ -254,7 +254,7 @@ export class AuthService {
    */
   private extractRoles(payload: JwtPayload): string[] {
     const roles: string[] = [];
-    
+
     if (payload.role) {
       if (Array.isArray(payload.role)) {
         roles.push(...payload.role);
@@ -262,7 +262,7 @@ export class AuthService {
         roles.push(payload.role);
       }
     }
-    
+
     return roles;
   }
 
