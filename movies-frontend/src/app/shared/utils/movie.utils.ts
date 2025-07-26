@@ -1,11 +1,5 @@
-/**
- * Utilidades compartidas para el manejo de películas
- * Evita duplicación de lógica en componentes
- */
+import { Movie, MovieResponse, MovieStatus } from "../../models";
 
-/**
- * Colores para géneros de películas
- */
 export const GENRE_COLORS: Record<string, string> = {
   'Action': 'accent',
   'Adventure': 'primary',
@@ -29,38 +23,23 @@ export const GENRE_COLORS: Record<string, string> = {
   'Sport': 'accent'
 } as const;
 
-/**
- * Opciones de ordenamiento para películas
- */
 export const SORT_OPTIONS = [
   { value: 'title', label: 'Título' },
   { value: 'yearofrelease', label: 'Año' }
 ] as const;
 
-/**
- * Tamaños de página disponibles
- */
 export const PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 
-/**
- * Configuración por defecto para paginación
- */
 export const DEFAULT_PAGE_CONFIG = {
   page: 0,
   pageSize: 12,
   pageSizeOptions: PAGE_SIZE_OPTIONS
 } as const;
 
-/**
- * Obtiene el color del chip según el género
- */
 export function getGenreColor(genre: string): string {
   return GENRE_COLORS[genre] || 'primary';
 }
 
-/**
- * Genera un array de booleanos para mostrar estrellas
- */
 export function getStarsArray(rating: number | undefined): boolean[] {
   const stars = new Array(5).fill(false);
   if (rating) {
@@ -72,31 +51,47 @@ export function getStarsArray(rating: number | undefined): boolean[] {
   return stars;
 }
 
-/**
- * Formatea el año de lanzamiento
- */
+export function formatDuration(durationMinutes?: number): string {
+  if (!durationMinutes || durationMinutes <= 0) {
+    return 'Duration not specified';
+  }
+
+  const hours = Math.floor(durationMinutes / 60);
+  const minutes = durationMinutes % 60;
+
+  if (hours > 0 && minutes > 0) {
+    return `${hours}h ${minutes}m`;
+  } else if (hours > 0) {
+    return `${hours}h`;
+  } else {
+    return `${minutes}m`;
+  }
+}
+
+export function formatReleaseDate(releaseDate?: string): string {
+  if (!releaseDate) return 'Release date not specified';
+
+  try {
+    const date = new Date(releaseDate);
+    return date.toLocaleDateString();
+  } catch {
+    return 'Invalid date';
+  }
+}
+
 export function formatYear(year: number): string {
   return year.toString();
 }
 
-/**
- * Formatea la calificación para mostrar
- */
 export function formatRating(rating: number | undefined): string {
   if (!rating) return 'Sin calificar';
   return `${rating.toFixed(1)}/5`;
 }
 
-/**
- * Valida si una calificación es válida (1-5)
- */
 export function isValidRating(rating: number): boolean {
   return rating >= 1 && rating <= 5 && Number.isInteger(rating);
 }
 
-/**
- * Obtiene el texto descriptivo de una calificación
- */
 export function getRatingText(rating: number): string {
   const ratingTexts: Record<number, string> = {
     1: 'Muy mala',
@@ -108,56 +103,35 @@ export function getRatingText(rating: number): string {
   return ratingTexts[rating] || 'Sin calificar';
 }
 
-/**
- * Genera un slug a partir del título de una película
- */
-export function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
-}
-
-/**
- * Valida los datos básicos de una película
- */
 export function validateMovieData(title: string, year: number, genres: string[]): string[] {
   const errors: string[] = [];
-  
+
   if (!title || title.trim().length < 2) {
     errors.push('El título debe tener al menos 2 caracteres');
   }
-  
+
   const currentYear = new Date().getFullYear();
   if (!year || year < 1900 || year > currentYear + 5) {
     errors.push(`El año debe estar entre 1900 y ${currentYear + 5}`);
   }
-  
+
   if (!genres || genres.length === 0) {
     errors.push('Debe seleccionar al menos un género');
   }
-  
+
   return errors;
 }
 
-/**
- * Filtra películas por texto de búsqueda
- */
 export function filterMoviesBySearch(movies: any[], searchText: string): any[] {
   if (!searchText) return movies;
-  
+
   const search = searchText.toLowerCase();
-  return movies.filter(movie => 
+  return movies.filter(movie =>
     movie.title.toLowerCase().includes(search) ||
     movie.genres.some((genre: string) => genre.toLowerCase().includes(search))
   );
 }
 
-/**
- * Ordena películas según el criterio especificado
- */
 export function sortMovies(movies: any[], sortBy: string): any[] {
   return [...movies].sort((a, b) => {
     switch (sortBy) {
@@ -173,4 +147,27 @@ export function sortMovies(movies: any[], sortBy: string): any[] {
         return 0;
     }
   });
+}
+
+export function getMovieStatus(status: number): MovieStatus {
+  return status as MovieStatus;
+}
+
+export function getStatusName(status: MovieStatus): string {
+  switch (status) {
+    case MovieStatus.Draft:
+      return 'Draft';
+    case MovieStatus.Published:
+      return 'Published';
+    case MovieStatus.Archived:
+      return 'Archived';
+    case MovieStatus.Deleted:
+      return 'Deleted';
+    default:
+      return 'Unknown';
+  }
+}
+
+export function isPublished(movie: Movie | MovieResponse): boolean {
+  return movie.isPublished || movie.status === MovieStatus.Published;
 }
