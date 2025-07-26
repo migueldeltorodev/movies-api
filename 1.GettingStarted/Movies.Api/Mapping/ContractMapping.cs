@@ -6,14 +6,26 @@ namespace Movies.Api.Mapping;
 
 public static class ContractMapping
 {
-    public static Movie MapToMovie(this CreateMovieRequest createMovieRequest)
+    public static Movie MapToMovie(this CreateMovieRequest createMovieRequest, Guid userId)
     {
         return new Movie
         {
             Id = Guid.NewGuid(),
             Title = createMovieRequest.Title,
+            Description = createMovieRequest.Description,
             YearOfRelease = createMovieRequest.YearOfRelease,
-            Genres = createMovieRequest.Genres.ToList()
+            Director = createMovieRequest.Director,
+            DurationMinutes = createMovieRequest.DurationMinutes ?? 0,
+            ReleaseDate = createMovieRequest.ReleaseDate,
+            Country = createMovieRequest.Country,
+            OriginalLanguage = createMovieRequest.OriginalLanguage,
+            AgeRating = createMovieRequest.AgeRating,
+            Genres = createMovieRequest.Genres.ToList(),
+            Status = MovieStatus.Draft,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            CreatedBy = userId,
+            UpdatedBy = userId
         };
     }
 
@@ -23,11 +35,24 @@ public static class ContractMapping
         {
             Id = movie.Id,
             Title = movie.Title,
-            YearOfRelease = movie.YearOfRelease,
-            Genres = movie.Genres,
             Slug = movie.Slug,
+            Description = movie.Description,
+            Director = movie.Director,
+            DurationMinutes = movie.DurationMinutes,
+            FormattedDuration = movie.FormattedDuration,
+            YearOfRelease = movie.YearOfRelease,
+            ReleaseDate = movie.ReleaseDate,
+            Country = movie.Country,
+            OriginalLanguage = movie.OriginalLanguage,
+            PosterUrl = movie.PosterUrl,
+            AgeRating = movie.AgeRating,
             Rating = movie.Rating,
-            UserRating = movie.UserRating
+            UserRating = movie.UserRating,
+            Status = (int)movie.Status,
+            IsPublished = movie.IsPublished,
+            CreatedAt = movie.CreatedAt,
+            UpdatedAt = movie.UpdatedAt,
+            Genres = movie.Genres
         };
     }
 
@@ -46,15 +71,30 @@ public static class ContractMapping
         };
     }
 
-    public static Movie MapToMovie(this UpdateMovieRequest request, Guid id)
+    public static Movie MapToMovie(this UpdateMovieRequest request, Guid id, Guid? userId)
     {
         return new Movie
         {
             Id = id,
             Title = request.Title,
+            Description = request.Description,
             YearOfRelease = request.YearOfRelease,
-            Genres = request.Genres.ToList()
+            Director = request.Director,
+            DurationMinutes = request.DurationMinutes ?? 0,
+            ReleaseDate = request.ReleaseDate,
+            Country = request.Country,
+            OriginalLanguage = request.OriginalLanguage,
+            AgeRating = request.AgeRating,
+            Status = request.Status.HasValue ? (MovieStatus)request.Status.Value : MovieStatus.Draft,
+            Genres = request.Genres.ToList(),
+            UpdatedAt = DateTime.UtcNow,
+            UpdatedBy = userId
         };
+    }
+
+    private static Guid GetCreatedBy(Guid movieId)
+    {
+        return Guid.NewGuid();
     }
 
     public static IEnumerable<MovieRatingResponse> MapToResponse(this IEnumerable<MovieRating> ratings)
