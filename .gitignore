@@ -9,9 +9,10 @@
 
 # Uploads foler
 **/uploads/*
+**/Documentation/*
+**/.vscode/*
+**/node_modules/*
 
-# Json files
-*.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
