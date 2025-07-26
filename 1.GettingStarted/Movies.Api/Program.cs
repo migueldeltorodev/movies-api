@@ -55,6 +55,7 @@ builder.Services.AddAuthorization(x =>
 builder.Services.AddScoped<ApiKeyAuthFilter>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<RoleSeeder>();
+builder.Services.AddScoped<AdminUserSeeder>();
 
 builder.Services.AddApiVersioning(x =>
 {
