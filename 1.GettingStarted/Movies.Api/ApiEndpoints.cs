@@ -36,5 +36,6 @@ public static class ApiEndpoints
         
         public const string Login = Base + "/login";
         public const string Register = Base + "/register";
+        public const string Promote = Base + "/promote";
     }
 }
