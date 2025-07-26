@@ -26,6 +26,8 @@
       <EmbeddedResource Include="Database\Scripts\Script0003 - Create table genres.sql" />
       <None Remove="Database\Scripts\Script0004 - Create table ratings.sql" />
       <EmbeddedResource Include="Database\Scripts\Script0004 - Create table ratings.sql" />
+        <None Remove="Database\Scripts\Script0005 - Add movie enhanced fields.sql"/>
+        <EmbeddedResource Include="Database\Scripts\Script0005 - Add movie enhanced fields.sql"/>
     </ItemGroup>
 
 </Project>
