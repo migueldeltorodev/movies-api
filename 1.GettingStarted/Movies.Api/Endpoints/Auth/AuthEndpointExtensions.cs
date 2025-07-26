@@ -6,6 +6,7 @@ public static class AuthEndpointExtensions
     {
         app.MapRegisterUser();
         app.MapLoginUser();
+        app.MapPromoteUser();
         return app;
     }
 }
