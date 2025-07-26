@@ -126,23 +126,23 @@ public class MovieRepository : IMovieRepository
             Title = x.title,
             Description = x.description ?? string.Empty,
             Director = x.director,
-            DurationMinutes = x.duration_minutes ?? 0,
+            DurationMinutes = x.durationminutes ?? 0,
             YearOfRelease = x.yearofrelease,
-            ReleaseDate = x.release_date,
-            Country = x.country_of_origin,
-            OriginalLanguage = x.original_language,
-            PosterUrl = x.poster_url,
-            PosterFileName = x.poster_filename,
-            AgeRating = x.mpaa_rating,
+            ReleaseDate = x.releasedate,
+            Country = x.country,
+            OriginalLanguage = x.originallanguage,
+            PosterUrl = x.posterurl,
+            PosterFileName = x.posterfilename,
+            AgeRating = x.agerating,
             Status = (MovieStatus)(x.status ?? 0),
             Budget = x.budget,
-            BoxOffice = x.box_office,
+            BoxOffice = x.boxoffice,
             Rating = (float?)x.rating,
             UserRating = (int?)x.userrating,
-            CreatedAt = x.created_at ?? DateTime.UtcNow,
-            UpdatedAt = x.updated_at ?? DateTime.UtcNow,
-            CreatedBy = x.created_by ?? Guid.Empty,
-            UpdatedBy = x.updated_by ?? Guid.Empty,
+            CreatedAt = x.createdat ?? DateTime.UtcNow,
+            UpdatedAt = x.updatedat ?? DateTime.UtcNow,
+            CreatedBy = x.createdby ?? Guid.Empty,
+            UpdatedBy = x.updatedby ?? Guid.Empty,
             Genres = ParseGenres(x.genres)
         });
     }
@@ -232,12 +232,11 @@ public class MovieRepository : IMovieRepository
             cancellationToken: cancellationToken));
     }
 
-    private static List<string> ParseGenres(dynamic genres)
+    private static List<string> ParseGenres(dynamic? genres)
     {
-        if (genres == null)
+        if (genres is null)
             return new List<string>();
 
-        // Handle different possible types that Dapper might return
         return genres switch
         {
             string genreString when string.IsNullOrEmpty(genreString) => new List<string>(),

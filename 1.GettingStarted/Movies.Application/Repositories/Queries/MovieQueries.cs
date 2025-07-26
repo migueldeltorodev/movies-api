@@ -68,7 +68,6 @@ public static class MovieQueries
                                                                    left join ratings myr on m.id = myr.movieid and myr.userid = @userId
                                                                    where (@title is null or m.title ilike ('%' || @title || '%'))
                                                                    and (@yearofrelease is null or m.yearofrelease = @yearofrelease)
-                                                                   and m.status = 1  -- Only show published movies
                                                                    group by m.id, m.title, m.description, m.director, m.duration_minutes, 
                                                                            m.yearofrelease, m.release_date, m.country_of_origin, m.original_language,
                                                                            m.poster_url, m.poster_filename, m.mpaa_rating, 
