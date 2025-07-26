@@ -1,4 +1,4 @@
-CREATE TABLE movies (
+CREATE TABLE IF NOT EXISTS movies (
     id UUID PRIMARY KEY,
     slug TEXT NOT NULL,
     title TEXT NOT NULL,
