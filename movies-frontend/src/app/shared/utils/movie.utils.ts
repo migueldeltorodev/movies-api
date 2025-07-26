@@ -1,4 +1,4 @@
-import { Movie, MovieResponse, MovieStatus } from "../../models";
+import { Movie, MovieStatus } from "../../models";
 
 export const GENRE_COLORS: Record<string, string> = {
   'Action': 'accent',
@@ -168,6 +168,6 @@ export function getStatusName(status: MovieStatus): string {
   }
 }
 
-export function isPublished(movie: Movie | MovieResponse): boolean {
+export function isPublished(movie: Movie): boolean {
   return movie.isPublished || movie.status === MovieStatus.Published;
 }
