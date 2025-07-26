@@ -90,9 +90,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AngularApp", policy =>
     {
         policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -128,6 +128,18 @@ app.UseHttpsRedirection();
 // Enable CORS
 app.UseCors("AngularApp");
 
+// Configure static files for poster uploads
+var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
+var postersPath = Path.Combine(uploadsPath, "posters");
+Directory.CreateDirectory(postersPath);
+
+// Servir archivos estáticos desde /uploads
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(uploadsPath),
+    RequestPath = "/uploads"
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -144,7 +156,10 @@ using (var scope = app.Services.CreateScope())
 
     var roleSeeder = scope.ServiceProvider.GetRequiredService<RoleSeeder>();
     await roleSeeder.SeedAsync();
-    
+
+    var adminUserSeeder = scope.ServiceProvider.GetRequiredService<AdminUserSeeder>();
+    await adminUserSeeder.SeedAsync();
+
     var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
     await dbInitializer.InitializeAsync();
 }
