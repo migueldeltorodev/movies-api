@@ -7,6 +7,12 @@
 *.userosscache
 *.sln.docstates
 
+# Uploads foler
+**/uploads/*
+
+# Json files
+*.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
