@@ -28,31 +28,8 @@ export interface Movie {
   updatedAt: string;
 }
 
-export interface MovieResponse {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  director?: string;
-  durationMinutes?: number;
-  formattedDuration?: string;
-  yearOfRelease: number;
-  releaseDate?: string;
-  country?: string;
-  originalLanguage?: string;
-  posterUrl?: string;
-  genres: string[];
-  ageRating?: string;
-  rating?: number;
-  userRating?: number;
-  status: number;
-  isPublished: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface MoviesResponse {
-  items: MovieResponse[];
+  items: Movie[];
   page: number;
   pageSize: number;
   total: number;
@@ -100,4 +77,8 @@ export interface RateMovieRequest {
 
 export interface ChangeMovieStatusRequest {
   status: MovieStatus;
+}
+
+export interface ValidationFailureResponse {
+  errors: { [key: string]: string[] };
 }
