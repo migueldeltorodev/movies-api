@@ -1,0 +1,214 @@
+@if (isLoading()) {
+<div class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>{{ languageService.isSpanish() ? 'Cargando película...' : 'Loading movie...' }}</p>
+</div>
+}
+
+@if (hasMovie() && movie(); as movie) {
+<div class="movie-detail-container">
+    <div class="detail-header">
+        <button mat-icon-button (click)="onBackToMovies()" class="back-button">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1 class="page-title">{{ languageService.isSpanish() ? 'Detalles de la película' : 'Movie Details' }}</h1>
+
+        @if (canEdit()) {
+        <mat-chip class="status-chip" [class]="'status-' + movie.status">
+            {{ movieStatus() }}
+        </mat-chip>
+        }
+    </div>
+
+    <div class="movie-content">
+
+        <div class="movie-poster-section">
+            <div class="poster-container">
+                @if (movie.posterUrl) {
+                <img [src]="movie.posterUrl" [alt]="movie.title" class="movie-poster">
+                } @else {
+                <div class="poster-placeholder">
+                    <mat-icon>movie</mat-icon>
+                    <span>{{ languageService.isSpanish() ? 'Sin imagen' : 'No image' }}</span>
+                </div>
+                }
+            </div>
+
+            <div class="quick-actions">
+                @if (canRate()) {
+                <button mat-raised-button color="accent" class="action-button" [disabled]="isRating()">
+                    <mat-icon>star_rate</mat-icon>
+                    {{ languageService.isSpanish() ? 'Calificar' : 'Rate Movie' }}
+                </button>
+                }
+
+                <button mat-raised-button class="action-button" (click)="onShareMovie()">
+                    <mat-icon>share</mat-icon>
+                    {{ languageService.isSpanish() ? 'Compartir' : 'Share' }}
+                </button>
+
+                @if (canEdit()) {
+                <button mat-raised-button color="primary" class="action-button" (click)="onEditMovie()">
+                    <mat-icon>edit</mat-icon>
+                    {{ languageService.isSpanish() ? 'Editar' : 'Edit' }}
+                </button>
+                }
+            </div>
+        </div>
+
+        <div class="movie-info-section">
+
+            <div class="title-section">
+                <h1 class="movie-title">{{ movie.title }}</h1>
+                <div class="movie-subtitle">
+                    <span class="year">{{ movie.yearOfRelease }}</span>
+                    @if (movie.durationMinutes) {
+                    <span class="duration">• {{ formatDuration(movie.durationMinutes) }}</span>
+                    }
+                    @if (movie.ageRating) {
+                    <mat-chip class="age-rating-chip">{{ movie.ageRating }}</mat-chip>
+                    }
+                </div>
+            </div>
+
+            <div class="description-section">
+                <h3>{{ languageService.isSpanish() ? 'Sinopsis' : 'Synopsis' }}</h3>
+                <p class="description">{{ movie.description }}</p>
+            </div>
+
+            <div class="genres-section">
+                <h3>{{ languageService.isSpanish() ? 'Géneros' : 'Genres' }}</h3>
+                <div class="genres-container">
+                    @for (genre of movie.genres; track genre) {
+                    <mat-chip class="genre-chip" [color]="getGenreColor(genre)">
+                        {{ genre }}
+                    </mat-chip>
+                    }
+                </div>
+            </div>
+
+            <div class="rating-section">
+                <h3>{{ languageService.isSpanish() ? 'Calificación' : 'Rating' }}</h3>
+
+                <div class="average-rating">
+                    <div class="stars-display">
+                        @for (star of getStarsArray(movie.rating); track $index) {
+                        <mat-icon class="star" [class.filled]="star">
+                            {{ star ? 'star' : 'star_border' }}
+                        </mat-icon>
+                        }
+                    </div>
+                    @if (movie.rating) {
+                    <span class="rating-text">{{ movie.rating | number:'1.1-1' }}/5</span>
+                    } @else {
+                    <span class="rating-text no-rating">{{ languageService.isSpanish() ? 'Sin calificar' : 'Not rated'
+                        }}</span>
+                    }
+                </div>
+
+                @if (canRate()) {
+                <div class="user-rating">
+                    <h4>{{ languageService.isSpanish() ? 'Tu calificación' : 'Your Rating' }}</h4>
+                    <div class="interactive-stars">
+                        @for (star of getInteractiveStars(selectedRating()); track star.value) {
+                        <button mat-icon-button class="star-button" [class.filled]="star.filled" [disabled]="isRating()"
+                            (click)="onRateMovie(star.value)">
+                            <mat-icon>{{ star.filled ? 'star' : 'star_border' }}</mat-icon>
+                        </button>
+                        }
+                    </div>
+                    @if (movie.userRating) {
+                    <div class="current-rating">
+                        <span>{{ getRatingText(movie.userRating) }}</span>
+                        <button mat-button color="warn" (click)="onRemoveRating()" [disabled]="isRating()">
+                            {{ languageService.isSpanish() ? 'Eliminar calificación' : 'Remove rating' }}
+                        </button>
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="details-grid">
+                @if (movie.director) {
+                <div class="detail-item">
+                    <mat-icon class="detail-icon">person</mat-icon>
+                    <div class="detail-content">
+                        <span class="detail-label">{{ languageService.isSpanish() ? 'Director' : 'Director' }}</span>
+                        <span class="detail-value">{{ movie.director }}</span>
+                    </div>
+                </div>
+                }
+
+                @if (movie.releaseDate) {
+                <div class="detail-item">
+                    <mat-icon class="detail-icon">event</mat-icon>
+                    <div class="detail-content">
+                        <span class="detail-label">{{ languageService.isSpanish() ? 'Fecha de estreno' : 'Release Date'
+                            }}</span>
+                        <span class="detail-value">{{ formatReleaseDate(movie.releaseDate) }}</span>
+                    </div>
+                </div>
+                }
+
+                @if (movie.country) {
+                <div class="detail-item">
+                    <mat-icon class="detail-icon">public</mat-icon>
+                    <div class="detail-content">
+                        <span class="detail-label">{{ languageService.isSpanish() ? 'País' : 'Country' }}</span>
+                        <span class="detail-value">{{ movie.country }}</span>
+                    </div>
+                </div>
+                }
+
+                @if (movie.originalLanguage) {
+                <div class="detail-item">
+                    <mat-icon class="detail-icon">language</mat-icon>
+                    <div class="detail-content">
+                        <span class="detail-label">{{ languageService.isSpanish() ? 'Idioma original' : 'Original
+                            Language' }}</span>
+                        <span class="detail-value">{{ movie.originalLanguage }}</span>
+                    </div>
+                </div>
+                }
+            </div>
+
+            @if (canEdit()) {
+            <div class="metadata-section">
+                <h3>{{ languageService.isSpanish() ? 'Metadatos' : 'Metadata' }}</h3>
+                <div class="metadata-grid">
+                    <div class="metadata-item">
+                        <span class="metadata-label">ID:</span>
+                        <span class="metadata-value">{{ movie.id }}</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Slug:</span>
+                        <span class="metadata-value">{{ movie.slug }}</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Created:</span>
+                        <span class="metadata-value">{{ movie.createdAt | date:'medium' }}</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Updated:</span>
+                        <span class="metadata-value">{{ movie.updatedAt | date:'medium' }}</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}
+
+@if (!isLoading() && !hasMovie()) {
+<div class="error-container">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <h2>{{ languageService.isSpanish() ? 'Película no encontrada' : 'Movie not found' }}</h2>
+    <p>{{ languageService.isSpanish() ? 'La película que buscas no existe o ha sido eliminada.' : 'The movie you are
+        looking for does not exist or has been removed.' }}</p>
+    <button mat-raised-button color="primary" (click)="onBackToMovies()">
+        {{ languageService.isSpanish() ? 'Volver a películas' : 'Back to Movies' }}
+    </button>
+</div>
+}

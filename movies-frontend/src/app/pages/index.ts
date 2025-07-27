@@ -1,2 +1,3 @@
 export * from './auth/auth.page';
 export * from './movies/movies-list/movies-list.component';
+export * from './movies/movie-detail/movie-detail.component';

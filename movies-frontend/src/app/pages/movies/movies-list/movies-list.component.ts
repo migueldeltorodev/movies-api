@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { retry, delay, catchError, of } from 'rxjs';
 import { MovieCardComponent, MovieFilters } from '../../../components';
@@ -31,6 +32,7 @@ import { Movie, GetAllMoviesRequest } from '../../../models/Movie/movie.model';
     styleUrl: './movies-list.component.scss'
 })
 export class MoviesListComponent implements OnInit {
+    private readonly router = inject(Router);
     private readonly moviesApi = inject(MoviesApiService);
     private readonly notification = inject(NotificationService);
     private readonly messagesService = inject(MessagesService);
@@ -57,9 +59,6 @@ export class MoviesListComponent implements OnInit {
         this.loadMovies();
     }
 
-    /**
-     * Carga las películas con los filtros actuales
-     */
     loadMovies() {
         this.isLoading.set(true);
 
@@ -85,36 +84,24 @@ export class MoviesListComponent implements OnInit {
         });
     }
 
-    /**
-     * Maneja el cambio de página
-     */
     onPageChange(event: PageEvent) {
         this.currentPage.set(event.pageIndex);
         this.pageSize.set(event.pageSize);
         this.loadMovies();
     }
 
-    /**
-     * Maneja la aplicación de filtros desde el componente de filtros
-     */
     onFiltersApplied(filters: MovieFilters) {
         this.currentFilters.set(filters);
         this.currentPage.set(0);
         this.loadMovies();
     }
 
-    /**
-     * Maneja la limpieza de filtros
-     */
     onFiltersCleared() {
         this.currentFilters.set({ sortBy: 'title' });
         this.currentPage.set(0);
         this.loadMovies();
     }
 
-    /**
-     * Maneja la calificación desde el componente de tarjeta
-     */
     onMovieRated(event: { movieId: string; rating: number }) {
         if (!this.authService.isTrustedMember()) {
             this.notification.warning('Necesitas ser miembro de confianza para calificar películas');
@@ -133,25 +120,15 @@ export class MoviesListComponent implements OnInit {
         });
     }
 
-    /**
-     * Maneja la visualización de detalles de película
-     */
     onMovieDetailsRequested(movie: Movie) {
-        // TODO: Implementar navegación a detalles
-        console.log('View details for movie:', movie.title);
+        this.router.navigate(['/movies', movie.id]);
     }
 
-    /**
-     * Maneja el compartir película
-     */
     onMovieShared(movie: Movie) {
         // TODO: Implementar funcionalidad de compartir
         this.notification.success(this.messages().shareSuccess);
     }
 
-    /**
-     * Maneja agregar a favoritos
-     */
     onMovieFavorited(movie: Movie) {
         // TODO: Implementar funcionalidad de favoritos
         this.notification.success(this.messages().addedToFavorites);
