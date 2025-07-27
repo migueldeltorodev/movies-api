@@ -65,7 +65,7 @@ export class MoviesApiService {
   }
 
   rateMovie(id: string, rating: RateMovieRequest): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/movies/${id}/ratings`, rating);
+    return this.http.put<void>(`${this.baseUrl}/api/movies/${id}/ratings`, rating);
   }
 
   deleteMovieRating(id: string): Observable<void> {
