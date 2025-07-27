@@ -39,17 +39,17 @@
       @if (canEdit) {
       <button mat-menu-item (click)="onEdit.emit(movie)">
         <mat-icon>edit</mat-icon>
-        <span>{{ languageService.isSpanish() ? 'Editar' : 'Edit' }}</span>
+        <span>{{ generalMessages().edit }}</span>
       </button>
       }
 
       <button mat-menu-item (click)="onShare.emit(movie)">
         <mat-icon>share</mat-icon>
-        <span>{{ languageService.isSpanish() ? 'Compartir' : 'Share' }}</span>
+        <span>{{ messages().share }}</span>
       </button>
       <button mat-menu-item (click)="onFavorite.emit(movie)">
         <mat-icon>favorite_border</mat-icon>
-        <span>{{ languageService.isSpanish() ? 'Agregar a favoritos' : 'Add to favorites' }}</span>
+        <span>{{ messages().addToFavorites }}</span>
       </button>
     </mat-menu>
     }
@@ -81,7 +81,7 @@
       @if (movie.rating) {
       <span class="rating-text">{{ movie.rating | number:'1.1-1' }}/5,0</span>
       } @else {
-      <span class="rating-text no-rating">{{ languageService.isSpanish() ? 'Sin calificar' : 'Not rated' }}</span>
+      <span class="rating-text no-rating">{{ messages().notRated }}</span>
       }
     </div>
 
@@ -98,7 +98,7 @@
     <button mat-button color="primary" class="details-btn"
       (click)="$event.stopPropagation(); onViewDetails.emit(movie)">
       <mat-icon>info</mat-icon>
-      {{ languageService.isSpanish() ? 'Ver detalles' : 'View details' }}
+      {{ messages().viewDetails }}
     </button>
   </mat-card-actions>
   }

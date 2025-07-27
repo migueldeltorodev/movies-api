@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, signal, computed } from '@angular/core';
-import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../../shared';
+import { Component, Input, Output, EventEmitter, signal, computed, inject } from '@angular/core';
+import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService } from '../../../shared';
 
 @Component({
     selector: 'app-interactive-rating',
@@ -12,6 +12,8 @@ import { CORE_IMPORTS, MATERIAL_IMPORTS } from '../../../shared';
     styleUrl: './interactive-rating.component.scss'
 })
 export class InteractiveRatingComponent {
+    private readonly messagesService = inject(MessagesService);
+
     @Input() currentRating: number = 0;
     @Input() disabled: boolean = false;
     @Input() readonly: boolean = false;
@@ -21,6 +23,9 @@ export class InteractiveRatingComponent {
 
     @Output() ratingChange = new EventEmitter<number>();
     @Output() ratingRemove = new EventEmitter<void>();
+
+    readonly messages = this.messagesService.rating;
+    readonly generalMessages = this.messagesService.general;
 
     readonly hoveredRating = signal<number>(0);
     readonly isHovering = signal<boolean>(false);
@@ -66,13 +71,14 @@ export class InteractiveRatingComponent {
     }
 
     getRatingText(rating: number): string {
+        const messages = this.messages();
         const ratingTexts: Record<number, string> = {
-            1: 'Muy mala',
-            2: 'Mala',
-            3: 'Regular',
-            4: 'Buena',
-            5: 'Excelente'
+            1: messages.veryBad,
+            2: messages.bad,
+            3: messages.regular,
+            4: messages.good,
+            5: messages.excellent
         };
-        return ratingTexts[rating] || 'Sin calificar';
+        return ratingTexts[rating] || messages.unrated;
     }
 }

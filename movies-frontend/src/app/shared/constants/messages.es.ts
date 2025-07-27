@@ -1,9 +1,4 @@
-/**
- * Mensajes en español para la aplicación
- */
-
 export const MESSAGES_ES = {
-    // Mensajes generales
     general: {
         loading: 'Cargando...',
         saving: 'Guardando...',
@@ -26,7 +21,6 @@ export const MESSAGES_ES = {
         previous: 'Anterior'
     },
 
-    // Navegación
     nav: {
         movies: 'Películas',
         myRatings: 'Mis Calificaciones',
@@ -38,7 +32,6 @@ export const MESSAGES_ES = {
         trustedMember: 'Miembro'
     },
 
-    // Autenticación
     auth: {
         loginTitle: 'Iniciar Sesión',
         registerTitle: 'Crear Cuenta',
@@ -69,14 +62,12 @@ export const MESSAGES_ES = {
         showPasswordAriaLabel: 'Mostrar contraseña',
         hidePasswordAriaLabel: 'Ocultar contraseña',
 
-        // Información lateral
         infoTitle: 'Descubre el Cine',
         infoDescription: 'Únete a nuestra comunidad y descubre nuevas películas, califica tus favoritas y comparte tu pasión por el cine.',
         featureRate: 'Califica películas',
         featureDiscover: 'Descubre nuevos títulos',
         featureFavorites: 'Crea tu lista de favoritos',
 
-        // Footer
         termsText: 'Al {action} aceptas nuestros',
         termsLink: 'Términos de Servicio',
         privacyLink: 'Política de Privacidad',
@@ -84,26 +75,79 @@ export const MESSAGES_ES = {
         registerAction: 'registrarte'
     },
 
-    // Películas
     movies: {
         title: 'Películas',
+        movieDetails: 'Detalles de la película',
         loadError: 'Error al cargar las películas',
+        loadingMovie: 'Cargando película...',
+        movieNotFound: 'Película no encontrada',
+        movieNotFoundDescription: 'La película que buscas no existe o ha sido eliminada.',
+
+        rateMovie: 'Calificar',
         rateSuccess: 'Película calificada exitosamente',
         rateError: 'Error al calificar la película',
+        removeRating: 'Quitar',
+        removeRatingSuccess: 'Calificación eliminada exitosamente',
+        removeRatingError: 'Error al eliminar la calificación',
+        yourRating: 'Tu calificación',
+        yourRatingLabel: 'Tu calificación:',
+        notRated: 'Sin calificar',
+
+        share: 'Compartir',
+        shareSuccess: 'Enlace de película copiado al portapapeles',
+        shareError: 'No se pudo copiar el enlace',
+        addToFavorites: 'Agregar a favoritos',
+        removeFromFavorites: 'Quitar de favoritos',
+        addedToFavorites: 'Película agregada a favoritos',
+        removedFromFavorites: 'Película eliminada de favoritos',
+        viewDetails: 'Ver detalles',
+        backToMovies: 'Volver a películas',
+
+        synopsis: 'Sinopsis',
+        genres: 'Géneros',
+        director: 'Director',
+        releaseDate: 'Fecha de estreno',
+        country: 'País',
+        originalLanguage: 'Idioma original',
+        duration: 'Duración',
+        rating: 'Calificación',
+        metadata: 'Metadatos',
+
+        draft: 'Borrador',
+        published: 'Publicada',
+        archived: 'Archivada',
+        changeStatus: 'Cambiar estado',
+        publish: 'Publicar',
+        archive: 'Archivar',
+
+        noImage: 'Sin imagen',
+        durationNotSpecified: 'Duración no especificada',
+        releaseDateNotSpecified: 'Fecha de estreno no especificada',
+
         createSuccess: 'Película creada exitosamente',
         createError: 'Error al crear la película',
         updateSuccess: 'Película actualizada exitosamente',
         updateError: 'Error al actualizar la película',
         deleteSuccess: 'Película eliminada exitosamente',
         deleteError: 'Error al eliminar la película',
-        notFound: 'Película no encontrada',
+        editFunctionality: 'Funcionalidad de edición próximamente',
+
         noResults: 'No se encontraron películas que coincidan con tu búsqueda',
-        addedToFavorites: 'Película agregada a favoritos',
-        removedFromFavorites: 'Película eliminada de favoritos',
-        shareSuccess: 'Enlace de película copiado al portapapeles'
+        searchByTitle: 'Buscar por título',
+        searchPlaceholder: 'Ej: Matrix, Avengers...',
+        year: 'Año',
+        sortBy: 'Ordenar por',
+        activeFilters: 'Filtros activos:',
+        titleLabel: 'Título',
+        sort: 'Orden',
+
+        // Sort options
+        sortByTitle: 'Título',
+        sortByYear: 'Año',
+        sortByRating: 'Calificación',
+        sortByUserRating: 'Mi Calificación'
     },
 
-    // Validaciones
     validation: {
         required: 'Este campo es obligatorio',
         minLength: 'Debe tener al menos {min} caracteres',
@@ -119,7 +163,6 @@ export const MESSAGES_ES = {
         pastDate: 'La fecha no puede ser pasada'
     },
 
-    // Estados vacíos
     empty: {
         noMovies: 'No hay películas disponibles',
         noFavorites: 'No tienes películas favoritas',
@@ -129,7 +172,6 @@ export const MESSAGES_ES = {
         noHistory: 'No hay historial disponible'
     },
 
-    // Confirmaciones
     confirmations: {
         deleteMovie: '¿Estás seguro de que deseas eliminar esta película?',
         deleteRating: '¿Deseas eliminar tu calificación de esta película?',
@@ -139,7 +181,24 @@ export const MESSAGES_ES = {
         clearData: '¿Estás seguro de que deseas limpiar todos los datos?'
     },
 
-    // Aplicación
+    rating: {
+        veryBad: 'Muy mala',
+        bad: 'Mala',
+        regular: 'Regular',
+        good: 'Buena',
+        excellent: 'Excelente',
+        unrated: 'Sin calificar',
+        rate: 'Calificar',
+        stars: 'estrellas'
+    },
+
+    permissions: {
+        loginRequired: 'Debes iniciar sesión para realizar esta acción',
+        trustedMemberRequired: 'Necesitas ser miembro de confianza para calificar películas',
+        adminRequired: 'Necesitas permisos de administrador para realizar esta acción',
+        insufficientPermissions: 'No tienes permisos suficientes para realizar esta acción'
+    },
+
     app: {
         brandTitle: 'Movies Hub',
         changeLanguage: 'Cambiar idioma'

@@ -47,6 +47,7 @@ export class MovieDetailComponent implements OnInit {
 
     readonly messages = this.messagesService.movies;
     readonly generalMessages = this.messagesService.general;
+    readonly permissionMessages = this.messagesService.permissions;
 
     readonly movie = signal<Movie | null>(null);
     readonly isLoading = signal(true);

@@ -1,7 +1,7 @@
 @if (isLoading()) {
 <div class="loading-container">
     <mat-spinner></mat-spinner>
-    <p>{{ languageService.isSpanish() ? 'Cargando película...' : 'Loading movie...' }}</p>
+    <p>{{ messages().loadingMovie }}</p>
 </div>
 }
 
@@ -11,7 +11,7 @@
         <button mat-icon-button (click)="onBackToMovies()" class="back-button">
             <mat-icon>arrow_back</mat-icon>
         </button>
-        <h1 class="page-title">{{ languageService.isSpanish() ? 'Detalles de la película' : 'Movie Details' }}</h1>
+        <h1 class="page-title">{{ messages().movieDetails }}</h1>
 
         @if (canEdit()) {
         <mat-chip class="status-chip" [class]="'status-' + movie.status">
@@ -29,7 +29,7 @@
                 } @else {
                 <div class="poster-placeholder">
                     <mat-icon>movie</mat-icon>
-                    <span>{{ languageService.isSpanish() ? 'Sin imagen' : 'No image' }}</span>
+                    <span>{{ messages().noImage }}</span>
                 </div>
                 }
             </div>
@@ -37,13 +37,13 @@
             <div class="quick-actions">
                 <button mat-raised-button class="action-button" (click)="onShareMovie()">
                     <mat-icon>share</mat-icon>
-                    {{ languageService.isSpanish() ? 'Compartir' : 'Share' }}
+                    {{ messages().share }}
                 </button>
 
                 @if (canEdit()) {
                 <button mat-raised-button color="primary" class="action-button" (click)="onEditMovie()">
                     <mat-icon>edit</mat-icon>
-                    {{ languageService.isSpanish() ? 'Editar' : 'Edit' }}
+                    {{ generalMessages().edit }}
                 </button>
                 }
             </div>
@@ -65,12 +65,12 @@
             </div>
 
             <div class="description-section">
-                <h3>{{ languageService.isSpanish() ? 'Sinopsis' : 'Synopsis' }}</h3>
+                <h3>{{ messages().synopsis }}</h3>
                 <p class="description">{{ movie.description }}</p>
             </div>
 
             <div class="genres-section">
-                <h3>{{ languageService.isSpanish() ? 'Géneros' : 'Genres' }}</h3>
+                <h3>{{ messages().genres }}</h3>
                 <div class="genres-container">
                     @for (genre of movie.genres; track genre) {
                     <mat-chip class="genre-chip" [color]="getGenreColor(genre)">
@@ -83,7 +83,7 @@
             <div class="rating-section">
                 @if (canRate()) {
                 <div class="user-rating">
-                    <h4>{{ languageService.isSpanish() ? 'Tu calificación' : 'Your Rating' }}</h4>
+                    <h4>{{ messages().yourRating }}</h4>
                     <app-interactive-rating [currentRating]="movie.userRating || 0" [disabled]="isRating()"
                         [size]="'large'" [showRemoveButton]="true" [showRatingText]="true"
                         (ratingChange)="onRateMovie($event)" (ratingRemove)="onRemoveRating()">

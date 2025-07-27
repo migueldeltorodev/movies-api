@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService, LanguageService } from '../../../shared';
+import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService } from '../../../shared';
 import { Movie, MovieStatus } from '../../../models';
 import { AuthService } from '../../../services/auth.service';
 import { getGenreColor, getStarsArray, formatYear, formatDuration, getMovieStatus, getStatusName } from '../../../shared/utils/movie.utils';
-import { InteractiveRatingComponent } from '../interactive-rating/interactive-rating.component';
 
 @Component({
   selector: 'app-movie-card',
@@ -18,7 +17,7 @@ import { InteractiveRatingComponent } from '../interactive-rating/interactive-ra
 export class MovieCardComponent {
   readonly authService = inject(AuthService);
   private readonly messagesService = inject(MessagesService);
-  readonly languageService = inject(LanguageService);
+
 
   @Input({ required: true }) movie!: Movie;
   @Input() elevated = true;

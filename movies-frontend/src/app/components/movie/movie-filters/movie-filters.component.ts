@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, signal, inject, effect, OnDestroy } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
-import { CORE_IMPORTS, MATERIAL_IMPORTS, LanguageService, MessagesService } from '../../../shared';
+import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService } from '../../../shared';
 import { SORT_OPTIONS } from '../../../shared/utils/movie.utils';
 
 /**
@@ -26,7 +26,6 @@ export interface MovieFilters {
   styleUrl: './movie-filters.component.scss'
 })
 export class MovieFiltersComponent implements OnDestroy {
-  readonly languageService = inject(LanguageService);
   readonly messagesService = inject(MessagesService);
 
   @Input() initialFilters: MovieFilters = {};
@@ -38,6 +37,7 @@ export class MovieFiltersComponent implements OnDestroy {
   readonly isSearching = signal(false);
 
   readonly generalMessages = this.messagesService.general;
+  readonly messages = this.messagesService.movies;
 
   private readonly searchSubject = new Subject<string>();
   private readonly destroy$ = new Subject<void>();
@@ -132,22 +132,16 @@ export class MovieFiltersComponent implements OnDestroy {
    * Obtiene la etiqueta de ordenamiento en el idioma actual
    */
   getSortLabel(sortBy: string): string {
-    const isSpanish = this.languageService.isSpanish();
+    const messages = this.messages();
 
-    // Mapeo de etiquetas multiidioma
-    const labels: Record<string, { es: string; en: string }> = {
-      'title': { es: 'Título', en: 'Title' },
-      'yearOfRelease': { es: 'Año', en: 'Year' },
-      'rating': { es: 'Calificación', en: 'Rating' },
-      'userRating': { es: 'Mi Calificación', en: 'My Rating' }
+    // Mapeo de etiquetas usando el sistema de mensajes
+    const labels: Record<string, string> = {
+      'title': messages.sortByTitle,
+      'yearOfRelease': messages.sortByYear,
+      'rating': messages.sortByRating,
+      'userRating': messages.sortByUserRating
     };
 
-    const labelMap = labels[sortBy];
-    if (labelMap) {
-      return isSpanish ? labelMap.es : labelMap.en;
-    }
-
-    const option = this.sortOptions.find(opt => opt.value === sortBy);
-    return option?.label || sortBy;
+    return labels[sortBy] || sortBy;
   }
 }

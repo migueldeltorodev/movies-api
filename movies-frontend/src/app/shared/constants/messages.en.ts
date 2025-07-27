@@ -87,20 +87,82 @@ export const MESSAGES_EN = {
     // Movies
     movies: {
         title: 'Movies',
+        movieDetails: 'Movie Details',
         loadError: 'Error loading movies',
+        loadingMovie: 'Loading movie...',
+        movieNotFound: 'Movie not found',
+        movieNotFoundDescription: 'The movie you are looking for does not exist or has been removed.',
+
+        // Rating
+        rateMovie: 'Rate Movie',
         rateSuccess: 'Movie rated successfully',
         rateError: 'Error rating movie',
+        removeRating: 'Remove',
+        removeRatingSuccess: 'Rating removed successfully',
+        removeRatingError: 'Error removing rating',
+        yourRating: 'Your Rating',
+        yourRatingLabel: 'Your rating:',
+        notRated: 'Not rated',
+
+        // Actions
+        share: 'Share',
+        shareSuccess: 'Movie link copied to clipboard',
+        shareError: 'Could not copy link',
+        addToFavorites: 'Add to favorites',
+        removeFromFavorites: 'Remove from favorites',
+        addedToFavorites: 'Movie added to favorites',
+        removedFromFavorites: 'Movie removed from favorites',
+        viewDetails: 'View details',
+        backToMovies: 'Back to Movies',
+
+        // Movie info
+        synopsis: 'Synopsis',
+        genres: 'Genres',
+        director: 'Director',
+        releaseDate: 'Release Date',
+        country: 'Country',
+        originalLanguage: 'Original Language',
+        duration: 'Duration',
+        rating: 'Rating',
+        metadata: 'Metadata',
+
+        // Status
+        draft: 'Draft',
+        published: 'Published',
+        archived: 'Archived',
+        changeStatus: 'Change status',
+        publish: 'Publish',
+        archive: 'Archive',
+
+        // Placeholders
+        noImage: 'No image',
+        durationNotSpecified: 'Duration not specified',
+        releaseDateNotSpecified: 'Release date not specified',
+
+        // CRUD
         createSuccess: 'Movie created successfully',
         createError: 'Error creating movie',
         updateSuccess: 'Movie updated successfully',
         updateError: 'Error updating movie',
         deleteSuccess: 'Movie deleted successfully',
         deleteError: 'Error deleting movie',
-        notFound: 'Movie not found',
+        editFunctionality: 'Edit functionality coming soon',
+
+        // Search and filters
         noResults: 'No movies found matching your search',
-        addedToFavorites: 'Movie added to favorites',
-        removedFromFavorites: 'Movie removed from favorites',
-        shareSuccess: 'Movie link copied to clipboard'
+        searchByTitle: 'Search by title',
+        searchPlaceholder: 'Ex: Matrix, Avengers...',
+        year: 'Year',
+        sortBy: 'Sort by',
+        activeFilters: 'Active filters:',
+        titleLabel: 'Title',
+        sort: 'Sort',
+
+        // Sort options
+        sortByTitle: 'Title',
+        sortByYear: 'Year',
+        sortByRating: 'Rating',
+        sortByUserRating: 'My Rating'
     },
 
     // Validations
@@ -137,6 +199,26 @@ export const MESSAGES_EN = {
         discardChanges: 'Do you want to discard unsaved changes?',
         resetFilters: 'Do you want to clear all applied filters?',
         clearData: 'Are you sure you want to clear all data?'
+    },
+
+    // Rating
+    rating: {
+        veryBad: 'Very bad',
+        bad: 'Bad',
+        regular: 'Regular',
+        good: 'Good',
+        excellent: 'Excellent',
+        unrated: 'Unrated',
+        rate: 'Rate',
+        stars: 'stars'
+    },
+
+    // Permissions and roles
+    permissions: {
+        loginRequired: 'You must sign in to perform this action',
+        trustedMemberRequired: 'You need to be a trusted member to rate movies',
+        adminRequired: 'You need administrator permissions to perform this action',
+        insufficientPermissions: 'You do not have sufficient permissions to perform this action'
     },
 
     // Application

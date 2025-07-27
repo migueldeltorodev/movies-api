@@ -36,6 +36,8 @@ export class MessagesService {
     readonly nav = computed(() => this.messages().nav);
     readonly auth = computed(() => this.messages().auth);
     readonly movies = computed(() => this.messages().movies);
+    readonly rating = computed(() => this.messages().rating);
+    readonly permissions = computed(() => this.messages().permissions);
     readonly validation = computed(() => this.messages().validation);
     readonly empty = computed(() => this.messages().empty);
     readonly confirmations = computed(() => this.messages().confirmations);
