@@ -22,7 +22,7 @@ public static class DeleteRatingEndpoint
             .WithName(Name)
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
-            .RequireAuthorization();
+            .RequireAuthorization(AuthConstants.TrustedMemberPolicyName);
 
         return app;
     }

@@ -1,10 +1,3 @@
-/**
- * Constantes relacionadas con autenticación y autorización
- */
-
-/**
- * Configuración de autenticación
- */
 export const AUTH_CONFIG = {
   tokenKey: 'movies_token',
   refreshTokenKey: 'movies_refresh_token',
@@ -13,18 +6,12 @@ export const AUTH_CONFIG = {
   defaultEmail: 'test@test.com'
 } as const;
 
-/**
- * Roles de usuario disponibles en el sistema
- */
 export const USER_ROLES = {
   public: 'Public',
-  trustedMember: 'TrustedMember',
+  user: 'User',
   admin: 'Admin'
 } as const;
 
-/**
- * Mensajes relacionados con autenticación
- */
 export const AUTH_MESSAGES = {
   loginSuccess: '¡Bienvenido! Sesión iniciada exitosamente',
   loginError: 'Error al iniciar sesión. Verifica que el Identity API esté ejecutándose.',
@@ -34,7 +21,4 @@ export const AUTH_MESSAGES = {
   trustedMemberRequired: 'Necesitas ser un miembro de confianza para calificar películas'
 } as const;
 
-/**
- * Tipos derivados para TypeScript
- */
 export type UserRole = typeof USER_ROLES[keyof typeof USER_ROLES];

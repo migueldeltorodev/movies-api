@@ -45,6 +45,11 @@ public class AdminUserSeeder
             await _userManager.AddToRoleAsync(adminUser, "Admin");
         }
 
+        if (!await _userManager.IsInRoleAsync(adminUser, "User"))
+        {
+            await _userManager.AddToRoleAsync(adminUser, "User");
+        }
+
         var adminClaims = await _userManager.GetClaimsAsync(adminUser);
         if (!adminClaims.Any(c => c.Type == AuthConstants.AdminUserClaimName && c.Value == "true"))
         {

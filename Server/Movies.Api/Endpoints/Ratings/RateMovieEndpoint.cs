@@ -24,7 +24,7 @@ public static class RateMovieEndpoint
             .WithName(Name)
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
-            .RequireAuthorization();
+            .RequireAuthorization(AuthConstants.TrustedMemberPolicyName);
 
         return app;
     }
