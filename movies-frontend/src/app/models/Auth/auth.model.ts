@@ -23,12 +23,15 @@ export interface User {
 }
 
 export interface JwtPayload {
-  sub: string; // User ID
+  sub: string;
   email: string;
-  role?: string | string[]; // Roles del usuario
-  exp: number; // Expiration time
-  iat: number; // Issued at time
-  jti?: string; // JWT ID
+  role?: string | string[];
+  roles?: string | string[];
+  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'?: string | string[];
+  exp: number;
+  iat: number;
+  jti?: string;
+  [key: string]: any;
 }
 
 export interface AuthState {
