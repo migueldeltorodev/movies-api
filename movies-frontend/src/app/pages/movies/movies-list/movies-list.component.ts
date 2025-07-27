@@ -78,7 +78,7 @@ export class MoviesListComponent implements OnInit {
                 this.isLoading.set(false);
             },
             error: (error) => {
-                this.notification.error(this.messages().loadError);
+                // this.notification.error(this.messages().loadError);
                 this.isLoading.set(false);
             }
         });
@@ -132,5 +132,23 @@ export class MoviesListComponent implements OnInit {
     onMovieFavorited(movie: Movie) {
         // TODO: Implementar funcionalidad de favoritos
         this.notification.success(this.messages().addedToFavorites);
+    }
+
+    onMovieRatingRemoved(movie: Movie) {
+        if (!this.authService.isTrustedMember()) {
+            this.notification.warning('Necesitas ser miembro de confianza para eliminar calificaciones');
+            return;
+        }
+
+        this.moviesApi.deleteMovieRating(movie.id).subscribe({
+            next: () => {
+                this.notification.success('Rating removed successfully');
+                this.loadMovies();
+            },
+            error: (error) => {
+                console.error('Error removing movie rating:', error);
+                this.notification.error('Error removing rating');
+            }
+        });
     }
 }

@@ -11,6 +11,7 @@ import {
 } from '../../../shared';
 
 import { LanguageService } from '../../../shared/services/language.service';
+import { InteractiveRatingComponent } from '../../../components/movie/interactive-rating/interactive-rating.component';
 import { MoviesApiService } from '../../../services/movies-api.service';
 import { AuthService } from '../../../services/auth.service';
 import { Movie, MovieStatus } from '../../../models';
@@ -29,7 +30,8 @@ import {
     standalone: true,
     imports: [
         ...CORE_IMPORTS,
-        ...MATERIAL_IMPORTS
+        ...MATERIAL_IMPORTS,
+        InteractiveRatingComponent
     ],
     templateUrl: './movie-detail.component.html',
     styleUrl: './movie-detail.component.scss'
@@ -81,8 +83,7 @@ export class MovieDetailComponent implements OnInit {
                 return this.moviesApi.getMovie(movieId);
             }),
             catchError(error => {
-                console.error('Error loading movie:', error);
-                this.notification.error(this.messages().loadError);
+                // this.notification.error(this.messages().loadError);
                 this.router.navigate([ROUTES.movies]);
                 return of(null);
             })
@@ -169,12 +170,5 @@ export class MovieDetailComponent implements OnInit {
 
     onBackToMovies() {
         this.router.navigate([ROUTES.movies]);
-    }
-
-    getInteractiveStars(currentRating: number): { filled: boolean; value: number }[] {
-        return Array.from({ length: 5 }, (_, index) => ({
-            filled: index < currentRating,
-            value: index + 1
-        }));
     }
 }

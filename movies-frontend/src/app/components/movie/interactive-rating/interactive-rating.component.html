@@ -1,0 +1,35 @@
+<div class="interactive-rating" [class]="sizeClass()">
+
+    <div class="stars-container" (mouseleave)="onMouseLeave()">
+        @for (star of stars(); track star.index) {
+        <button mat-icon-button class="star-button" [class.filled]="star.filled" [class.hovered]="star.isHovered"
+            [class.readonly]="readonly" [disabled]="disabled" (click)="onStarClick(star.index)"
+            (mouseenter)="onStarHover(star.index)" [attr.aria-label]="'Rate ' + star.index + ' stars'"
+            [title]="getRatingText(star.index)">
+            <mat-icon>{{ star.filled || star.isHovered ? 'star' : 'star_border' }}</mat-icon>
+        </button>
+        }
+    </div>
+
+    @if (showRatingText || canRemove()) {
+    <div class="rating-actions">
+        @if (showRatingText) {
+        <span class="rating-text">
+            @if (displayRating() > 0) {
+            {{ getRatingText(displayRating()) }}
+            } @else {
+            Sin calificar
+            }
+        </span>
+        }
+
+        @if (canRemove()) {
+        <button mat-button color="warn" size="small" class="remove-button" (click)="onRemoveRating()"
+            [disabled]="disabled">
+            <mat-icon>close</mat-icon>
+            Quitar
+        </button>
+        }
+    </div>
+    }
+</div>

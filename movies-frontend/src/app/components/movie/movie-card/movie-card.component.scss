@@ -204,12 +204,18 @@
 
     .user-rating-section {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 0.5rem;
       padding: 0.5rem;
       background: #f8f9fa;
       border-radius: 6px;
       margin-top: auto;
+
+      .rating-label {
+        font-size: 0.8rem;
+        color: #666;
+        font-weight: 500;
+      }
 
       .user-rating-icon {
         font-size: 1rem;
@@ -222,6 +228,10 @@
         font-size: 0.85rem;
         color: #007acc;
         font-weight: 500;
+      }
+
+      app-interactive-rating {
+        align-self: flex-start;
       }
     }
   }

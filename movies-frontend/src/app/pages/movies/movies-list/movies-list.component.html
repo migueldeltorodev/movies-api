@@ -31,8 +31,8 @@
   <div class="movies-grid">
     @for (movie of movies(); track movie.id) {
     <app-movie-card [movie]="movie" [elevated]="true" (onRate)="onMovieRated($event)"
-      (onViewDetails)="onMovieDetailsRequested($event)" (onShare)="onMovieShared($event)"
-      (onFavorite)="onMovieFavorited($event)">
+      (onRemoveRating)="onMovieRatingRemoved($event)" (onViewDetails)="onMovieDetailsRequested($event)"
+      (onShare)="onMovieShared($event)" (onFavorite)="onMovieFavorited($event)">
     </app-movie-card>
     }
   </div>
@@ -45,7 +45,7 @@
     </mat-paginator>
   </div>
   } @placeholder {
-    <div class="paginator-placeholder"></div>
+  <div class="paginator-placeholder"></div>
   }
 </div>
 }

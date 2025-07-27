@@ -3,13 +3,14 @@ import { CORE_IMPORTS, MATERIAL_IMPORTS, MessagesService, LanguageService } from
 import { Movie, MovieStatus } from '../../../models';
 import { AuthService } from '../../../services/auth.service';
 import { getGenreColor, getStarsArray, formatYear, formatDuration, getMovieStatus, getStatusName } from '../../../shared/utils/movie.utils';
+import { InteractiveRatingComponent } from '../interactive-rating/interactive-rating.component';
 
 @Component({
   selector: 'app-movie-card',
   standalone: true,
   imports: [
     ...CORE_IMPORTS,
-    ...MATERIAL_IMPORTS
+    ...MATERIAL_IMPORTS,
   ],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss'
@@ -27,6 +28,7 @@ export class MovieCardComponent {
   @Input() compact = false;
 
   @Output() onRate = new EventEmitter<{ movieId: string; rating: number }>();
+  @Output() onRemoveRating = new EventEmitter<Movie>();
   @Output() onViewDetails = new EventEmitter<Movie>();
   @Output() onShare = new EventEmitter<Movie>();
   @Output() onFavorite = new EventEmitter<Movie>();

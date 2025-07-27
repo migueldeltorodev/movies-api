@@ -35,13 +35,6 @@
             </div>
 
             <div class="quick-actions">
-                @if (canRate()) {
-                <button mat-raised-button color="accent" class="action-button" [disabled]="isRating()">
-                    <mat-icon>star_rate</mat-icon>
-                    {{ languageService.isSpanish() ? 'Calificar' : 'Rate Movie' }}
-                </button>
-                }
-
                 <button mat-raised-button class="action-button" (click)="onShareMovie()">
                     <mat-icon>share</mat-icon>
                     {{ languageService.isSpanish() ? 'Compartir' : 'Share' }}
@@ -88,43 +81,13 @@
             </div>
 
             <div class="rating-section">
-                <h3>{{ languageService.isSpanish() ? 'Calificación' : 'Rating' }}</h3>
-
-                <div class="average-rating">
-                    <div class="stars-display">
-                        @for (star of getStarsArray(movie.rating); track $index) {
-                        <mat-icon class="star" [class.filled]="star">
-                            {{ star ? 'star' : 'star_border' }}
-                        </mat-icon>
-                        }
-                    </div>
-                    @if (movie.rating) {
-                    <span class="rating-text">{{ movie.rating | number:'1.1-1' }}/5</span>
-                    } @else {
-                    <span class="rating-text no-rating">{{ languageService.isSpanish() ? 'Sin calificar' : 'Not rated'
-                        }}</span>
-                    }
-                </div>
-
                 @if (canRate()) {
                 <div class="user-rating">
                     <h4>{{ languageService.isSpanish() ? 'Tu calificación' : 'Your Rating' }}</h4>
-                    <div class="interactive-stars">
-                        @for (star of getInteractiveStars(selectedRating()); track star.value) {
-                        <button mat-icon-button class="star-button" [class.filled]="star.filled" [disabled]="isRating()"
-                            (click)="onRateMovie(star.value)">
-                            <mat-icon>{{ star.filled ? 'star' : 'star_border' }}</mat-icon>
-                        </button>
-                        }
-                    </div>
-                    @if (movie.userRating) {
-                    <div class="current-rating">
-                        <span>{{ getRatingText(movie.userRating) }}</span>
-                        <button mat-button color="warn" (click)="onRemoveRating()" [disabled]="isRating()">
-                            {{ languageService.isSpanish() ? 'Eliminar calificación' : 'Remove rating' }}
-                        </button>
-                    </div>
-                    }
+                    <app-interactive-rating [currentRating]="movie.userRating || 0" [disabled]="isRating()"
+                        [size]="'large'" [showRemoveButton]="true" [showRatingText]="true"
+                        (ratingChange)="onRateMovie($event)" (ratingRemove)="onRemoveRating()">
+                    </app-interactive-rating>
                 </div>
                 }
             </div>
