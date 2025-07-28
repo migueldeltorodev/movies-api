@@ -23,7 +23,13 @@ export const MESSAGES_EN = {
         clear: 'Clear',
         back: 'Back',
         next: 'Next',
-        previous: 'Previous'
+        previous: 'Previous',
+        select: 'Select',
+        create: 'Create',
+        update: 'Update',
+        general: 'General Information',
+        separate: 'Separate with',
+        comma: 'commas'
     },
 
     // Navigation
@@ -87,6 +93,7 @@ export const MESSAGES_EN = {
     // Movies
     movies: {
         title: 'Movies',
+        subtitle: 'Discover and rate your favorite movies',
         movieDetails: 'Movie Details',
         loadError: 'Error loading movies',
         loadingMovie: 'Loading movie...',
@@ -140,16 +147,50 @@ export const MESSAGES_EN = {
         releaseDateNotSpecified: 'Release date not specified',
 
         // CRUD
+        createMovie: 'Create Movie',
+        editMovie: 'Edit Movie',
         createSuccess: 'Movie created successfully',
         createError: 'Error creating movie',
         updateSuccess: 'Movie updated successfully',
         updateError: 'Error updating movie',
         deleteSuccess: 'Movie deleted successfully',
         deleteError: 'Error deleting movie',
-        editFunctionality: 'Edit functionality coming soon',
+
+        // Form fields
+        titleField: 'Title',
+        descriptionField: 'Description',
+        directorField: 'Director',
+        yearField: 'Year of Release',
+        durationField: 'Duration (minutes)',
+        releaseDateField: 'Release Date',
+        countryField: 'Country',
+        originalLanguageField: 'Original Language',
+        ageRatingField: 'Age Rating',
+        genresField: 'Genres',
+        statusField: 'Status',
+
+        // Placeholders
+        titlePlaceholder: 'Enter movie title',
+        descriptionPlaceholder: 'Enter movie description',
+        directorPlaceholder: 'Enter director name',
+        yearPlaceholder: '2024',
+        durationPlaceholder: '120',
+        releaseDatePlaceholder: 'YYYY-MM-DD',
+        countryPlaceholder: 'United States',
+        originalLanguagePlaceholder: 'English',
+        genresPlaceholder: 'Action, Drama, Comedy',
+
+        // Age ratings
+        ageRatingG: 'G - General Audiences',
+        ageRatingPG: 'PG - Parental Guidance',
+        ageRatingPG13: 'PG-13 - Parents Strongly Cautioned',
+        ageRatingR: 'R - Restricted',
+        ageRatingNC17: 'NC-17 - Adults Only',
 
         // Search and filters
         noResults: 'No movies found matching your search',
+        noResultsDescription: 'Try adjusting your search filters or explore our complete catalog.',
+        viewAllMovies: 'View all movies',
         searchByTitle: 'Search by title',
         searchPlaceholder: 'Ex: Matrix, Avengers...',
         year: 'Year',

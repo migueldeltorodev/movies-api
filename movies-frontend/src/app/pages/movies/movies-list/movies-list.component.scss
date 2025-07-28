@@ -55,7 +55,7 @@
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem;
-  
+
   .loading-text {
     margin-top: 1rem;
     color: #666;
@@ -83,7 +83,7 @@
   display: flex;
   justify-content: center;
   margin-top: 2rem;
-  
+
   .movies-paginator {
     background: white;
     border-radius: 8px;
@@ -98,11 +98,11 @@
   align-items: center;
   min-height: 400px;
   padding: 2rem;
-  
+
   .empty-content {
     text-align: center;
     max-width: 400px;
-    
+
     .empty-icon {
       font-size: 4rem;
       width: 4rem;
@@ -110,20 +110,20 @@
       color: #ccc;
       margin-bottom: 1rem;
     }
-    
+
     .empty-title {
       font-size: 1.5rem;
       font-weight: 400;
       color: #666;
       margin-bottom: 0.5rem;
     }
-    
+
     .empty-description {
       color: #999;
       margin-bottom: 2rem;
       line-height: 1.5;
     }
-    
+
     .empty-action {
       mat-icon {
         margin-right: 0.5rem;
@@ -144,7 +144,7 @@
   right: 2rem;
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  
+
   &:hover {
     transform: scale(1.05);
   }
@@ -156,23 +156,23 @@
     .filters-section {
       flex-direction: column;
       align-items: stretch;
-      
+
       .mat-mdc-form-field {
         width: 100%;
       }
-      
+
       .filter-actions {
         justify-content: center;
         margin-top: 1rem;
       }
     }
   }
-  
+
   .movies-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .add-movie-fab {
     bottom: 1rem;
     right: 1rem;
@@ -182,11 +182,11 @@
 @media (max-width: 480px) {
   .movies-header {
     padding: 1.5rem 0;
-    
+
     .title-section {
       .page-title {
         font-size: 2rem;
-        
+
         .title-icon {
           font-size: 2rem;
           width: 2rem;
@@ -195,11 +195,11 @@
       }
     }
   }
-  
+
   .movie-card {
     .movie-actions {
       flex-direction: column;
-      
+
       button {
         width: 100%;
       }
@@ -213,9 +213,41 @@
     background: #4caf50 !important;
     color: white !important;
   }
-  
+
   .error-snackbar {
     background: #f44336 !important;
     color: white !important;
+  }
+}
+
+//
+FAB para agregar película .add-movie-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Responsive para FAB
+@media (max-width: 768px) {
+  .add-movie-fab {
+    bottom: 1rem;
+    right: 1rem;
+    transform: scale(0.9);
+
+    &:hover {
+      transform: scale(1);
+    }
   }
 }

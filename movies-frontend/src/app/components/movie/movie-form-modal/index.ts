@@ -1,0 +1,1 @@
+export * from './movie-form-modal.component';

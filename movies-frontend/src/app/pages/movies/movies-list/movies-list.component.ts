@@ -1,9 +1,10 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
-import { retry, delay, catchError, of } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 import { MovieCardComponent, MovieFilters } from '../../../components';
 import { MovieFiltersComponent } from '../../../components';
+import { MovieFormModalComponent, MovieFormModalData } from '../../../components/movie/movie-form-modal/movie-form-modal.component';
 
 import {
     CORE_IMPORTS,
@@ -36,6 +37,7 @@ export class MoviesListComponent implements OnInit {
     private readonly moviesApi = inject(MoviesApiService);
     private readonly notification = inject(NotificationService);
     private readonly messagesService = inject(MessagesService);
+    private readonly dialog = inject(MatDialog);
     readonly languageService = inject(LanguageService);
     readonly authService = inject(AuthService);
 
@@ -148,6 +150,63 @@ export class MoviesListComponent implements OnInit {
             error: (error) => {
                 console.error('Error removing movie rating:', error);
                 this.notification.error('Error removing rating');
+            }
+        });
+    }
+
+    onCreateMovie() {
+        if (!this.authService.isAdmin()) {
+            this.notification.warning(this.messagesService.permissions().adminRequired);
+            return;
+        }
+
+        const dialogData: MovieFormModalData = {
+            mode: 'create'
+        };
+
+        const dialogRef = this.dialog.open(MovieFormModalComponent, {
+            data: dialogData,
+            width: '800px',
+            maxWidth: '95vw',
+            maxHeight: '90vh',
+            disableClose: true
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result?.success) {
+                if (result.action === 'create') {
+                    this.notification.success(this.messages().createSuccess);
+                    this.loadMovies();
+                }
+            }
+        });
+    }
+
+    onEditMovie(movie: Movie) {
+        if (!this.authService.isAdmin()) {
+            this.notification.warning(this.messagesService.permissions().adminRequired);
+            return;
+        }
+
+        const dialogData: MovieFormModalData = {
+            movie,
+            mode: 'edit'
+        };
+
+        const dialogRef = this.dialog.open(MovieFormModalComponent, {
+            data: dialogData,
+            width: '800px',
+            maxWidth: '95vw',
+            maxHeight: '90vh',
+            disableClose: true
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result?.success) {
+                if (result.action === 'update') {
+                    this.notification.success(this.messages().updateSuccess);
+                    this.loadMovies();
+                }
             }
         });
     }

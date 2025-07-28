@@ -18,7 +18,13 @@ export const MESSAGES_ES = {
         clear: 'Limpiar',
         back: 'Volver',
         next: 'Siguiente',
-        previous: 'Anterior'
+        previous: 'Anterior',
+        select: 'Seleccionar',
+        create: 'Crear',
+        update: 'Actualizar',
+        general: 'Información General',
+        separate: 'Separar con',
+        comma: 'comas'
     },
 
     nav: {
@@ -77,6 +83,7 @@ export const MESSAGES_ES = {
 
     movies: {
         title: 'Películas',
+        subtitle: 'Descubre y califica tus películas favoritas',
         movieDetails: 'Detalles de la película',
         loadError: 'Error al cargar las películas',
         loadingMovie: 'Cargando película...',
@@ -124,15 +131,49 @@ export const MESSAGES_ES = {
         durationNotSpecified: 'Duración no especificada',
         releaseDateNotSpecified: 'Fecha de estreno no especificada',
 
+        createMovie: 'Crear Película',
+        editMovie: 'Editar Película',
         createSuccess: 'Película creada exitosamente',
         createError: 'Error al crear la película',
         updateSuccess: 'Película actualizada exitosamente',
         updateError: 'Error al actualizar la película',
         deleteSuccess: 'Película eliminada exitosamente',
         deleteError: 'Error al eliminar la película',
-        editFunctionality: 'Funcionalidad de edición próximamente',
+
+        // Form fields
+        titleField: 'Título',
+        descriptionField: 'Descripción',
+        directorField: 'Director',
+        yearField: 'Año de estreno',
+        durationField: 'Duración (minutos)',
+        releaseDateField: 'Fecha de estreno',
+        countryField: 'País',
+        originalLanguageField: 'Idioma original',
+        ageRatingField: 'Clasificación por edad',
+        genresField: 'Géneros',
+        statusField: 'Estado',
+
+        // Placeholders
+        titlePlaceholder: 'Ingresa el título de la película',
+        descriptionPlaceholder: 'Ingresa la descripción de la película',
+        directorPlaceholder: 'Ingresa el nombre del director',
+        yearPlaceholder: '2024',
+        durationPlaceholder: '120',
+        releaseDatePlaceholder: 'AAAA-MM-DD',
+        countryPlaceholder: 'Estados Unidos',
+        originalLanguagePlaceholder: 'Español',
+        genresPlaceholder: 'Acción, Drama, Comedia',
+
+        // Age ratings
+        ageRatingG: 'G - Audiencias Generales',
+        ageRatingPG: 'PG - Guía Parental',
+        ageRatingPG13: 'PG-13 - Padres Fuertemente Advertidos',
+        ageRatingR: 'R - Restringida',
+        ageRatingNC17: 'NC-17 - Solo Adultos',
 
         noResults: 'No se encontraron películas que coincidan con tu búsqueda',
+        noResultsDescription: 'Intenta ajustar tus filtros de búsqueda o explora nuestro catálogo completo.',
+        viewAllMovies: 'Ver todas las películas',
         searchByTitle: 'Buscar por título',
         searchPlaceholder: 'Ej: Matrix, Avengers...',
         year: 'Año',

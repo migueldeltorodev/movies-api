@@ -1,0 +1,150 @@
+<div class="movie-form-modal">
+    <div mat-dialog-title class="modal-header">
+        <h2>{{ modalTitle() }}</h2>
+        <button mat-icon-button mat-dialog-close class="close-button">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content class="modal-content">
+        <form [formGroup]="movieForm" (ngSubmit)="onSubmit()" class="movie-form">
+
+            <div class="form-section">
+                <h3 class="section-title">{{ generalMessages().general }}</h3>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>{{ messages().titleField }}</mat-label>
+                        <input matInput formControlName="title" [placeholder]="messages().titlePlaceholder" required>
+                        @if (hasFieldError('title')) {
+                        <mat-error>{{ getFieldError('title') }}</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>{{ messages().descriptionField }}</mat-label>
+                        <textarea matInput formControlName="description"
+                            [placeholder]="messages().descriptionPlaceholder" rows="4" required></textarea>
+                        @if (hasFieldError('description')) {
+                        <mat-error>{{ getFieldError('description') }}</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row two-columns">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().directorField }}</mat-label>
+                        <input matInput formControlName="director" [placeholder]="messages().directorPlaceholder">
+                        @if (hasFieldError('director')) {
+                        <mat-error>{{ getFieldError('director') }}</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().yearField }}</mat-label>
+                        <input matInput type="number" formControlName="yearOfRelease"
+                            [placeholder]="messages().yearPlaceholder" required>
+                        @if (hasFieldError('yearOfRelease')) {
+                        <mat-error>{{ getFieldError('yearOfRelease') }}</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">{{ messages().metadata }}</h3>
+
+                <div class="form-row two-columns">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().durationField }}</mat-label>
+                        <input matInput type="number" formControlName="durationMinutes"
+                            [placeholder]="messages().durationPlaceholder">
+                        <span matSuffix>min</span>
+                        @if (hasFieldError('durationMinutes')) {
+                        <mat-error>{{ getFieldError('durationMinutes') }}</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().releaseDateField }}</mat-label>
+                        <input matInput type="date" formControlName="releaseDate">
+                        @if (hasFieldError('releaseDate')) {
+                        <mat-error>{{ getFieldError('releaseDate') }}</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row two-columns">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().countryField }}</mat-label>
+                        <input matInput formControlName="country" [placeholder]="messages().countryPlaceholder">
+                        @if (hasFieldError('country')) {
+                        <mat-error>{{ getFieldError('country') }}</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().originalLanguageField }}</mat-label>
+                        <input matInput formControlName="originalLanguage"
+                            [placeholder]="messages().originalLanguagePlaceholder">
+                        @if (hasFieldError('originalLanguage')) {
+                        <mat-error>{{ getFieldError('originalLanguage') }}</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row two-columns">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().ageRatingField }}</mat-label>
+                        <mat-select formControlName="ageRating">
+                            <mat-option value="">{{ generalMessages().select }}</mat-option>
+                            @for (option of ageRatingOptions; track option.value) {
+                            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+
+                    @if (isEditMode()) {
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ messages().statusField }}</mat-label>
+                        <mat-select formControlName="status">
+                            @for (option of statusOptions; track option.value) {
+                            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                    }
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>{{ messages().genresField }}</mat-label>
+                        <input matInput formControlName="genres" [placeholder]="messages().genresPlaceholder" required>
+                        <mat-hint>{{ generalMessages().separate }} {{ generalMessages().comma }}</mat-hint>
+                        @if (hasFieldError('genres')) {
+                        <mat-error>{{ getFieldError('genres') }}</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="modal-actions">
+        <button mat-button type="button" (click)="onCancel()" [disabled]="isLoading()">
+            {{ generalMessages().cancel }}
+        </button>
+
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit()"
+            [disabled]="isLoading() || movieForm.invalid">
+            @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+            }
+            @if (!isLoading()) {
+            {{ isEditMode() ? generalMessages().update : generalMessages().create }}
+            }
+        </button>
+    </mat-dialog-actions>
+</div>
