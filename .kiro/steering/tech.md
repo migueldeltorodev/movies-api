@@ -1,78 +1,80 @@
 # Technology Stack
 
-## Framework & Runtime
-- .NET 9 SDK
-- ASP.NET Core with Minimal APIs
-- C# with nullable reference types enabled
-- Implicit usings enabled
+## Backend (.NET 9)
+- **Framework**: .NET 9 with Minimal APIs
+- **Database**: PostgreSQL with Entity Framework Core 9
+- **Authentication**: JWT Bearer tokens with role-based authorization
+- **Validation**: FluentValidation
+- **Database Migrations**: DbUp with embedded SQL scripts
+- **API Documentation**: Swagger/OpenAPI
+- **Architecture**: Clean Architecture (API → Application → Contracts)
 
-## Database & Data Access
-- PostgreSQL database
-- Entity Framework Core 9.0.0 with Npgsql provider
-- Dapper for lightweight data access
-- DbUp for database migrations and schema management
-- Embedded SQL scripts for database setup
+### Key Libraries
+- `Asp.Versioning.Http` (8.1.0) - API versioning
+- `Microsoft.AspNetCore.Authentication.JwtBearer` (9.0.0) - JWT auth
+- `Npgsql.EntityFrameworkCore.PostgreSQL` (9.0.2) - PostgreSQL provider
+- `FluentValidation.DependencyInjectionExtensions` (11.9.0) - Validation
+- `Dapper` (2.1.66) - Micro ORM for queries
 
-## Authentication & Security
-- JWT Bearer authentication
-- API Key authentication for admin operations
-- Role-based authorization (Public, TrustedMember, Admin)
-- User Secrets for local development configuration
+## Frontend (Angular 20)
+- **Framework**: Angular 20 with Zoneless change detection
+- **UI Library**: Angular Material 20
+- **Styling**: SCSS with responsive design
+- **Package Manager**: Bun (configured in angular.json)
+- **Build System**: Angular CLI with SSR support
+- **Internationalization**: Angular i18n (Spanish default, English support)
 
-## Key Libraries
-- FluentValidation for input validation
-- Swashbuckle.AspNetCore for API documentation
-- Asp.Versioning for API versioning
-- Refit for HTTP client SDK generation
+### Key Dependencies
+- `@angular/material` (20.1.2) - UI components
+- `@angular/cdk` (20.1.2) - Component dev kit
+- `@angular/ssr` (20.0.2) - Server-side rendering
+- `rxjs` (7.8.0) - Reactive programming
 
-## Development Tools
-- Docker Compose for local database setup
-- Swagger UI for API testing and documentation
-- Postman collection included for testing
+## Development Environment
+- **Database**: Docker Compose with PostgreSQL
+- **IDE**: Visual Studio/.NET + VS Code/Angular
+- **Platform**: Windows (cmd shell)
 
 ## Common Commands
 
-### Database Setup
+### Backend
 ```bash
-# Start PostgreSQL database
+# Start database
 docker-compose up -d
-```
 
-### User Secrets Configuration
-```bash
-# Navigate to API project
-cd "1.GettingStarted\Movies.Api"
+# Run main API (from Server/Movies.Api)
+dotnet run
 
-# Initialize user secrets
-dotnet user-secrets init
+# Run Identity API (from Server/Helpers/Identity.Api)
+dotnet run
 
-# Set required secrets
-dotnet user-secrets set "Database:ConnectionString" "Server=localhost;Port=5432;Database=movies;User Id=migueldeltorodev;Password=migueldeltorodev;"
-dotnet user-secrets set "Jwt:Key" "unaClaveSecretaSuperLargaYComplejaParaJwt"
-dotnet user-secrets set "Jwt:Issuer" "https://localhost:5001"
-dotnet user-secrets set "Jwt:Audience" "https://localhost:5001"
-dotnet user-secrets set "ApiKey" "unaApiKeySuperSecretaParaUsuariosAdmin"
-```
-
-### Build & Run
-```bash
-# Build entire solution
+# Build solution
 dotnet build
 
-# Run main API
-cd "1.GettingStarted\Movies.Api"
-dotnet run
-
-# Run Identity API (for JWT token generation)
-cd "Helpers\Identity.Api"
-dotnet run
-
-# Run SDK consumer example
-cd "Movies.Api.Sdk.Consumer"
-dotnet run
+# Setup user secrets (from Movies.Api directory)
+dotnet user-secrets init
+dotnet user-secrets set "Database:ConnectionString" "Server=localhost;Port=5432;Database=movies;User Id=migueldeltorodev;Password=migueldeltorodev;"
 ```
 
-### Testing
-- API available at: https://localhost:5001
-- Swagger UI at: https://localhost:5001/swagger
-- Identity API typically at: https://localhost:7148
+### Frontend
+```bash
+# Install dependencies (from movies-frontend)
+bun install
+# or npm install
+
+# Start dev server
+npm start
+# or ng serve
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+```
+
+## Configuration Notes
+- Backend uses User Secrets for local development
+- Frontend configured for development with `NODE_TLS_REJECT_UNAUTHORIZED=0`
+- CORS configured for Angular app communication
+- JWT tokens obtained from separate Identity API for testing

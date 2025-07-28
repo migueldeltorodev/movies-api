@@ -1,23 +1,23 @@
 # Product Overview
 
-This is a Movies API REST service built as an educational project demonstrating clean architecture principles in .NET 7. The API provides comprehensive movie management functionality including CRUD operations, user ratings, and authentication/authorization.
+## Movies API & Frontend
 
-## Core Features
-- Movie catalog management (create, read, update, delete)
-- User rating system for movies
-- JWT-based authentication with role-based authorization
-- API versioning support
-- Swagger documentation
-- SDK for client consumption
+A full-stack movie management application demonstrating modern web development practices with .NET and Angular.
 
-## Target Users
-- Developers learning REST API development
-- Students studying clean architecture patterns
-- Anyone needing a reference implementation of a .NET 7 API
+### Core Features
+- **Movie Catalog**: Browse, search, and filter movies with pagination
+- **User Ratings**: Rate movies and view community ratings
+- **Authentication**: JWT-based auth with role-based access (Public, TrustedMember, Admin)
+- **Multi-language**: Spanish (default) and English localization support
+- **Responsive Design**: Modern UI with Angular Material components
 
-## Key Business Rules
-- Movies have unique slugs generated from titles
-- Users can rate movies (1-5 scale)
-- Three authorization levels: Public, TrustedMember, Admin
-- Admin operations require API key authentication
-- All data is persisted in PostgreSQL database
+### Target Audience
+- Educational/learning project for REST API development
+- Demonstration of clean architecture principles
+- Full-stack integration between .NET 9 and Angular 20
+
+### Business Logic
+- Movies have titles, descriptions, genres, release years, and ratings
+- Users can rate movies (1-5 stars) once authenticated
+- Admin users can perform CRUD operations on movies
+- Public users can browse the catalog without authentication

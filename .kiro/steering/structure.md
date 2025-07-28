@@ -1,78 +1,106 @@
 # Project Structure
 
-## Solution Organization
-The solution follows Clean Architecture principles with clear separation of concerns across multiple projects.
+## Root Level
+```
+├── RestApiCourse.sln          # Main solution file
+├── compose.yaml               # PostgreSQL database container
+├── Documentation/             # Project documentation
+├── Server/                    # Backend .NET projects
+└── movies-frontend/           # Angular frontend application
+```
 
-## Core Projects (1.GettingStarted/)
+## Backend Structure (Server/)
 
-### Movies.Api
-- **Purpose**: Main API entry point and HTTP layer
-- **Responsibilities**: 
-  - Minimal API endpoint definitions
-  - HTTP pipeline configuration (CORS, authentication, etc.)
-  - Dependency injection setup
-  - Swagger configuration
-- **Dependencies**: Movies.Application, Movies.Contracts
-- **Key Files**: Program.cs, endpoint definitions
+### Clean Architecture Layers
+```
+Server/
+├── Movies.Api/                # 🌐 API Layer (Entry point)
+│   ├── Endpoints/            # Minimal API endpoint definitions
+│   ├── Auth/                 # Authentication/authorization
+│   └── Program.cs            # App configuration & DI setup
+│
+├── Movies.Application/        # 🏗️ Business Logic Layer
+│   ├── Services/             # Business services (MovieService, RatingService)
+│   ├── Repositories/         # Repository interfaces
+│   ├── Models/               # Domain models
+│   ├── Database/             # EF Context & migrations
+│   └── Validators/           # FluentValidation rules
+│
+├── Movies.Contracts/          # 📄 Data Transfer Objects
+│   ├── Requests/             # API request DTOs
+│   └── Responses/            # API response DTOs
+│
+├── Movies.Api.Sdk/           # 📦 Client SDK
+└── Movies.Api.Sdk.Consumer/  # 🔧 SDK usage example
+```
 
-### Movies.Application  
-- **Purpose**: Business logic and domain layer
-- **Responsibilities**:
-  - Service implementations (MovieService, RatingService)
-  - Repository interfaces (IMovieRepository)
-  - Domain models and business rules
-  - Database migrations and initialization
-- **Dependencies**: Entity Framework, Dapper, FluentValidation
-- **Key Patterns**: Repository pattern, service layer
+### Helper Projects
+```
+Server/Helpers/
+└── Identity.Api/             # JWT token generation for testing
+```
 
-### Movies.Contracts
-- **Purpose**: Data Transfer Objects (DTOs)
-- **Responsibilities**:
-  - Request/Response models
-  - API contract definitions
-  - Decouples internal models from public API
-- **Dependencies**: None (pure POCO classes)
+## Frontend Structure (movies-frontend/)
 
-## SDK Projects
+### Angular 20 Application
+```
+movies-frontend/
+├── src/
+│   ├── app/
+│   │   ├── components/       # UI components
+│   │   │   ├── movie/        # Movie-related components
+│   │   │   └── shared/       # Reusable components
+│   │   ├── services/         # HTTP services & business logic
+│   │   ├── models/           # TypeScript interfaces
+│   │   ├── interceptors/     # HTTP interceptors (auth)
+│   │   ├── shared/           # Shared utilities
+│   │   ├── app.config.ts     # App configuration
+│   │   └── app.routes.ts     # Routing configuration
+│   ├── environments/         # Environment configs
+│   ├── locale/               # i18n translation files
+│   └── styles.scss           # Global styles
+├── angular.json              # Angular CLI configuration
+├── package.json              # Dependencies & scripts
+└── tsconfig.json             # TypeScript configuration
+```
 
-### Movies.Api.Sdk
-- **Purpose**: Client SDK for consuming the API
-- **Technology**: Refit HTTP client
-- **Dependencies**: Movies.Contracts
+## Key Architectural Patterns
 
-### Movies.Api.Sdk.Consumer
-- **Purpose**: Example implementation showing SDK usage
-- **Dependencies**: Movies.Api.Sdk
+### Backend Conventions
+- **Minimal APIs**: Endpoint definitions in separate files
+- **Repository Pattern**: Data access abstraction
+- **Clean Architecture**: Clear separation of concerns
+- **Dependency Injection**: Constructor injection throughout
+- **FluentValidation**: Centralized validation rules
 
-## Helper Projects (Helpers/)
+### Frontend Conventions
+- **Standalone Components**: No NgModules, modern Angular approach
+- **Signals**: Reactive state management
+- **Services**: HTTP communication & state management
+- **Interceptors**: Cross-cutting concerns (auth, error handling)
+- **SCSS**: Component-scoped styling with global variables
 
-### Identity.Api
-- **Purpose**: Standalone JWT token generation service
-- **Use Case**: Testing and development authentication
-- **Port**: Typically runs on https://localhost:7148
+## File Naming Conventions
 
-### Course.postman_collection.json
-- **Purpose**: Postman collection for API testing
-- **Contains**: Pre-configured requests for all endpoints
+### Backend (.NET)
+- **Controllers/Endpoints**: `MoviesEndpoints.cs`
+- **Services**: `MovieService.cs`, `IMovieService.cs`
+- **Models**: `Movie.cs`, `Rating.cs`
+- **DTOs**: `CreateMovieRequest.cs`, `MovieResponse.cs`
+- **Validators**: `CreateMovieRequestValidator.cs`
 
-### movies.json
-- **Purpose**: Sample data for database seeding
+### Frontend (Angular)
+- **Components**: `movie-list.component.ts/html/scss`
+- **Services**: `movies-api.service.ts`
+- **Models**: `movie.model.ts`
+- **Interceptors**: `auth.interceptor.ts`
+- **Kebab-case**: All file and folder names
 
 ## Configuration Files
+- **Backend**: `appsettings.json`, User Secrets, `Program.cs`
+- **Frontend**: `environment.ts`, `angular.json`, `app.config.ts`
+- **Database**: `compose.yaml` for PostgreSQL container
+- **Build**: `.csproj` files, `package.json`
 
-### Root Level
-- `RestApiCourse.sln`: Visual Studio solution file
-- `compose.yaml`: Docker Compose for PostgreSQL database
-- `.dockerignore`: Docker build exclusions
-- `.gitignore`: Git exclusions
-
-## Naming Conventions
-- Projects: PascalCase with descriptive names
-- Folders: Match project/namespace structure
-- Files: PascalCase for C# files, lowercase for config files
-
-## Architecture Principles
-- **Dependency Direction**: API → Application → Contracts
-- **Clean Architecture**: Each layer has specific responsibilities
-- **Separation of Concerns**: HTTP, business logic, and data contracts are separated
-- **Testability**: Business logic isolated from HTTP concerns
+## Documentation Location
+All project documentation is centralized in the `Documentation/` folder with comprehensive guides for setup, architecture, and development practices.
