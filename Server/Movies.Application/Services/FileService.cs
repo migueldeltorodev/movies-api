@@ -1,23 +1,22 @@
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Movies.Contracts.Requests;
 
 namespace Movies.Application.Services;
 
 public class FileService : IFileService
 {
     private readonly ILogger<FileService> _logger;
+    private readonly IValidator<FileUploadRequest> _validator;
     private readonly string _uploadsPath;
     private readonly string _baseUrl;
 
-    private static readonly string[] AllowedExtensions = { ".jpg", ".jpeg", ".png", ".webp" };
-    private static readonly string[] AllowedContentTypes = { "image/jpeg", "image/png", "image/webp" };
-    private const long MaxFileSize = 5 * 1024 * 1024; // 5MB
-    private const int MaxImageWidth = 2000;
-    private const int MaxImageHeight = 3000;
-
-    public FileService(ILogger<FileService> logger, IConfiguration configuration)
+    public FileService(ILogger<FileService> logger, IConfiguration configuration,
+        IValidator<FileUploadRequest> validator)
     {
         _logger = logger;
+        _validator = validator;
         _uploadsPath = configuration["FileStorage:UploadsPath"] ??
                        Path.Combine(Directory.GetCurrentDirectory(), "uploads", "posters");
         _baseUrl = configuration["FileStorage:BaseUrl"] ?? "https://localhost:5001/uploads/posters";
@@ -25,23 +24,19 @@ public class FileService : IFileService
         Directory.CreateDirectory(_uploadsPath);
     }
 
-    public async Task<FileUploadResult> UploadPosterAsync(Stream fileStream, string fileName, Guid movieId,
+    public async Task<FileUploadResult> UploadPosterAsync(Guid movieId, FileUploadRequest request,
         CancellationToken cancellationToken = default)
     {
+        await _validator.ValidateAndThrowAsync(request, cancellationToken);
+
         try
         {
-            var validation = ValidatePosterFile(fileName, fileStream.Length);
-            if (!validation.IsValid)
-            {
-                throw new InvalidOperationException($"Archivo inválido: {string.Join(", ", validation.Errors)}");
-            }
-
-            var extension = Path.GetExtension(fileName).ToLowerInvariant();
+            var extension = Path.GetExtension(request.FileName).ToLowerInvariant();
             var uniqueFileName = $"{movieId}_{Guid.NewGuid():N}{extension}";
             var filePath = Path.Combine(_uploadsPath, uniqueFileName);
 
-            using var fileStreamOutput = new FileStream(filePath, FileMode.Create);
-            await fileStream.CopyToAsync(fileStreamOutput, cancellationToken);
+            await using var fileStreamOutput = new FileStream(filePath, FileMode.Create);
+            await request.Content.CopyToAsync(fileStreamOutput, cancellationToken);
 
             _logger.LogInformation("Poster uploaded successfully: {FileName} for movie {MovieId}", uniqueFileName,
                 movieId);
@@ -50,8 +45,8 @@ public class FileService : IFileService
             {
                 FileName = uniqueFileName,
                 Url = GetPosterUrl(uniqueFileName),
-                Size = fileStream.Length,
-                ContentType = GetContentType(extension)
+                Size = request.ContentLength,
+                ContentType = request.ContentType
             };
         }
         catch (Exception ex)
@@ -93,34 +88,6 @@ public class FileService : IFileService
             return string.Empty;
 
         return $"{_baseUrl}/{fileName}";
-    }
-
-    public ValidationResult ValidatePosterFile(string fileName, long fileSize)
-    {
-        var errors = new List<string>();
-
-        var extension = Path.GetExtension(fileName).ToLowerInvariant();
-        if (!AllowedExtensions.Contains(extension))
-        {
-            errors.Add($"Extensión no permitida. Extensiones válidas: {string.Join(", ", AllowedExtensions)}");
-        }
-
-        if (fileSize > MaxFileSize)
-        {
-            errors.Add($"Archivo demasiado grande. Tamaño máximo: {MaxFileSize / (1024 * 1024)}MB");
-        }
-
-        if (fileSize == 0)
-        {
-            errors.Add("El archivo está vacío");
-        }
-
-        if (string.IsNullOrWhiteSpace(fileName))
-        {
-            errors.Add("Nombre de archivo inválido");
-        }
-
-        return errors.Count == 0 ? ValidationResult.Success() : ValidationResult.Failure(errors.ToArray());
     }
 
     private static string GetContentType(string extension)

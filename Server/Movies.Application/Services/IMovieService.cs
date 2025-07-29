@@ -1,4 +1,5 @@
 using Movies.Application.Models;
+using Movies.Contracts.Requests;
 
 namespace Movies.Application.Services;
 
@@ -12,7 +13,7 @@ public interface IMovieService
     Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<int> GetCountAsync(string? title, int? year, CancellationToken cancellationToken = default);
 
-    Task<Movie?> UploadPosterAsync(Guid movieId, Stream fileStream, string fileName, Guid userId,
+    Task<Movie?> UploadPosterAsync(Guid movieId, FileUploadRequest request, Guid userId,
         CancellationToken cancellationToken = default);
 
     Task<bool> DeletePosterAsync(Guid movieId, Guid userId, CancellationToken cancellationToken = default);
