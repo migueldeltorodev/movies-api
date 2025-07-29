@@ -1,6 +1,4 @@
-using Movies.Application.Models;
-
-namespace Movies.Contracts.Utils;
+namespace Movies.Application.Models.Utils;
 
 public static class ChangeMovieStatus
 {
