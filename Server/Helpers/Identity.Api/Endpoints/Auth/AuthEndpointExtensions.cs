@@ -8,6 +8,7 @@ public static class AuthEndpointExtensions
         app.MapLoginUser();
         app.MapPromoteUser();
         app.MapRefreshToken();
+        app.MapConfirmEmail();
         return app;
     }
 }

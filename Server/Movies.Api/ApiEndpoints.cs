@@ -29,13 +29,4 @@ public static class ApiEndpoints
 
         public const string GetUserRatings = $"{Base}/me";
     }
-
-    public static class Auth
-    {
-        private const string Base = $"{ApiBase}/auth";
-
-        public const string Login = Base + "/login";
-        public const string Register = Base + "/register";
-        public const string Promote = Base + "/promote";
-    }
 }
