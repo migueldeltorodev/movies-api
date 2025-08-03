@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Movies.Application.Models;
 
-namespace Movies.Api.Auth;
+namespace Identity.Api.Auth;
 
 public class AdminUserSeeder
 {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Movies.Application.Models;
 
-namespace Movies.Api.Auth;
+namespace Identity.Api.Auth;
 
 public class TokenService
 {

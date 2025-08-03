@@ -31,7 +31,7 @@ public static class DeletePosterEndpoint
         HttpContext context,
         CancellationToken cancellationToken)
     {
-        var userId = context.GetUserId();
+        var userId = context.User.GetId();
         if (!userId.HasValue)
         {
             return Results.Unauthorized();

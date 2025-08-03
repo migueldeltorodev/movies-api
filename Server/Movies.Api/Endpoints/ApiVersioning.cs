@@ -5,7 +5,7 @@ namespace Movies.Api.Endpoints;
 
 public static class ApiVersioning
 {
-    public static ApiVersionSet VersionSet { get; private set; }
+    public static ApiVersionSet? VersionSet { get; private set; }
 
     public static IEndpointRouteBuilder CreateApiVersionSet(this IEndpointRouteBuilder app)
     {

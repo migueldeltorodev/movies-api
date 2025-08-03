@@ -1,4 +1,4 @@
-namespace Movies.Api.Endpoints.Auth;
+namespace Identity.Api.Endpoints.Auth;
 
 public static class AuthEndpointExtensions
 {

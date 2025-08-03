@@ -2,7 +2,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -13,15 +12,10 @@ using Movies.Api.Mapping;
 using Movies.Api.Swagger;
 using Movies.Application;
 using Movies.Application.Database;
-using Movies.Application.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
-
-builder.Services.AddIdentity<User, IdentityRole<Guid>>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(x =>
 {
@@ -46,16 +40,12 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy(AuthConstants.AdminUserPolicyName,
-        policy => policy.AddRequirements(new AdminAuthRequirement(config["ApiKey"]!)));
+        p => p.RequireRole(AuthConstants.AdminRole));
 
     x.AddPolicy(AuthConstants.TrustedMemberPolicyName,
-        policy => policy.RequireRole("Admin", "User"));
+        p => p.RequireAssertion(c =>
+            c.User.IsInRole(AuthConstants.AdminRole) || c.User.IsInRole(AuthConstants.UserRole)));
 });
-
-builder.Services.AddScoped<ApiKeyAuthFilter>();
-builder.Services.AddScoped<TokenService>();
-builder.Services.AddScoped<RoleSeeder>();
-builder.Services.AddScoped<AdminUserSeeder>();
 
 builder.Services.AddApiVersioning(x =>
 {
@@ -154,15 +144,8 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await dbContext.Database.MigrateAsync();
 
-    var roleSeeder = scope.ServiceProvider.GetRequiredService<RoleSeeder>();
-    await roleSeeder.SeedAsync();
-
-    var adminUserSeeder = scope.ServiceProvider.GetRequiredService<AdminUserSeeder>();
-    await adminUserSeeder.SeedAsync();
-
     var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
     await dbInitializer.InitializeAsync();
 }
-
 
 app.Run();

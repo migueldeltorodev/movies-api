@@ -1,11 +1,11 @@
-using System.Security.Claims;
+using Identity.Api.Auth;
 using Microsoft.AspNetCore.Identity;
-using Movies.Api.Auth;
+using Movies.Api;
 using Movies.Application.Models;
 using Movies.Contracts.Requests;
 using Movies.Contracts.Responses;
 
-namespace Movies.Api.Endpoints.Auth;
+namespace Identity.Api.Endpoints.Auth;
 
 public static class RegisterUserEndpoint
 {
@@ -51,9 +51,7 @@ public static class RegisterUserEndpoint
                 return Results.Ok(response);
             })
             .WithName(Name)
-            .Produces<AuthResponse>(StatusCodes.Status201Created)
-            .WithApiVersionSet(ApiVersioning.VersionSet)
-            .HasApiVersion(1.0);
+            .Produces<AuthResponse>(StatusCodes.Status201Created);
 
         return app;
     }

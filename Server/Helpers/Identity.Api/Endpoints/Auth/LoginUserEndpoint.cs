@@ -1,10 +1,11 @@
+using Identity.Api.Auth;
 using Microsoft.AspNetCore.Identity;
-using Movies.Api.Auth;
+using Movies.Api;
 using Movies.Application.Models;
 using Movies.Contracts.Requests;
 using Movies.Contracts.Responses;
 
-namespace Movies.Api.Endpoints.Auth;
+namespace Identity.Api.Endpoints.Auth;
 
 public static class LoginUserEndpoint
 {
@@ -42,9 +43,7 @@ public static class LoginUserEndpoint
             })
             .WithName(Name)
             .Produces<AuthResponse>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized)
-            .WithApiVersionSet(ApiVersioning.VersionSet)
-            .HasApiVersion(1.0);
+            .Produces(StatusCodes.Status401Unauthorized);
 
         return app;
     }

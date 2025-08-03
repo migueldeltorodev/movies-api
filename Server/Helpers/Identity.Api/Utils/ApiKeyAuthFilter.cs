@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Movies.Api.Auth;
+namespace Identity.Api.Auth;
 
 public class ApiKeyAuthFilter : IAuthorizationFilter
 {

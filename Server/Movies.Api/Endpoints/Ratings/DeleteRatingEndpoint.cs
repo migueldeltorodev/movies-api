@@ -15,7 +15,7 @@ public static class DeleteRatingEndpoint
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var userId = context.GetUserId();
+                var userId = context.User.GetId();
                 var result = await ratingService.DeleteRatingAsync(id, userId!.Value, token);
                 return result ? Results.Ok() : Results.NotFound();
             })
