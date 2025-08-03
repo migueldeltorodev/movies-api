@@ -26,6 +26,11 @@ public static class LoginUserEndpoint
                     return Results.Unauthorized();
                 }
 
+                if (!user.EmailConfirmed)
+                {
+                    return Results.Unauthorized();
+                }
+
                 var isPasswordValid = await userManager.CheckPasswordAsync(user, request.Password);
                 if (!isPasswordValid)
                 {

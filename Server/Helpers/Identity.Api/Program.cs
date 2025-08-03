@@ -7,6 +7,7 @@ using Movies.Application.Database;
 using Movies.Application.Models;
 using Identity.Api.Auth;
 using Identity.Api.Endpoints.Auth;
+using Identity.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -14,6 +15,8 @@ var config = builder.Configuration;
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
