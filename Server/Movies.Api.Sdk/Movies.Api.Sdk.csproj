@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Movies.Api\Movies.Api.csproj"/>
+        <PackageReference Include="Refit" Version="7.2.22"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Refit" Version="7.2.22"/>
+        <ProjectReference Include="..\Movies.Contracts\Movies.Contracts.csproj"/>
     </ItemGroup>
 
 </Project>

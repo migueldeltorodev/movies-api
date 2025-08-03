@@ -1,23 +1,23 @@
 using FluentValidation;
 using Movies.Application.Models;
 using Movies.Application.Repositories;
-using Movies.Application.Validators;
+using Movies.Contracts.Requests;
 
 namespace Movies.Application.Services;
 
 public class MovieService : IMovieService
 {
     private readonly IMovieRepository _movieRepository;
-    private readonly CreateMovieValidator _createMovieValidator;
-    private readonly UpdateMovieValidator _updateMovieValidator;
+    private readonly IValidator<Movie> _createMovieValidator;
+    private readonly IValidator<Movie> _updateMovieValidator;
     private readonly IRatingRepository _ratingRepository;
     private readonly IValidator<GetAllMoviesOptions> _getAllMoviesOptionsValidator;
     private readonly IFileService _fileService;
 
     public MovieService(
         IMovieRepository movieRepository,
-        CreateMovieValidator createMovieValidator,
-        UpdateMovieValidator updateMovieValidator,
+        IValidator<Movie> createMovieValidator,
+        IValidator<Movie> updateMovieValidator,
         IRatingRepository ratingRepository,
         IValidator<GetAllMoviesOptions> getAllMoviesOptionsValidator,
         IFileService fileService)
@@ -33,8 +33,12 @@ public class MovieService : IMovieService
     public async Task<bool> CreateAsync(Movie movie, CancellationToken cancellationToken = default)
     {
         movie.UpdatedAt = DateTime.UtcNow;
+        var validationResult = await _createMovieValidator.ValidateAsync(movie, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
 
-        await _createMovieValidator.ValidateAndThrowAsync(movie, cancellationToken: cancellationToken);
         return await _movieRepository.CreateAsync(movie, cancellationToken);
     }
 
@@ -53,7 +57,12 @@ public class MovieService : IMovieService
     public async Task<IEnumerable<Movie>> GetAllAsync(GetAllMoviesOptions options,
         CancellationToken cancellationToken = default)
     {
-        await _getAllMoviesOptionsValidator.ValidateAndThrowAsync(options, cancellationToken: cancellationToken);
+        var validationResult = await _getAllMoviesOptionsValidator.ValidateAsync(options, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
+
         return await _movieRepository.GetAllAsync(options, cancellationToken);
     }
 
@@ -74,7 +83,11 @@ public class MovieService : IMovieService
             movie.UpdatedBy = userId.Value;
         }
 
-        await _updateMovieValidator.ValidateAndThrowAsync(movie, cancellationToken: cancellationToken);
+        var validationResult = await _updateMovieValidator.ValidateAsync(movie, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
 
         await _movieRepository.UpdateAsync(movie, cancellationToken);
 
@@ -91,7 +104,7 @@ public class MovieService : IMovieService
         return movie;
     }
 
-    public async Task<Movie?> UploadPosterAsync(Guid movieId, Stream fileStream, string fileName, Guid userId,
+    public async Task<Movie?> UploadPosterAsync(Guid movieId, FileUploadRequest request, Guid userId,
         CancellationToken cancellationToken = default)
     {
         var movie = await _movieRepository.GetByIdAsync(movieId, userId, cancellationToken);
@@ -105,7 +118,7 @@ public class MovieService : IMovieService
             await _fileService.DeletePosterAsync(movie.PosterFileName, cancellationToken);
         }
 
-        var uploadResult = await _fileService.UploadPosterAsync(fileStream, fileName, movieId, cancellationToken);
+        var uploadResult = await _fileService.UploadPosterAsync(movieId, request, cancellationToken);
 
         movie.PosterUrl = uploadResult.Url;
         movie.PosterFileName = uploadResult.FileName;

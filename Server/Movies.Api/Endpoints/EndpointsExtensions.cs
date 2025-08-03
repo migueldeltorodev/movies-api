@@ -12,6 +12,5 @@ public static class EndpointsExtensions
         app.MapRatingEndpoints();
         app.MapAuthEndpoints();
         return app;
-        ;
     }
 }

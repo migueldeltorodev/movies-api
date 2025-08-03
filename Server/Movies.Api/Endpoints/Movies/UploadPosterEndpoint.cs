@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Movies.Api.Auth;
 using Movies.Api.Mapping;
 using Movies.Application.Services;
@@ -9,7 +8,7 @@ namespace Movies.Api.Endpoints.Movies;
 
 public static class UploadPosterEndpoint
 {
-    public const string Name = "UploadPoster";
+    private const string Name = "UploadPoster";
 
     public static IEndpointRouteBuilder MapUploadPoster(this IEndpointRouteBuilder app)
     {
@@ -42,45 +41,28 @@ public static class UploadPosterEndpoint
             return Results.BadRequest("No file provided");
         }
 
-        var allowedTypes = new[] { "image/jpeg", "image/png", "image/webp" };
-        if (!allowedTypes.Contains(poster.ContentType))
-        {
-            return Results.BadRequest("Invalid file type. Only JPEG, PNG, and WebP are allowed.");
-        }
-
-        const long maxSize = 5 * 1024 * 1024;
-        if (poster.Length > maxSize)
-        {
-            return Results.BadRequest("File too large. Maximum size is 5MB.");
-        }
-
         var userId = context.GetUserId();
         if (!userId.HasValue)
         {
             return Results.Unauthorized();
         }
 
-        try
+        var request = new FileUploadRequest
         {
-            using var stream = poster.OpenReadStream();
-            var movie = await movieService.UploadPosterAsync(id, stream, poster.FileName, userId.Value,
-                cancellationToken);
+            FileName = poster.FileName,
+            Content = poster.OpenReadStream(),
+            ContentType = poster.ContentType,
+            ContentLength = poster.Length
+        };
 
-            if (movie == null)
-            {
-                return Results.NotFound();
-            }
+        var movie = await movieService.UploadPosterAsync(id, request, userId.Value, cancellationToken);
 
-            var response = movie.MapToMovieResponse();
-            return Results.Ok(response);
-        }
-        catch (InvalidOperationException ex)
+        if (movie is null)
         {
-            return Results.BadRequest(ex.Message);
+            return Results.NotFound();
         }
-        catch (Exception)
-        {
-            return Results.Problem("An error occurred while uploading the poster");
-        }
+
+        var response = movie.MapToMovieResponse();
+        return Results.Ok(response);
     }
 }

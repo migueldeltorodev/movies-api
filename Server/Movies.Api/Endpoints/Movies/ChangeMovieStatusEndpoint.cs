@@ -5,7 +5,6 @@ using Movies.Application.Models;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
 using Movies.Contracts.Responses;
-using Movies.Contracts.Utils;
 
 namespace Movies.Api.Endpoints.Movies;
 
