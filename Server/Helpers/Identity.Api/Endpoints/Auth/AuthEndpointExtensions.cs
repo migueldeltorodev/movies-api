@@ -7,6 +7,7 @@ public static class AuthEndpointExtensions
         app.MapRegisterUser();
         app.MapLoginUser();
         app.MapPromoteUser();
+        app.MapRefreshToken();
         return app;
     }
 }
