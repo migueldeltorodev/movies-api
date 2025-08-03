@@ -57,27 +57,20 @@ export const VALIDATION_MESSAGES = {
   pastDate: 'La fecha no puede ser pasada'
 } as const;
 
-/**
- * Mensajes específicos de la página de autenticación
- */
 export const AUTH_PAGE_MESSAGES = {
-  // Títulos y subtítulos
   loginTitle: 'Iniciar Sesión',
   registerTitle: 'Crear Cuenta',
   loginSubtitle: 'Accede a tu cuenta para calificar y descubrir películas',
   registerSubtitle: 'Únete a nuestra comunidad de amantes del cine',
   
-  // Botones
   loginButton: 'Iniciar Sesión',
   registerButton: 'Registrarse',
   loginLoading: 'Iniciando sesión...',
   registerLoading: 'Creando cuenta...',
   
-  // Cambio de modo
   switchToRegister: '¿No tienes cuenta? Regístrate',
   switchToLogin: '¿Ya tienes cuenta? Inicia sesión',
   
-  // Labels de formulario
   emailLabel: 'Correo electrónico',
   passwordLabel: 'Contraseña',
   confirmPasswordLabel: 'Confirmar contraseña',
