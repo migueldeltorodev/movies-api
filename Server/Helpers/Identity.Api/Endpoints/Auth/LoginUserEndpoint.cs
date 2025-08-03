@@ -15,6 +15,7 @@ public static class LoginUserEndpoint
     {
         app.MapPost(ApiEndpoints.Auth.Login, async (
                 LoginRequest request,
+                HttpContext context,
                 UserManager<User> userManager,
                 TokenService tokenService,
                 CancellationToken token) =>
@@ -32,6 +33,22 @@ public static class LoginUserEndpoint
                 }
 
                 var accessToken = await tokenService.GenerateTokenAsync(user);
+                var refreshToken = tokenService.GenerateRefreshToken();
+
+                user.RefreshToken = tokenService.HashRefreshToken(refreshToken);
+                var refreshTokenValidityInDays = tokenService.GetRefreshTokenValidityInDays();
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(refreshTokenValidityInDays);
+
+                await userManager.UpdateAsync(user);
+
+                context.Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddDays(refreshTokenValidityInDays)
+                });
+
                 var response = new AuthResponse
                 {
                     UserId = user.Id,
