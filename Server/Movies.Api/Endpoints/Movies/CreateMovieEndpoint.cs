@@ -20,7 +20,7 @@ public static class CreateMovieEndpoint
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var userId = context.GetUserId();
+                var userId = context.User.GetId();
 
                 if (userId is null)
                 {

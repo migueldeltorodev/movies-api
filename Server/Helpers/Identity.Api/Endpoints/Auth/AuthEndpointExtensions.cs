@@ -1,4 +1,4 @@
-namespace Movies.Api.Endpoints.Auth;
+namespace Identity.Api.Endpoints.Auth;
 
 public static class AuthEndpointExtensions
 {
@@ -7,6 +7,8 @@ public static class AuthEndpointExtensions
         app.MapRegisterUser();
         app.MapLoginUser();
         app.MapPromoteUser();
+        app.MapRefreshToken();
+        app.MapConfirmEmail();
         return app;
     }
 }

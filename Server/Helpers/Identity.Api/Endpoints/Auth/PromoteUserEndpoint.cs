@@ -1,10 +1,11 @@
 using System.Security.Claims;
+using Identity.Api.Auth;
 using Microsoft.AspNetCore.Identity;
-using Movies.Api.Auth;
+using Movies.Api;
 using Movies.Application.Models;
 using Movies.Contracts.Requests;
 
-namespace Movies.Api.Endpoints.Auth;
+namespace Identity.Api.Endpoints.Auth;
 
 public static class PromoteUserEndpoint
 {

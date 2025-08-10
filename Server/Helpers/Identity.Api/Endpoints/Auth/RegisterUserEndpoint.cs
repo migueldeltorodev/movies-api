@@ -1,11 +1,11 @@
-using System.Security.Claims;
+using System.Web;
+using Identity.Api.Services;
 using Microsoft.AspNetCore.Identity;
-using Movies.Api.Auth;
+using Movies.Api;
 using Movies.Application.Models;
 using Movies.Contracts.Requests;
-using Movies.Contracts.Responses;
 
-namespace Movies.Api.Endpoints.Auth;
+namespace Identity.Api.Endpoints.Auth;
 
 public static class RegisterUserEndpoint
 {
@@ -15,8 +15,9 @@ public static class RegisterUserEndpoint
     {
         app.MapPost(ApiEndpoints.Auth.Register, async (
                 RegisterRequest request,
+                HttpContext context,
                 UserManager<User> userManager,
-                TokenService tokenService,
+                IEmailSender emailSender,
                 CancellationToken token) =>
             {
                 var userExists = await userManager.FindByEmailAsync(request.Email);
@@ -40,20 +41,22 @@ public static class RegisterUserEndpoint
 
                 await userManager.AddToRoleAsync(user, "User");
 
-                var accessToken = await tokenService.GenerateTokenAsync(user);
-                var response = new AuthResponse
-                {
-                    UserId = user.Id,
-                    Email = user.Email!,
-                    AccessToken = accessToken
-                };
+                var confirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                var encodedToken = HttpUtility.UrlEncode(confirmationToken);
 
-                return Results.Ok(response);
+                var confirmationLink =
+                    $"{context.Request.Scheme}://{context.Request.Host}{ApiEndpoints.Auth.ConfirmEmail}?userId={user.Id}&token={encodedToken}";
+
+                await emailSender.SendEmailAsync(user.Email!, "Confirm your email",
+                    $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
+
+                return Results.Ok(new
+                    { message = "Registration successful. Please check your email to confirm your account." });
             })
             .WithName(Name)
-            .Produces<AuthResponse>(StatusCodes.Status201Created)
-            .WithApiVersionSet(ApiVersioning.VersionSet)
-            .HasApiVersion(1.0);
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status409Conflict);
 
         return app;
     }

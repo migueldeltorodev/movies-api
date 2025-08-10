@@ -21,7 +21,7 @@ public static class UpdateMovieEndpoint
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var userId = context.GetUserId();
+                var userId = context.User.GetId();
                 var movie = request.MapToMovie(id, userId);
                 var updatedMovie = await movieService.UpdateAsync(movie, userId, token);
                 if (updatedMovie is null)

@@ -1,10 +1,11 @@
+using Identity.Api.Auth;
 using Microsoft.AspNetCore.Identity;
-using Movies.Api.Auth;
+using Movies.Api;
 using Movies.Application.Models;
 using Movies.Contracts.Requests;
 using Movies.Contracts.Responses;
 
-namespace Movies.Api.Endpoints.Auth;
+namespace Identity.Api.Endpoints.Auth;
 
 public static class LoginUserEndpoint
 {
@@ -14,12 +15,18 @@ public static class LoginUserEndpoint
     {
         app.MapPost(ApiEndpoints.Auth.Login, async (
                 LoginRequest request,
+                HttpContext context,
                 UserManager<User> userManager,
                 TokenService tokenService,
                 CancellationToken token) =>
             {
                 var user = await userManager.FindByEmailAsync(request.Email);
                 if (user is null)
+                {
+                    return Results.Unauthorized();
+                }
+
+                if (!user.EmailConfirmed)
                 {
                     return Results.Unauthorized();
                 }
@@ -31,6 +38,22 @@ public static class LoginUserEndpoint
                 }
 
                 var accessToken = await tokenService.GenerateTokenAsync(user);
+                var refreshToken = tokenService.GenerateRefreshToken();
+
+                user.RefreshToken = tokenService.HashRefreshToken(refreshToken);
+                var refreshTokenValidityInDays = tokenService.GetRefreshTokenValidityInDays();
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(refreshTokenValidityInDays);
+
+                await userManager.UpdateAsync(user);
+
+                context.Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddDays(refreshTokenValidityInDays)
+                });
+
                 var response = new AuthResponse
                 {
                     UserId = user.Id,
@@ -42,9 +65,7 @@ public static class LoginUserEndpoint
             })
             .WithName(Name)
             .Produces<AuthResponse>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized)
-            .WithApiVersionSet(ApiVersioning.VersionSet)
-            .HasApiVersion(1.0);
+            .Produces(StatusCodes.Status401Unauthorized);
 
         return app;
     }

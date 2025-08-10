@@ -18,7 +18,7 @@ public static class GetAllMoviesEndpoint
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var userId = context.GetUserId();
+                var userId = context.User.GetId();
                 var options = request.MapToOptions()
                     .WithUserId(userId);
                 var movies = await movieService.GetAllAsync(options, token);

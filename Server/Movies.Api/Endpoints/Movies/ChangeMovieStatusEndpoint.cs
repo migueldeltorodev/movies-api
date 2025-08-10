@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Movies.Api.Auth;
 using Movies.Api.Mapping;
 using Movies.Application.Models;
@@ -30,7 +29,7 @@ public static class ChangeMovieStatusEndpoint
         HttpContext context,
         CancellationToken cancellationToken)
     {
-        var userId = context.GetUserId();
+        var userId = context.User.GetId();
         var updated = await movieService.ChangeStatusAsync(id, (MovieStatus)request.Status, userId ?? Guid.Empty,
             cancellationToken);
 

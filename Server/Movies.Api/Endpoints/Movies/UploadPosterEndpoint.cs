@@ -41,7 +41,7 @@ public static class UploadPosterEndpoint
             return Results.BadRequest("No file provided");
         }
 
-        var userId = context.GetUserId();
+        var userId = context.User.GetId();
         if (!userId.HasValue)
         {
             return Results.Unauthorized();

@@ -17,7 +17,7 @@ public static class RateMovieEndpoint
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var userId = context.GetUserId();
+                var userId = context.User.GetId();
                 var result = await ratingService.RateMovieAsync(id, request.Rating, userId!.Value, token);
                 return result ? TypedResults.Ok() : Results.NotFound();
             })

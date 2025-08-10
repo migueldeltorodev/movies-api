@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Movies.Api.Auth;
+namespace Identity.Api.Auth;
 
 public class RoleSeeder
 {

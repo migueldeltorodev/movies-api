@@ -15,7 +15,7 @@ public static class GetMovieEndpoint
                 string idOrSlug, IMovieService movieService,
                 HttpContext context, CancellationToken token) =>
             {
-                var userId = context.GetUserId();
+                var userId = context.User.GetId();
                 var movie = Guid.TryParse(idOrSlug, out var id)
                     ? await movieService.GetByIdAsync(id, userId, token)
                     : await movieService.GetBySlugAsync(idOrSlug, userId, token);

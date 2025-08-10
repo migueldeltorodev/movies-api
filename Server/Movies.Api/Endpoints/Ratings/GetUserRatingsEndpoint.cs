@@ -17,7 +17,7 @@ public static class GetUserRatingsEndpoint
                 HttpContext context,
                 CancellationToken token) =>
             {
-                var userId = context.GetUserId();
+                var userId = context.User.GetId();
                 var ratings = await ratingService.GetRatingsForUserAsync(userId!.Value, token);
                 var ratingsResponse = ratings.MapToResponse();
                 return TypedResults.Ok(ratingsResponse);
