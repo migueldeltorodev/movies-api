@@ -25,6 +25,7 @@ public static class ApplicationServiceCollectionExtensions
 
         services.AddSingleton<IRatingService, RatingService>();
         services.AddSingleton<IFileService, FileService>();
+        services.AddSingleton<IUserService, UserService>();
 
         services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
 
