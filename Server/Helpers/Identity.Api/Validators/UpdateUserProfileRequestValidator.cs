@@ -1,7 +1,7 @@
 using FluentValidation;
 using Movies.Contracts.Requests.Users;
 
-namespace Movies.Application.Validators;
+namespace Identity.Api.Validators;
 
 public class UpdateUserProfileRequestValidator : AbstractValidator<UpdateUserProfileRequest>
 {

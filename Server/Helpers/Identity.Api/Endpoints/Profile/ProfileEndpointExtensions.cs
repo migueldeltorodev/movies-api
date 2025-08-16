@@ -1,4 +1,4 @@
-namespace Movies.Api.Endpoints.Profile;
+namespace Identity.Api.Endpoints.Profile;
 
 public static class ProfileEndpointExtensions
 {

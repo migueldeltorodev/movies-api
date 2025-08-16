@@ -1,18 +1,21 @@
-using System.Security.Claims;
+using Identity.Api.Services;
+using Microsoft.AspNetCore.Mvc;
+using Movies.Api;
 using Movies.Api.Auth;
 using Movies.Api.Mapping;
-using Movies.Application.Services;
+using Movies.Contracts.Requests.Users;
 using Movies.Contracts.Responses.Users;
 
-namespace Movies.Api.Endpoints.Profile;
+namespace Identity.Api.Endpoints.Profile;
 
-public static class GetUserProfileEndpoint
+public static class UpdateUserProfileEndpoint
 {
-    private const string Name = "GetUserProfile";
+    private const string Name = "UpdateUserProfile";
 
-    public static void MapGetUserProfile(this IEndpointRouteBuilder app)
+    public static void MapUpdateUserProfile(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiEndpoints.Profile.Me, async (
+        app.MapPut(ApiEndpoints.Profile.Me, async (
+                [FromBody] UpdateUserProfileRequest request,
                 IUserService userService,
                 HttpContext context,
                 CancellationToken token) =>
@@ -23,12 +26,13 @@ public static class GetUserProfileEndpoint
                     return Results.Unauthorized();
                 }
 
-                var result = await userService.GetProfileAsync(userId.Value, token);
+                var result = await userService.UpdateProfileAsync(userId.Value, request, token);
                 return result.ToOkResult();
             })
             .WithName(Name)
             .Produces<UserProfileResponse>()
             .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest)
             .RequireAuthorization();
     }
 }
