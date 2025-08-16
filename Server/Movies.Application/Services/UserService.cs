@@ -1,5 +1,7 @@
+using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Movies.Application.Models;
+using Movies.Application.Models.Errors;
 using Movies.Contracts.Requests.Users;
 using Movies.Contracts.Responses.Users;
 
@@ -14,56 +16,57 @@ public class UserService : IUserService
         _userManager = userManager;
     }
 
-    public async Task<UserProfileResponse?> GetProfileAsync(Guid userId, CancellationToken token = default)
+    public async Task<Result<UserProfileResponse>> GetProfileAsync(Guid userId, CancellationToken token = default)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
         if (user is null)
         {
-            return null;
+            return Result.Fail(new NotFoundError($"User with id {userId} not found"));
         }
 
-        return new UserProfileResponse
+        var response = new UserProfileResponse
         {
             Id = user.Id,
             Email = user.Email!,
             UserName = user.UserName!
         };
+        return Result.Ok(response);
     }
 
-    public async Task<UserProfileResponse?> UpdateProfileAsync(Guid userId, UpdateUserProfileRequest request,
+    public async Task<Result<UserProfileResponse>> UpdateProfileAsync(Guid userId, UpdateUserProfileRequest request,
         CancellationToken token = default)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
         if (user is null)
         {
-            return null;
+            return Result.Fail(new NotFoundError($"User with id {userId} not found"));
         }
 
         var newEmail = request.Email;
         var existingUser = await _userManager.FindByEmailAsync(newEmail);
         if (existingUser is not null && existingUser.Id != user.Id)
         {
-            // User with this email already exists
-            // Here we can return a specific error or just null
-            return null;
+            return Result.Fail(new ValidationError("A user with this email already exists"));
         }
 
         user.Email = newEmail;
-        user.UserName = newEmail; // Assuming username should also be updated
+        user.UserName = newEmail;
 
         var result = await _userManager.UpdateAsync(user);
 
         if (!result.Succeeded)
         {
-            // Handle errors, maybe log them or return a specific error response
-            return null;
+            var errors = result.Errors.Select(e => new ValidationError(e.Description));
+            return Result.Fail(errors);
         }
 
-        return new UserProfileResponse
+        var response = new UserProfileResponse
         {
             Id = user.Id,
             Email = user.Email!,
             UserName = user.UserName!
         };
+
+        return Result.Ok(response);
     }
 }

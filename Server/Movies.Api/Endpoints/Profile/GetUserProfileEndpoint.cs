@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
 using Movies.Api.Auth;
+using Movies.Api.Mapping;
 using Movies.Application.Services;
 using Movies.Contracts.Responses.Users;
 
@@ -23,8 +23,8 @@ public static class GetUserProfileEndpoint
                     return Results.Unauthorized();
                 }
 
-                var profile = await userService.GetProfileAsync(userId.Value, token);
-                return profile is not null ? Results.Ok(profile) : Results.NotFound();
+                var result = await userService.GetProfileAsync(userId.Value, token);
+                return result.ToOkResult();
             })
             .WithName(Name)
             .Produces<UserProfileResponse>()
