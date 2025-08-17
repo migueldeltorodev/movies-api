@@ -18,7 +18,7 @@ import { AUTH_CONFIG } from '../shared/constants';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.identityApiUrl;
   private readonly isBrowser: boolean;
 
   private readonly currentUserSignal = signal<User | null>(null);
@@ -86,6 +86,15 @@ export class AuthService {
     this.clearStoredToken();
     this.currentUserSignal.set(null);
     this.errorSignal.set(null);
+  }
+
+  refreshToken(token: string): Observable<AuthResponse> {
+    const payload = { accessToken: token };
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/auth/refresh`, payload).pipe(
+      tap(response => {
+        this.handleAuthSuccess(response);
+      })
+    );
   }
 
   getToken(): string | null {

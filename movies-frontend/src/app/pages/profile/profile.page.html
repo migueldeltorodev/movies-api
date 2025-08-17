@@ -1,0 +1,50 @@
+<div class="profile-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>User Profile</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="isLoading(); else profileContent">
+        <div class="spinner-container">
+          <mat-spinner></mat-spinner>
+        </div>
+      </ng-container>
+
+      <ng-template #profileContent>
+        <ng-container *ngIf="error(); else formContent">
+          <div class="error-message">
+            <p>{{ error() }}</p>
+            <button mat-raised-button color="primary" (click)="loadProfileData()">Retry</button>
+          </div>
+        </ng-container>
+
+        <ng-template #formContent>
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="userName">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" required>
+              <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+                Email is required.
+              </mat-error>
+              <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
+                Please enter a valid email address.
+              </mat-error>
+            </mat-form-field>
+
+            <div class="actions">
+              <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid || isLoading()">
+                <span *ngIf="!isLoading()">Save Changes</span>
+                <span *ngIf="isLoading()">Saving...</span>
+              </button>
+            </div>
+          </form>
+        </ng-template>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -29,7 +29,8 @@ export const MESSAGES_EN = {
         update: 'Update',
         general: 'General Information',
         separate: 'Separate with',
-        comma: 'commas'
+        comma: 'commas',
+        profileUpdateSuccess: 'Profile updated successfully'
     },
 
     // Navigation

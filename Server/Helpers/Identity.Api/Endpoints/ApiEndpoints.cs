@@ -40,4 +40,11 @@ public static class ApiEndpoints
         public const string Refresh = Base + "/refresh";
         public const string ConfirmEmail = Base + "/confirm-email";
     }
+
+    public static class Profile
+    {
+        private const string Base = $"{ApiBase}/profile";
+
+        public const string Me = $"{Base}/me";
+    }
 }
