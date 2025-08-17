@@ -268,3 +268,52 @@ __pycache__/
 *.pyc
 /obj/
 .DS_Store
+Guide/REST APIs/01 - REST.md
+Guide/REST APIs/02 - Resources y routing naming.md
+Guide/REST APIs/03 - HTTP Status Codes + Idempotency.md
+Guide/REST APIs/04 - Diferentes tipos de errors.md
+Guide/REST APIs/05 - Creando el proyecto.md
+Guide/REST APIs/06 - Primeros pasos.md
+Guide/REST APIs/07 - Creando los controllers.md
+Guide/REST APIs/08 - Organizando mejor nuestros endpoints.md
+Guide/REST APIs/09 - Implementando los slugs.md
+Guide/REST APIs/10 - Montando la db.md
+Guide/REST APIs/11 - Realizando consultas y optimizando repository.md
+Guide/REST APIs/12 - Agregando capa lógica del negocio.md
+Guide/REST APIs/13 - Agregando validation.md
+Guide/REST APIs/13.5 Agregando múltiple validators.md
+Guide/REST APIs/14 - Cancellation Token.md
+Guide/REST APIs/15 - JWT y JWT Generator.md
+Guide/REST APIs/16 - Implementando JWT Authorization.md
+Guide/REST APIs/17 - Limitando permisos.md
+Guide/REST APIs/18 - Filtering.md
+Guide/REST APIs/19 - Sorting.md
+Guide/REST APIs/20 - Pagination.md
+Guide/REST APIs/21 - HATEOAS.md
+Guide/REST APIs/22 - versioning image.png
+Guide/REST APIs/22 - Versioning.md
+Guide/REST APIs/23 - Swagger.md
+Guide/REST APIs/24 - Añadiendo health checks.md
+Guide/REST APIs/25 - Implementando caching.md
+Guide/REST APIs/26 - Múltiple auth.md
+Guide/REST APIs/Part 2/Construyendo un SDK/01 - Por qué crear un SDK.md
+Guide/REST APIs/Part 2/Construyendo un SDK/02 - Introduciendo sdks.md
+Guide/REST APIs/Part 2/Construyendo un SDK/03 - Mejorando el sdk con httpClient.md
+Guide/REST APIs/Part 2/Construyendo un SDK/04 - Añadiendo auth.md
+Guide/REST APIs/Part 2/Identity/01 - El porqué de un Servicio de Identidad.md
+Guide/REST APIs/Part 2/Identity/01 - Instalando los paquetes en Application.md
+Guide/REST APIs/Part 2/Identity/02 - Adaptando anterior estructura.md
+Guide/REST APIs/Part 2/Identity/02 - Configuración del Servicio de Identidad.md
+Guide/REST APIs/Part 2/Identity/03 - Creando lógica.md
+Guide/REST APIs/Part 2/Identity/03 - Lógica de Autenticación y Endpoints.md
+Guide/REST APIs/Part 2/Identity/04 - Entendiendo Identity.md
+Guide/REST APIs/Part 2/Identity/04 - Integración entre Movies.Api y Identity.Api.md
+Guide/REST APIs/Part 2/Minimal Apis/01 - Creando nueva estructura.md
+Guide/REST APIs/Part 2/Minimal Apis/02 - Creando endpoints.md
+Guide/REST APIs/Part 2/Minimal Apis/03 - Añadiendo Auth.md
+Guide/REST APIs/Part 2/Minimal Apis/04 - Como utilizar Swagger con Minimal.md
+Guide/REST APIs/Part 2/Minimal Apis/05 - Utilizando Versioning.md
+Guide/REST APIs/Part 2/Minimal Apis/06 - Output caching.md
+Guide/REST APIs/Part 2/Testing/01 - Entendiendo que es el testing.md
+Guide/REST APIs/Part 2/Testing/02 - Scaffolding un proyecto de testing.md
+Guide/REST APIs/Part 2/Testing/03 - Unit Testing en la práctica.md

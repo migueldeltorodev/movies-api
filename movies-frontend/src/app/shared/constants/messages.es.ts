@@ -24,7 +24,8 @@ export const MESSAGES_ES = {
         update: 'Actualizar',
         general: 'Información General',
         separate: 'Separar con',
-        comma: 'comas'
+        comma: 'comas',
+        profileUpdateSuccess: 'Perfil actualizado correctamente'
     },
 
     nav: {
