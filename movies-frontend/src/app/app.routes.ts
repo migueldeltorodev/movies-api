@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './shared/core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'movies', pathMatch: 'full' },
@@ -13,6 +14,11 @@ export const routes: Routes = [
   {
     path: 'movies/:id',
     loadComponent: () => import('./pages/movies/movie-detail/movie-detail.component').then(m => m.MovieDetailComponent)
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage),
+    canActivate: [authGuard]
   },
   { path: '**', redirectTo: 'movies' }
 ];
